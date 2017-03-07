@@ -1,0 +1,45 @@
+
+- django notes
+- django books
+- django projects
+- django running notes. - github
+
+
+Django
+ + template( front end/html/angularjs/nodejs)
+ + python classes( hard core python /OOP)
+ + Models (database - relation/non-relation) - persistant way of storing data.
+ ( mysql/sqlite3/mongo/postgre)
+
+
+CRUD - Create,Read,Update,Delete
+ create a database.
+ create schema.
+ populating table.
+ pumping data.
+ Django - ORM(inbuilt toolkit) - Object relation mapper.
+ taking to the underlining database at a python object layer.
+
+ # Admin - cpanel.
+ backend utility to interact with the database in backend.
+
+ training (DB)
+  + linux
+  + django
+  + python
+  + Flask
+
+  * html fellow
+  * db fellow.
+
+Manager: Making the decisions.
+ - display on a web page
+
+ # interating templates and data. ( Dynamic pages)
+ * static files.
+ - css,javascripts,image
+
+ * generic forms
+ * modular forms
+
+ # Bootstrap
