@@ -1,0 +1,138 @@
+* Django is a web framework.
+* Its a python framework.
+* Framework is a set of function,which can be repetative used. These function drive the whole framework.
+
+
+Python:
+web frameworks - bottle,flask and django.
+testing : nose.
+infrastucture: salt,fabic,paramiko.
+
+Django - 2000 
+* Community support.
+* Building application django very fast. (pypy)
+
+
+# Django Installation.
+TODO : day 2
+https://www.djangoproject.com/download/
+
+
+Architecture:
+
+user -> request(link/webarea) -> urls.py -> 
+views.py (functions) -> models.py (schema of your database -tables/database) 
+-> RAW/ORM-> database (oracle/mysql/postgre)
+-> templates -> broswer( response)
+
+ORM - Object Relational Mapper.
+
+MVC Framework - https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller
+MVA Framework : https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93adapter
+MVP Framework : https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter
+
+
+# Starting the installation of django.
+1) Make sure you have pip installed.
+2) Make sure you have virtualenv setup done - https://virtualenv.pypa.io/en/stable/installation/
+3) Editors - sublime text,pycharm,atom,eclipse(pdev),komodo
+
+# pycharm - Few features in pycharm community edition, Licensed version ( for more better support.)
+# sublime - sublime-jedi,Djanerio ( Django support)
+
+# creating the virtual env.
+
+key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201$ virtualenv Addressbook
+New python executable in /home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/Addressbook/bin/python
+Installing setuptools, pip, wheel...done.
+key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201$ ls
+Addressbook  Day1_notes.txt  Demo_day.txt
+
+
+key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201$ ls Addressbook/
+bin  include  lib  local  pip-selfcheck.json
+
+
+key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201$ source Addressbook/bin/activate
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201$ ls -lrt
+total 12
+-rw-rw-r-- 1 key2gyaan key2gyaan  883 Mar  7 19:57 Demo_day.txt
+-rw-rw-r-- 1 key2gyaan key2gyaan 1345 Mar  9 20:01 Day1_notes.txt
+drwxrwxr-x 6 key2gyaan key2gyaan 4096 Mar  9 20:02 Addressbook
+
+
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201$ pip freeze
+appdirs==1.4.3
+packaging==16.8
+pyparsing==2.2.0
+six==1.10.0
+
+
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201$ pip install django==1.8
+Collecting django==1.8
+  Using cached Django-1.8-py2.py3-none-any.whl
+Installing collected packages: django
+Successfully installed django-1.8
+
+
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201$ pip freeze
+appdirs==1.4.3
+Django==1.8
+packaging==16.8
+pyparsing==2.2.0
+six==1.10.0
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201$ 
+
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201$ django-admin.py --version
+1.8
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201$
+
+
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201$ django-admin.py startproject AddressBook
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201$ ls -lrt
+total 16
+-rw-rw-r-- 1 key2gyaan key2gyaan  883 Mar  7 19:57 Demo_day.txt
+-rw-rw-r-- 1 key2gyaan key2gyaan 3343 Mar  9 20:13 Day1_notes.txt
+drwxrwxr-x 6 key2gyaan key2gyaan 4096 Mar  9 20:18 Addressbook
+drwxrwxr-x 3 key2gyaan key2gyaan 4096 Mar  9 20:18 AddressBook
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201$ ls Addressbook/
+bin  include  lib  local  pip-selfcheck.json
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201$ ls AddressBook/
+AddressBook  manage.py
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201$ ls -lrt
+total 36
+-rw-rw-r-- 1 key2gyaan key2gyaan   883 Mar  7 19:57 Demo_day.txt
+-rw-rw-r-- 1 key2gyaan key2gyaan  3343 Mar  9 20:13 Day1_notes.txt
+drwxrwxr-x 6 key2gyaan key2gyaan  4096 Mar  9 20:18 Addressbook
+drwxrwxr-x 3 key2gyaan key2gyaan  4096 Mar  9 20:18 src
+-rw-rw-r-- 1 key2gyaan key2gyaan 12513 Mar  9 20:20 My_new.sublime-workspace
+-rw-rw-r-- 1 key2gyaan key2gyaan    55 Mar  9 20:21 My_new.sublime-project
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201$ ls -lrt
+total 36
+-rw-rw-r-- 1 key2gyaan key2gyaan   883 Mar  7 19:57 Demo_day.txt
+-rw-rw-r-- 1 key2gyaan key2gyaan  3343 Mar  9 20:13 Day1_notes.txt
+drwxrwxr-x 6 key2gyaan key2gyaan  4096 Mar  9 20:18 Addressbook
+drwxrwxr-x 3 key2gyaan key2gyaan  4096 Mar  9 20:18 src
+-rw-rw-r-- 1 key2gyaan key2gyaan 12513 Mar  9 20:20 My_new.sublime-workspace
+-rw-rw-r-- 1 key2gyaan key2gyaan    47 Mar  9 20:22 My_new.sublime-project
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201$ cd src
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ ls
+AddressBook  manage.py
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ ./manage.py runserver
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have unapplied migrations; your app may not work properly until they are applied.
+Run 'python manage.py migrate' to apply them.
+
+March 09, 2017 - 14:53:23
+Django version 1.8, using settings 'AddressBook.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+[09/Mar/2017 14:53:52]"GET / HTTP/1.1" 200 1767
+[09/Mar/2017 14:53:52]"GET /favicon.ico HTTP/1.1" 404 1941
+^C(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ 
+
+
+
