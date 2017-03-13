@@ -1,0 +1,108 @@
+
+# python manage.py runserver
+
+System check identified no issues (0 silenced).
+You have unapplied migrations; your app may not work properly until they are applied.
+Run 'python manage.py migrate' to apply them.
+
+March 13, 2017 - 14:43:09
+Django version 1.8, using settings 'AddressBook.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+[13/Mar/2017 14:44:02]"GET / HTTP/1.1" 200 1767
+
+
+
+^C(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ python manage.py migrate
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages
+  Apply all migrations: admin, contenttypes, auth, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  Rendering model states... DONE
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying sessions.0001_initial... OK
+
+
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ python manage.py runserver
+Performing system checks...
+
+System check identified no issues (0 silenced).
+March 13, 2017 - 14:45:31
+Django version 1.8, using settings 'AddressBook.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+^C(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ clear
+
+
+
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ # < 1.8
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ # syncdb
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ 
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ python manage.py syncdb
+/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/Addressbook/local/lib/python2.7/site-packages/django/core/management/commands/syncdb.py:24: RemovedInDjango19Warning: The syncdb command will be removed in Django 1.9
+  warnings.warn("The syncdb command will be removed in Django 1.9", RemovedInDjango19Warning)
+
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages
+  Apply all migrations: admin, contenttypes, auth, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  No migrations to apply.
+
+You have installed Django's auth system, and don't have any superusers defined.
+Would you like to create one now? (yes/no): no
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ 
+
+
+# how to create a new user.
+
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ python manage.py createsuperuser
+Username (leave blank to use 'key2gyaan'): admin
+Email address: tuxfux.hlp@gmail.com
+Password: 
+Password (again): 
+Superuser created successfully.
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ 
+
+# python manage.py runserver
+# http://127.0.0.1:8000/admin
+
+
+# admin is kind of a cpanel. where you have control over the activities or apps that you build going forward.
+
+# our first helloworld program.
+
+## create your app address.
+
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ pwd
+/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ ls
+AddressBook  db.sqlite3  manage.py
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ python manage.py startapp address
+
+## create the function hello_world inside the address/views.py
+## create the url link for the address/urls.py
+
+# try running the server and see that you get the hello world on your webpage
+
+# Also we can create a html file and do a similar setup.
+
+* created a templates folder under the apps directory.
+* later created a file test.html under the apps directory.
+* check the github locations for the test.html content.
+* Also updated the views.py and urls.py files.
