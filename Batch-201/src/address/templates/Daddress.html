@@ -1,0 +1,32 @@
+<html>
+<head>
+	<title>  My Address Page</title>
+</head>
+<body>
+<div class="address">
+<!-- example1 -->
+<!-- 	<table>
+		<tr> 
+			<td> {{ name1|capfirst }} </td>
+			<td> {{ email1|capfirst }} </td>
+			<td> {{ addr1|default:"Hyd" }} </td>
+		</tr>
+		<tr> 
+			<td> {{ name2|capfirst }} </td>
+			<td> {{ email2|capfirst }} </td>
+			<td> {{ addr2|default:"Hyd" }} </td>
+		</tr>
+	</table> -->
+<!-- example2 -->
+	<table>
+	{% for value in namesdb %}
+		<tr> 
+			<td> {{ value.name|capfirst }} </td>
+			<td> {{ value.email|capfirst }} </td>
+		</tr>
+	</table>
+	{% endfor %}
+
+</div>
+</body>
+</html>

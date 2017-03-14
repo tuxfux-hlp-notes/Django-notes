@@ -1,0 +1,7 @@
+# references:
+https://docs.djangoproject.com/en/1.8/ref/templates/#variables
+https://docs.djangoproject.com/en/1.8/howto/custom-template-tags/
+
+# Inbuild Filters: https://docs.djangoproject.com/en/1.8/ref/templates/builtins/#ref-templates-builtins-filters
+# buildin tags: https://docs.djangoproject.com/en/1.10/ref/templates/builtins/#for
+# Template Inheritance : https://docs.djangoproject.com/en/1.10/ref/templates/language/#template-inheritance
