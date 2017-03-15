@@ -1,0 +1,306 @@
+References:
+https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-DATABASE-ENGINE
+https://docs.djangoproject.com/en/1.8/topics/db/models/
+
+# Model fields: https://docs.djangoproject.com/en/1.8/topics/db/models/#field-types
+
+
+## To connect to sqlite.db you can use the sqlitebroswer 
+http://sqlitebrowser.org/
+https://apps.ubuntu.com/cat/applications/sqlitebrowser/
+
+# version < 1.7
+# python manage.py syncdb
+challanges - if you create your models.py onces you cannot modify it.
+South: http://south.readthedocs.io/en/latest/tutorial/part1.html
+
+# version > 1.8
+They included south along with django code.
+# migrate
+# makemigration
+
+
+## or command line.
+
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ python manage.py migrate
+/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages
+  Apply all migrations: admin, contenttypes, auth, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  No migrations to apply.
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ ls
+address  AddressBook  db.sqlite3  manage.py
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ sqlite3 db.sqlite3 
+SQLite version 3.8.11.1 2015-07-29 20:00:57
+Enter ".help" for usage hints.
+sqlite> .help
+.backup ?DB? FILE      Backup DB (default "main") to FILE
+.bail on|off           Stop after hitting an error.  Default OFF
+.binary on|off         Turn binary output on or off.  Default OFF
+.clone NEWDB           Clone data into NEWDB from the existing database
+.databases             List names and files of attached databases
+.dbinfo ?DB?           Show status information about the database
+.dump ?TABLE? ...      Dump the database in an SQL text format
+                         If TABLE specified, only dump tables matching
+                         LIKE pattern TABLE.
+.echo on|off           Turn command echo on or off
+.eqp on|off            Enable or disable automatic EXPLAIN QUERY PLAN
+.exit                  Exit this program
+.explain ?on|off?      Turn output mode suitable for EXPLAIN on or off.
+                         With no args, it turns EXPLAIN on.
+.fullschema            Show schema and the content of sqlite_stat tables
+.headers on|off        Turn display of headers on or off
+.help                  Show this message
+.import FILE TABLE     Import data from FILE into TABLE
+.indexes ?TABLE?       Show names of all indexes
+                         If TABLE specified, only show indexes for tables
+                         matching LIKE pattern TABLE.
+.limit ?LIMIT? ?VAL?   Display or change the value of an SQLITE_LIMIT
+.load FILE ?ENTRY?     Load an extension library
+.log FILE|off          Turn logging on or off.  FILE can be stderr/stdout
+.mode MODE ?TABLE?     Set output mode where MODE is one of:
+                         ascii    Columns/rows delimited by 0x1F and 0x1E
+                         csv      Comma-separated values
+                         column   Left-aligned columns.  (See .width)
+                         html     HTML <table> code
+                         insert   SQL insert statements for TABLE
+                         line     One value per line
+                         list     Values delimited by .separator strings
+                         tabs     Tab-separated values
+                         tcl      TCL list elements
+.nullvalue STRING      Use STRING in place of NULL values
+.once FILENAME         Output for the next SQL command only to FILENAME
+.open ?FILENAME?       Close existing database and reopen FILENAME
+.output ?FILENAME?     Send output to FILENAME or stdout
+.print STRING...       Print literal STRING
+.prompt MAIN CONTINUE  Replace the standard prompts
+.quit                  Exit this program
+.read FILENAME         Execute SQL in FILENAME
+.restore ?DB? FILE     Restore content of DB (default "main") from FILE
+.save FILE             Write in-memory database into FILE
+.scanstats on|off      Turn sqlite3_stmt_scanstatus() metrics on or off
+.schema ?TABLE?        Show the CREATE statements
+                         If TABLE specified, only show tables matching
+                         LIKE pattern TABLE.
+.separator COL ?ROW?   Change the column separator and optionally the row
+                         separator for both the output mode and .import
+.shell CMD ARGS...     Run CMD ARGS... in a system shell
+.show                  Show the current values for various settings
+.stats on|off          Turn stats on or off
+.system CMD ARGS...    Run CMD ARGS... in a system shell
+.tables ?TABLE?        List names of tables
+                         If TABLE specified, only list tables matching
+                         LIKE pattern TABLE.
+.timeout MS            Try opening locked tables for MS milliseconds
+.timer on|off          Turn SQL timer on or off
+.trace FILE|off        Output each SQL statement as it is run
+.vfsname ?AUX?         Print the name of the VFS stack
+.width NUM1 NUM2 ...   Set column widths for "column" mode
+                         Negative values right-justify
+sqlite> .tables
+auth_group                  auth_user_user_permissions
+auth_group_permissions      django_admin_log          
+auth_permission             django_content_type       
+auth_user                   django_migrations         
+auth_user_groups            django_session            
+sqlite> .tables auth_group
+auth_group
+sqlite> select * from auth_user
+   ...> ;
+1|pbkdf2_sha256$20000$6U1krmpxZ3VG$cRM6nALWXz9ngJafTtOsDLa002QQOMQyiJdx224rF60=|1|admin|||tuxfux.hlp@gmail.com|1|1|2017-03-13 14:49:48.806443|2017-03-13 14:51:21.415092
+2|pbkdf2_sha256$20000$sRLMvS1V3frX$CzkOV5A2Xs5ydyA5bIt4ltHXFJ+5A+A9+eBnyHJbPaQ=|0|kumar||||1|1|2017-03-13 14:54:42|
+sqlite> 
+
+###
+### Make modification to address/models.py 
+
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ ls
+address  AddressBook  db.sqlite3  manage.py
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ python manage.py migrate
+/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages
+  Apply all migrations: admin, contenttypes, auth, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  No migrations to apply.
+  Your models have changes that are not yet reflected in a migration, and so won't be applied.
+  Run 'manage.py makemigrations' to make new migrations, and then re-run 'manage.py migrate' to apply them.
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ python manage.py makemigrations
+/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src
+Migrations for 'address':
+  0001_initial.py:
+    - Create model Address_Detail
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ python manage.py migrate
+/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages
+  Apply all migrations: admin, contenttypes, sessions, auth, address
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  Rendering model states... DONE
+  Applying address.0001_initial... OK
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ 
+
+# 1) you can add some data to the database table created using sqlite broswer.
+# 2) you can use also sqlite3 command line.
+
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ sqlite3 db.sqlite3 
+SQLite version 3.8.11.1 2015-07-29 20:00:57
+Enter ".help" for usage hints.
+sqlite> .tables
+address_address_detail      auth_user_user_permissions
+auth_group                  django_admin_log          
+auth_group_permissions      django_content_type       
+auth_permission             django_migrations         
+auth_user                   django_session            
+auth_user_groups          
+sqlite> 
+sqlite> select * from address_address_detail;
+madan|madan@gmail.com
+chiru|chiru@gmail.com
+sqlite> 
+sqlite> .schema address_address
+sqlite> .schema address_address_detail;
+sqlite> .schema address_address_detail;
+sqlite> 
+sqlite> .schema
+CREATE TABLE "django_migrations" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "app" varchar(255) NOT NULL, "name" varchar(255) NOT NULL, "applied" datetime NOT NULL);
+CREATE TABLE "auth_group" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(80) NOT NULL UNIQUE);
+CREATE TABLE "auth_group_permissions" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "group_id" integer NOT NULL REFERENCES "auth_group" ("id"), "permission_id" integer NOT NULL REFERENCES "auth_permission" ("id"), UNIQUE ("group_id", "permission_id"));
+CREATE TABLE "auth_user_groups" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "user_id" integer NOT NULL REFERENCES "auth_user" ("id"), "group_id" integer NOT NULL REFERENCES "auth_group" ("id"), UNIQUE ("user_id", "group_id"));
+CREATE TABLE "auth_user_user_permissions" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "user_id" integer NOT NULL REFERENCES "auth_user" ("id"), "permission_id" integer NOT NULL REFERENCES "auth_permission" ("id"), UNIQUE ("user_id", "permission_id"));
+CREATE INDEX "auth_group_permissions_0e939a4f" ON "auth_group_permissions" ("group_id");
+CREATE INDEX "auth_group_permissions_8373b171" ON "auth_group_permissions" ("permission_id");
+CREATE INDEX "auth_user_groups_e8701ad4" ON "auth_user_groups" ("user_id");
+CREATE INDEX "auth_user_groups_0e939a4f" ON "auth_user_groups" ("group_id");
+CREATE INDEX "auth_user_user_permissions_e8701ad4" ON "auth_user_user_permissions" ("user_id");
+CREATE INDEX "auth_user_user_permissions_8373b171" ON "auth_user_user_permissions" ("permission_id");
+CREATE TABLE "django_admin_log" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "action_time" datetime NOT NULL, "object_id" text NULL, "object_repr" varchar(200) NOT NULL, "action_flag" smallint unsigned NOT NULL, "change_message" text NOT NULL, "content_type_id" integer NULL REFERENCES "django_content_type" ("id"), "user_id" integer NOT NULL REFERENCES "auth_user" ("id"));
+CREATE INDEX "django_admin_log_417f1b1c" ON "django_admin_log" ("content_type_id");
+CREATE INDEX "django_admin_log_e8701ad4" ON "django_admin_log" ("user_id");
+CREATE TABLE "django_content_type" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "app_label" varchar(100) NOT NULL, "model" varchar(100) NOT NULL, UNIQUE ("app_label", "model"));
+CREATE TABLE "auth_permission" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "content_type_id" integer NOT NULL REFERENCES "django_content_type" ("id"), "codename" varchar(100) NOT NULL, "name" varchar(255) NOT NULL, UNIQUE ("content_type_id", "codename"));
+CREATE INDEX "auth_permission_417f1b1c" ON "auth_permission" ("content_type_id");
+CREATE TABLE "auth_user" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "password" varchar(128) NOT NULL, "is_superuser" bool NOT NULL, "username" varchar(30) NOT NULL UNIQUE, "first_name" varchar(30) NOT NULL, "last_name" varchar(30) NOT NULL, "email" varchar(254) NOT NULL, "is_staff" bool NOT NULL, "is_active" bool NOT NULL, "date_joined" datetime NOT NULL, "last_login" datetime NULL);
+CREATE TABLE "django_session" ("session_key" varchar(40) NOT NULL PRIMARY KEY, "session_data" text NOT NULL, "expire_date" datetime NOT NULL);
+CREATE INDEX "django_session_de54fa62" ON "django_session" ("expire_date");
+CREATE TABLE "address_address_detail" ("name" varchar(20) NOT NULL, "email" varchar(20) NOT NULL PRIMARY KEY);
+sqlite> 
+sqlite> .schema address_address_detail
+CREATE TABLE "address_address_detail" ("name" varchar(20) NOT NULL, "email" varchar(20) NOT NULL PRIMARY KEY);
+sqlite> 
+sqlite> insert into address_address_detail values ('santosh','tuxfux.hlp@gmail.com');
+sqlite> 
+sqlite> select * from address_address_detail;
+madan|madan@gmail.com
+chiru|chiru@gmail.com
+santosh|tuxfux.hlp@gmail.com
+sqlite> 
+
+#3) you can use the django shell facility too.
+
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ python manage.py shell
+/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src
+Python 2.7.10 (default, Oct 14 2015, 16:09:02) 
+[GCC 5.2.1 20151010] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from address.model import Address_Detail
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+ImportError: No module named model
+>>> from address.models import Address_Detail
+>>> Address_Detail.
+Address_Detail.DoesNotExist(                          Address_Detail._check_index_together(
+Address_Detail.MultipleObjectsReturned(               Address_Detail._check_local_fields(
+Address_Detail.__base__(                              Address_Detail._check_long_column_names(
+Address_Detail.__bases__                              Address_Detail._check_m2m_through_same_relationship(
+Address_Detail.__basicsize__                          Address_Detail._check_managers(
+Address_Detail.__call__(                              Address_Detail._check_model(
+Address_Detail.__class__(                             Address_Detail._check_ordering(
+Address_Detail.__delattr__(                           Address_Detail._check_swappable(
+Address_Detail.__dict__                               Address_Detail._check_unique_together(
+Address_Detail.__dictoffset__                         Address_Detail._default_manager
+Address_Detail.__doc__                                Address_Detail._deferred
+Address_Detail.__eq__(                                Address_Detail._do_insert(
+Address_Detail.__flags__                              Address_Detail._do_update(
+Address_Detail.__format__(                            Address_Detail._get_FIELD_display(
+Address_Detail.__ge__(                                Address_Detail._get_next_or_previous_by_FIELD(
+Address_Detail.__getattribute__(                      Address_Detail._get_next_or_previous_in_order(
+Address_Detail.__gt__(                                Address_Detail._get_pk_val(
+Address_Detail.__hash__(                              Address_Detail._get_unique_checks(
+Address_Detail.__init__(                              Address_Detail._meta
+Address_Detail.__instancecheck__(                     Address_Detail._perform_date_checks(
+Address_Detail.__itemsize__                           Address_Detail._perform_unique_checks(
+Address_Detail.__le__(                                Address_Detail._prepare(
+Address_Detail.__lt__(                                Address_Detail._save_parents(
+Address_Detail.__module__                             Address_Detail._save_table(
+Address_Detail.__mro__                                Address_Detail._set_pk_val(
+Address_Detail.__name__                               Address_Detail.add_to_class(
+Address_Detail.__ne__(                                Address_Detail.check(
+Address_Detail.__new__(                               Address_Detail.clean(
+Address_Detail.__reduce__(                            Address_Detail.clean_fields(
+Address_Detail.__reduce_ex__(                         Address_Detail.copy_managers(
+Address_Detail.__repr__(                              Address_Detail.date_error_message(
+Address_Detail.__setattr__(                           Address_Detail.delete(
+Address_Detail.__setstate__(                          Address_Detail.from_db(
+Address_Detail.__sizeof__(                            Address_Detail.full_clean(
+Address_Detail.__str__(                               Address_Detail.get_deferred_fields(
+Address_Detail.__subclasscheck__(                     Address_Detail.mro(
+Address_Detail.__subclasses__(                        Address_Detail.objects
+Address_Detail.__subclasshook__(                      Address_Detail.pk
+Address_Detail.__weakref__                            Address_Detail.prepare_database_save(
+Address_Detail.__weakrefoffset__                      Address_Detail.refresh_from_db(
+Address_Detail._base_manager                          Address_Detail.save(
+Address_Detail._check_column_name_clashes(            Address_Detail.save_base(
+Address_Detail._check_field_name_clashes(             Address_Detail.serializable_value(
+Address_Detail._check_fields(                         Address_Detail.unique_error_message(
+Address_Detail._check_id_field(                       Address_Detail.validate_unique(
+>>> Address_Detail.objects.all()
+[<Address_Detail: Address_Detail object>, <Address_Detail: Address_Detail object>, <Address_Detail: Address_Detail object>]
+>>>
+
+# references
+https://docs.djangoproject.com/en/1.8/topics/db/models/#extra-fields-on-many-to-many-relationships 
+
+Added the code __unicode__ to the address/models.py file.
+
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ python manage.py shell
+/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src
+Python 2.7.10 (default, Oct 14 2015, 16:09:02) 
+[GCC 5.2.1 20151010] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> 
+>>> from address.models import address_details
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+ImportError: cannot import name address_details
+>>> 
+>>> from address.models import Address_Detail
+>>> Address_Detail.objects.all()
+[<Address_Detail: madan>, <Address_Detail: chiru>, <Address_Detail: santosh>]
+>>> 
+
+# will try to integreate the data inside the sqlite3 database with my template files.
+
+
+
+
+
+
+
+
