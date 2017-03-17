@@ -1,0 +1,9 @@
+# Assignment for first week.
+# please start build the app of djangoprojects
+
+Please follow the below links to start your project 1 and let me know if you have any queries.
+https://docs.djangoproject.com/en/1.10/intro/overview/
+https://docs.djangoproject.com/en/1.10/intro/install/
+https://docs.djangoproject.com/en/1.10/intro/tutorial01/
+https://docs.djangoproject.com/en/1.10/intro/tutorial02/
+https://docs.djangoproject.com/en/1.10/intro/tutorial03/

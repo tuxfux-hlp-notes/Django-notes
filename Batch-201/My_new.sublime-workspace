@@ -1,0 +1,504 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"url",
+				"urlParameter"
+			],
+			[
+				"urlP",
+				"getUrlParameter"
+			],
+			[
+				"to",
+				"toHighlight"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "Day3_notes.txt",
+			"settings":
+			{
+				"buffer_size": 447,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/AddressBook/urls.py",
+			"settings":
+			{
+				"buffer_size": 689,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/address/views.py",
+			"settings":
+			{
+				"buffer_size": 1501,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/address/templates/base.html",
+			"settings":
+			{
+				"buffer_size": 283,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/address/templates/Daddress.html",
+			"settings":
+			{
+				"buffer_size": 584,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/address/templates/address.html",
+			"settings":
+			{
+				"buffer_size": 562,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src/address/templates/address.html",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/Queries.txt",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/day2_notes.txt",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src/AddressBook/settings.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src/address/templates/test1.html",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/Day1_notes.txt",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src/address/models.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src/AddressBook/wsgi.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/Demo_day.txt",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/AddressBook/AddressBook/settings.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/logging/A_seventh.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/logging/creds.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/logging/A_eight.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/logging/A_ninth.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/logging/myapp.log",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/logging/A_fifth.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/logging/A_tenth.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/logging/A_sixth.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/logging/Learning_logging.txt",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/logging/spam.log",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/logging/all_logs.txt",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/logging/fourth.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/logging/third.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/logging/second.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/logging/first.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/logging/disk_log.txt",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/logging/my_log.txt",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/modules/OS/sol/third.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/modules/OS/sol/second.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/modules/OS/sol/__init__.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/modules/OS/sol/fourth.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/modules/OS/sol/first.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/modules/Modules_running_notes.txt",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/modules/OS/lin/first.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/modules/OS/lin/fourth.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/modules/OS/lin/third.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/modules/OS/lin/second.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/modules/OS/lin/__init__.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/modules/second.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/modules/first.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/debugging/buggy.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/debugging/third.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/debugging/second.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/debugging/first.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-57/debugging/debugging_notest.txt",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/Telecome/LTEPT.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/mysite/models.py",
+		"/home/key2gyaan/Desktop/Tcloud/src/mysite/forms.py",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/Bootup/contact.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/Bootup/my_course.html",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-56/logging/second.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-56/logging/third.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-56/logging/fourth.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-56/logging/fifth.py",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-56/logging/disk.log",
+		"/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/batch-56/logging/TODO.txt",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/Bootup/common_navbar.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/services/services1.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/mysite/views.py",
+		"/home/key2gyaan/Desktop/Tcloud/src/edu_site/urls.py",
+		"/home/key2gyaan/Desktop/Tcloud/src/project_local/js/menu.js",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/total_courses_schedule.html",
+		"/home/key2gyaan/Desktop/decorators.py",
+		"/home/key2gyaan/Desktop/Tcloud/src/edu_site/settings/base.py",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/products/products.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/Bootup/common_top_bar.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/scripting/python.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/scripting/flask.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/scripting.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/mysite/urls.py",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/Devpos/Openstack.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/Datacom/L2_L3_Dev.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/Datacom/L2_L3_Test.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/datacom.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/Telecome/LTEPD.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/Telecome/VOIP_SIP_IMS_PD.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/Telecome/VOIP_SIP_IMS_PT.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/cloud.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/Embeded/IOT.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/scripting/ttcn3.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/scripting/pandas.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/scripting/perl.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/scripting/django.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/mysite/admin.py",
+		"/home/key2gyaan/Desktop/Tcloud/src/project_local/css/main.css",
+		"/home/key2gyaan/Desktop/Tcloud/src/edu_site/settings/prod.py",
+		"/home/key2gyaan/Desktop/Tcloud/src/edu_site/settings/dev.py",
+		"/home/key2gyaan/Desktop/Tcloud/src/edu_site/settings/__init__.py",
+		"/home/key2gyaan/Desktop/Tcloud/src/manage.py",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/sv.404.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/404.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/505.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/edu_site/sv.settings.py",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/services/services2.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/services/services7.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/services/services6.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/services/services5.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/services/services4.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/services/service3.html",
+		"/home/key2gyaan/Documents/Technical/scripting/python_Projects/batch-55/notes_functions.txt",
+		"/home/key2gyaan/Documents/Technical/scripting/python_Projects/batch-55/first.py",
+		"/home/key2gyaan/Documents/Technical/scripting/python_Projects/batch-55/second.py",
+		"/home/key2gyaan/Documents/Technical/scripting/python_Projects/batch-55/third.py",
+		"/home/key2gyaan/Documents/Technical/scripting/python_Projects/batch-55/fifth.py",
+		"/home/key2gyaan/Documents/Technical/scripting/python_Projects/batch-55/fourth.py",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/base.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/Bootup/common_head_style.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/Bootup/home_features.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/Bootup/home_services.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/Bootup/course.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/Telecome/LTEPD_new.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/devops.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates.old/courses/Telecome/LTEPD.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates.old/courses/scripting/python.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates.old/courses/scripting/perl.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates.old/courses/scripting/django.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/embeded.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/telecom.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/Bootup/home.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/templates/courses/Telecome/sv.LTEPD.html",
+		"/home/key2gyaan/Desktop/Tcloud/src/project_local/css/responsive.css",
+		"/home/key2gyaan/Desktop/Tcloud/src/project_local/css/bootstrap.min.css",
+		"/home/key2gyaan/Desktop/Tcloud/src/project_local/css/animate.min.css",
+		"/home/key2gyaan/Desktop/batch-5/src/AddressBook/urls.py",
+		"/home/key2gyaan/Desktop/batch-5/src/address/views.py",
+		"/home/key2gyaan/Desktop/batch-5/src/AddressBook/__init__.py"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"lin",
+			"lin1",
+			"media-body",
+			"collapseOne1",
+			"request",
+			"products",
+			"navbar",
+			"*",
+			"class=\"panel-collapse collapse in\"",
+			")\n",
+			"Django_Course_Schedule",
+			"HOME | TCLOUD IT",
+			"class=\"panel-collapse collapse in\"",
+			"&",
+			"</br>",
+			"animat",
+			"visibil",
+			"style"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"sol",
+			"lin4",
+			"lin3",
+			"lin2",
+			"class=\"panel-collapse collapse\"",
+			"&nbsp;",
+			"<br>"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "Day3_notes.txt",
+					"settings":
+					{
+						"buffer_size": 447,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								447,
+								447
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/AddressBook/urls.py",
+					"settings":
+					{
+						"buffer_size": 689,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								632,
+								632
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/address/views.py",
+					"settings":
+					{
+						"buffer_size": 1501,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1478,
+								1478
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 135.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/address/templates/base.html",
+					"settings":
+					{
+						"buffer_size": 283,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								62,
+								62
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/address/templates/Daddress.html",
+					"settings":
+					{
+						"buffer_size": 584,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								403,
+								403
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/address/templates/address.html",
+					"settings":
+					{
+						"buffer_size": 562,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 167.0,
+	"status_bar_visible": true
+}

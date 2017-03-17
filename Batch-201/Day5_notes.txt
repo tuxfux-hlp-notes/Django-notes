@@ -1,0 +1,107 @@
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201$ ls
+Addressbook     day2_notes.txt  day4_notes.txt  My_new.sublime-project    Queries.txt
+Day1_notes.txt  Day3_notes.txt  Demo_day.txt    My_new.sublime-workspace  src
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201$ cd src
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ ls
+address  AddressBook  db.sqlite3  manage.py
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ python manage.py makemigrations
+/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src
+SystemCheckError: System check identified some issues:
+
+ERRORS:
+address.Address_Detail.gender: (fields.E120) CharFields must define a 'max_length' attribute.
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ python manage.py makemigrations
+/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src
+Traceback (most recent call last):
+  File "manage.py", line 10, in <module>
+    execute_from_command_line(sys.argv)
+  File "/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/Addressbook/local/lib/python2.7/site-packages/django/core/management/__init__.py", line 338, in execute_from_command_line
+    utility.execute()
+  File "/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/Addressbook/local/lib/python2.7/site-packages/django/core/management/__init__.py", line 312, in execute
+    django.setup()
+  File "/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/Addressbook/local/lib/python2.7/site-packages/django/__init__.py", line 18, in setup
+    apps.populate(settings.INSTALLED_APPS)
+  File "/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/Addressbook/local/lib/python2.7/site-packages/django/apps/registry.py", line 108, in populate
+    app_config.import_models(all_models)
+  File "/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/Addressbook/local/lib/python2.7/site-packages/django/apps/config.py", line 198, in import_models
+    self.models_module = import_module(models_module_name)
+  File "/usr/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src/address/models.py", line 9, in <module>
+    class Address_Detail(models.Model):
+  File "/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src/address/models.py", line 12, in Address_Detail
+    gender = models.CharField(max_lenght=6,null=True,blank=True)
+  File "/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/Addressbook/local/lib/python2.7/site-packages/django/db/models/fields/__init__.py", line 1081, in __init__
+    super(CharField, self).__init__(*args, **kwargs)
+TypeError: __init__() got an unexpected keyword argument 'max_lenght'
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ 
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ python manage.py makemigrations
+/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src
+Migrations for 'address':
+  0002_auto_20170317_1459.py:
+    - Add field gender to address_detail
+    - Alter field email on address_detail
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ 
+
+
+/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages
+  Apply all migrations: admin, contenttypes, sessions, auth, address
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  Rendering model states... DONE
+  Applying address.0002_auto_20170317_1459... OK
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ python manage.py sqlmigrate address 0002
+/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src
+BEGIN;
+CREATE TABLE "address_address_detail__new" ("gender" varchar(6) NULL, "name" varchar(20) NOT NULL, "email" varchar(20) NOT NULL PRIMARY KEY);
+INSERT INTO "address_address_detail__new" ("gender", "name", "email") SELECT NULL, "name", "email" FROM "address_address_detail";
+DROP TABLE "address_address_detail";
+ALTER TABLE "address_address_detail__new" RENAME TO "address_address_detail";
+CREATE TABLE "address_address_detail__new" ("name" varchar(20) NOT NULL, "gender" varchar(6) NULL, "email" varchar(20) NOT NULL PRIMARY KEY);
+INSERT INTO "address_address_detail__new" ("gender", "name", "email") SELECT "gender", "name", "email" FROM "address_address_detail";
+DROP TABLE "address_address_detail";
+ALTER TABLE "address_address_detail__new" RENAME TO "address_address_detail";
+
+COMMIT;
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ python manage.py sqlmigrate address 0001
+/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src
+BEGIN;
+CREATE TABLE "address_address_detail" ("name" varchar(20) NOT NULL, "email" varchar(20) NOT NULL PRIMARY KEY);
+
+COMMIT;
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src$ 
+Admin
+
+#  
+# understading - url(r'^admin/', include(admin.site.urls))
+,
+jango/contrib/auth$ cat urls.py
+# The views used below are normally mapped in django.contrib.admin.urls.py
+# This URLs file is used to provide a reliable view deployment for test purposes.
+# It is also provided as a convenience to those who want to deploy these URLs
+# elsewhere.
+
+from django.conf.urls import url
+from django.contrib.auth import views
+
+urlpatterns = [
+    url(r'^login/$', views.login, name='login'),
+    url(r'^logout/$', views.logout, name='logout'),
+    url(r'^password_change/$', views.password_change, name='password_change'),
+    url(r'^password_change/done/$', views.password_change_done, name='password_change_done'),
+    url(r'^password_reset/$', views.password_reset, name='password_reset'),
+    url(r'^password_reset/done/$', views.password_reset_done, name='password_reset_done'),
+    url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        views.password_reset_confirm, name='password_reset_confirm'),
+    url(r'^reset/done/$', views.password_reset_complete, name='password_reset_complete'),
+]
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/Addressbook/local/lib/python2.7/site-packages/django/contrib/auth$ pwd
+
+# you can broswe in the virtualenv to find the locations.
+/home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/Addressbook/local/lib/python2.7/site-packages/django/contrib/auth
+(Addressbook) key2gyaan@key2gyaan:~/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/Addressbook/local/lib/python2.7/site-packages/django/contrib/auth$ 

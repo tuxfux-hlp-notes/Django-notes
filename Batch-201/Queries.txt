@@ -1,0 +1,9 @@
+1) How to make sure that my virtualenv gets loaded automatically ?
+
+ans) go to your linux box home directory.
+# ls -lart
+# ls -la .bashrc
+Append the below line to the .bashrc
+source /home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/Addressbook/bin/activate
+
+Note: /home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/Addressbook is my virtualenv
