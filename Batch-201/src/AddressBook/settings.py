@@ -39,9 +39,11 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles',  # this is the app for laying our your static files.
     # custom apps
+    'newtest_app',
     'address',
+    
 )
 
 MIDDLEWARE_CLASSES = (
@@ -57,10 +59,13 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'AddressBook.urls'
 
+
+# Day 6
+# creating a templates folder outside apps. - see day6_notes : postmortem notes for more details.
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ BASE_DIR + "/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -101,6 +106,7 @@ USE_L10N = True
 USE_TZ = True
 
 
+# Day 6:
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 

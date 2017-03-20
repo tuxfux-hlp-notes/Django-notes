@@ -1,0 +1,36 @@
+<!-- <html>
+<head>
+	<title>  My Address Page</title>
+</head>
+<body>
+<div class="address">
+	<table>
+		<tr> 
+			<td> Student1 </td>
+			<td> tuxfux.hlp@gmail.com </td>
+		</tr>
+		<tr> 
+			<td> Student2 </td>
+			<td> tuxfux.hlp@edu.com </td>
+		</tr>
+	</table>
+</div>
+</body>
+</html> -->
+
+{% extends "base.html" %}
+{% block title %} Key2Gyaan - Key 2 Knowledge {%  endblock %}
+{% block head %} 
+		{% load staticfiles %}
+		<link href="{% static "address/styles.css" %}" rel="stylesheet" text="text/css" >
+{% endblock %}
+{% block content %} 
+<table>
+	{% for value in namesdb %}
+		<tr> 
+			<td> {{ value.name|capfirst }} </td>
+			<td> {{ value.email|capfirst }} </td>
+		</tr>
+	{% endfor %}
+</table>
+{% endblock %}

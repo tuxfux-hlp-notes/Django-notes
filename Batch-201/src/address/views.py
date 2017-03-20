@@ -49,4 +49,6 @@ def Naddress(request):
 	#context = {'namesdb':[{'name':'student1','email':'tuxfux.hlp@gmail.com'},{'name':'student2','email':'tuxfux.hlp@edu.com'}]}
 	values = Address_Detail.objects.all()
 	context = {'namesdb':values}
-	return render(request,'address.html',context)
+	return render(request,'address/address.html',context)
+
+
