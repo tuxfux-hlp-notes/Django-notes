@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from AddressBook.settings import BASE_DIR
 from .models import Address_Detail
+from .forms import ContactForm
 
 # Day2 
 # Create your views here.
@@ -50,5 +51,13 @@ def Naddress(request):
 	values = Address_Detail.objects.all()
 	context = {'namesdb':values}
 	return render(request,'address/address.html',context)
+
+# Day 7
+# creation of a contact page
+
+def contact(request):
+	form_class = ContactForm  # form_class is an instance of our contact form.
+	context = {'form':form_class}
+	return render(request,'address/contact.html',context)
 
 

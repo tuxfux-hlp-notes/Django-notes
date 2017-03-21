@@ -111,3 +111,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Day 7
+# https://docs.djangoproject.com/en/1.8/howto/static-files/#configuring-static-files
+# order of searching for static files : project_local(STATICFILES_DIRS) =>> order of apps in setting.py
+# INSTALLED_APPS - newtest_app(+static folder)
+# INSTALLED_APP - address(+static folder) 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR,"project_local"),
+    )
+
+# static_root
+# https://docs.djangoproject.com/en/1.8/howto/static-files/#deployment
+STATIC_ROOT = os.path.join(BASE_DIR,"project_prod")

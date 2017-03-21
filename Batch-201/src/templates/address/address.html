@@ -23,8 +23,10 @@
 {% block head %} 
 		{% load staticfiles %}
 		<link href="{% static "address/styles.css" %}" rel="stylesheet" text="text/css" >
+		<link href="{% static "base.css" %}" rel="stylesheet" text="text/css" >
 {% endblock %}
 {% block content %} 
+<h1> This is the address.html page unser the address app </h1>
 <table>
 	{% for value in namesdb %}
 		<tr> 

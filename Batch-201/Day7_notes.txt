@@ -1,0 +1,12 @@
+
+-- please follow the notest under the setting.py files -- 
+STATICFILES_DIRS
+STATIC_ROOT
+
+# Forms
+https://docs.djangoproject.com/en/1.10/intro/tutorial04/
+https://docs.djangoproject.com/en/1.8/ref/forms/fields/
+https://docs.djangoproject.com/en/1.10/ref/forms/api/#outputting-forms-as-html
+https://docs.djangoproject.com/en/1.8/ref/csrf/
+# html forms
+https://www.w3schools.com/html/html_forms.asp

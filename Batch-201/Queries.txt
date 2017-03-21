@@ -7,3 +7,5 @@ Append the below line to the .bashrc
 source /home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/Addressbook/bin/activate
 
 Note: /home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/Addressbook is my virtualenv
+
+2) grunt and django

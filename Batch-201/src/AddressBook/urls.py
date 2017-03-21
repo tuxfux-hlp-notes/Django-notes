@@ -15,5 +15,7 @@ urlpatterns = [
     # url(r'^students/','address.views.address',name='students'),
     # url(r'^Dstudents/','address.views.Daddress',name='Dstudents'),
     url(r'^student_details/','address.views.Naddress',name='student_details'),
-    url(r'^testing_app/','newtest_app.views.Taddress',name='testing_app')
+    url(r'^testing_app/','newtest_app.views.Taddress',name='testing_app'),
+    # day 7
+    url(r'^contact/','address.views.contact',name="contact"),
 ]
