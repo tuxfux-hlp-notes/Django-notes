@@ -124,3 +124,14 @@ STATICFILES_DIRS = (
 # static_root
 # https://docs.djangoproject.com/en/1.8/howto/static-files/#deployment
 STATIC_ROOT = os.path.join(BASE_DIR,"project_prod")
+
+# Day 8 
+# Email setup - gmail.com
+# smtp server and use can provide username and password.
+# https://docs.djangoproject.com/en/1.10/topics/email/
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'tuxfux.django@gmail.com'
+EMAIL_HOST_PASSWORD = 'tuxfux.django123'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

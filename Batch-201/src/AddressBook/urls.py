@@ -18,4 +18,6 @@ urlpatterns = [
     url(r'^testing_app/','newtest_app.views.Taddress',name='testing_app'),
     # day 7
     url(r'^contact/','address.views.contact',name="contact"),
+    url(r'^address/','address.views.address_form',name="address"),
+    url(r'^thankyou/','address.views.thank_you',name="thankyou")
 ]

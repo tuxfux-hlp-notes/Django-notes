@@ -18,4 +18,9 @@ class Address_Detail(models.Model):
 	def __unicode__(self):
 		return u'name:{} - email:{}'.format(self.name,self.email)
 
+# Day 8
+# model forms: https://docs.djangoproject.com/en/1.10/topics/forms/modelforms/
+
+
+
 

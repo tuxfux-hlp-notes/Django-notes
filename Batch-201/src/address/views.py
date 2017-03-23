@@ -1,8 +1,14 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from AddressBook.settings import BASE_DIR
 from .models import Address_Detail
-from .forms import ContactForm
+from .forms import ContactForm,AddressForm
+from django.core.mail import EmailMessage
+
+
+# Modular views
+# class based views : https://docs.djangoproject.com/en/1.10/topics/class-based-views/
+
 
 # Day2 
 # Create your views here.
@@ -54,10 +60,58 @@ def Naddress(request):
 
 # Day 7
 # creation of a contact page
+# https://docs.djangoproject.com/en/1.10/ref/forms/validation/#cleaning-and-validating-fields-that-depend-on-each-other
 
 def contact(request):
 	form_class = ContactForm  # form_class is an instance of our contact form.
-	context = {'form':form_class}
+	context = {'form':form_class} # {'form': <class 'address.forms.ContactForm'>}
+
+# request method are of two types - POST METHOD and GET METHOD.
+	if request.method == 'POST':
+		form = ContactForm(request.POST)
+		if form.is_valid():
+			print dir(form) 
+			contact_name = form.cleaned_data['contact_name']
+			contact_email = form.cleaned_data['contact_email']
+			content = form.cleaned_data['content']
+			subject = "A new contact or lead - {}".format(contact_name)
+			print contact_name,contact_email,content,subject
+			email = EmailMessage(subject,contact_name + '\n' + contact_email +  '\n' + content , to=['tuxfux.hlp@gmail.com'])
+			email.send()
+			return HttpResponseRedirect('/thankyou/')	
+# request method is GET please open the same contact page.
 	return render(request,'address/contact.html',context)
+
+# Day 8
+# modular forms
+# https://docs.djangoproject.com/en/1.10/ref/forms/validation/#form-and-field-validation
+def address_form(request):
+	form = AddressForm()
+	context = {'form':form}
+
+	if request.method == 'POST':
+	# POST and FORM=VALID
+		form = AddressForm(request.POST)
+		if form.is_valid():
+			name = form.cleaned_data['name']
+			email = form.cleaned_data['email']
+			gender = form.cleaned_data['gender']
+			# ORM related entry to create a new object
+			Address_Detail.objects.create(name=name,email=email,gender=gender)
+			return HttpResponseRedirect('/thankyou/')
+		else:
+	# POST and FORM=INVALID
+			print request.method
+			#print form.errors
+			print form
+			context = {'form':form}
+			return render(request,'address/Address_form.html',context)
+	# GET
+	return render(request,'address/Address_form.html',context)
+
+
+
+def thank_you(request):
+	return HttpResponse("Thank you for contacting us.")
 
 
