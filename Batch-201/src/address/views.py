@@ -6,6 +6,12 @@ from .forms import ContactForm,AddressForm
 from django.core.mail import EmailMessage
 
 
+# day 10
+# creating our home page
+def home(request):
+	context = {}
+	return render(request,'home.html',context)
+
 # Modular views
 # class based views : https://docs.djangoproject.com/en/1.10/topics/class-based-views/
 
@@ -15,6 +21,7 @@ from django.core.mail import EmailMessage
 
 # def hello_world(request):
 # 	return HttpResponse("Hello!! world \n")
+
 
 
 # # Not how we do in django.

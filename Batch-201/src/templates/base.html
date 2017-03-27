@@ -1,17 +1,18 @@
-<html>
-<head>
-	<title>{% block title %} {% endblock %}</title>
-	{% block head %} {% endblock %}
-</head>
-<body>
-	<div id="header">
-		<h1> Key2Gyaan : Key to Knowledge </h1>
-	</div>
-	<div id="content">
-		{% block content %} {% endblock %}
-	</div>
-	<div id="footer">
-		<h1> @Copyright 2017 </h1>
-	</div>
-</body>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include 'bootstrap/common_header.html' %}
+  </head>
+
+  <body>
+
+    <div class="container">
+        {% include 'bootstrap/common_navbar.html' %}
+        {% block content %} {% endblock %}
+        {% block jumbtron %} {% endblock %}
+    </div> <!-- /container -->
+       
+    <!--    # Footer is common to all pages  -->
+        {% include 'bootstrap/common_footer.html' %}
+  </body>
 </html>
