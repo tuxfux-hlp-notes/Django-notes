@@ -121,4 +121,7 @@ def address_form(request):
 def thank_you(request):
 	return HttpResponse("Thank you for contacting us.")
 
+def bootme(request):
+	return render(request,'address/bootme.html',{})
+
 

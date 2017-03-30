@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^student_details/','address.views.Naddress',name='student_details'),
     url(r'^contact/','address.views.contact',name="contact"),   # contact page
     url(r'^address/','address.views.address_form',name="address"), # address form
-    url(r'^thankyou/','address.views.thank_you',name="thankyou") #  Thank you form
+    url(r'^thankyou/','address.views.thank_you',name="thankyou"), #  Thank you form
+    url(r'^bootme/','address.views.bootme',name='bootme'),  # testing the bootstrap
 ]
