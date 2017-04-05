@@ -1,5 +1,16 @@
 {% extends 'base.html' %}
 
+<style>
+{% block style %}
+
+.text-align-center {
+	text-align : center;
+}
+
+
+{% endblock %}
+</style>
+
 {% block jumbtron %}
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
@@ -13,16 +24,16 @@
 
 <div class="row">
 			<div class="col-sm-3 pull-right" >
-				<p> Welcome to python sessions </p>
-			</div>
-			<div class="col-sm-3 pull-right" >
-				<p> Welcome to Django sessions</p>
+				<p class="lead"> Welcome to python sessions </p>
 			</div>
 			<div class="col-sm-3" >
-				<p> Welcome to Devops sessions</p> 
+				<p class="lead text-align-center"> Welcome to Django sessions</p>
 			</div>
 			<div class="col-sm-3" >
-				<p> Welcome to Openstack sessions</p>
+				<p class="lead text-align-center"> Welcome to Devops sessions</p> 
+			</div>
+			<div class="col-sm-3" >
+				<p class="lead text-align-center"> Welcome to Openstack sessions</p>
 			</div>
 </div>
 

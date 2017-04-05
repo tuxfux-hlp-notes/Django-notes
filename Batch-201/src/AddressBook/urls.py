@@ -19,8 +19,9 @@ urlpatterns = [
     # url(r'^testing_app/','newtest_app.views.Taddress',name='testing_app'),
     # day 7
     url(r'^student_details/','address.views.Naddress',name='student_details'),
-    url(r'^contact/','address.views.contact',name="contact"),   # contact page
+    url(r'^contactus/','address.views.contact',name="contact"),   # contact page
     url(r'^address/','address.views.address_form',name="address"), # address form
     url(r'^thankyou/','address.views.thank_you',name="thankyou"), #  Thank you form
     url(r'^bootme/','address.views.bootme',name='bootme'),  # testing the bootstrap
+    url(r'^accounts/', include('registration.backends.default.urls')), # django-registration redux
 ]
