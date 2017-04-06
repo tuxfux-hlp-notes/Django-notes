@@ -1,0 +1,18 @@
+# static files
+https://docs.djangoproject.com/en/1.10/ref/templates/builtins/#static
+https://docs.djangoproject.com/en/1.10/howto/static-files/deployment/
+https://docs.djangoproject.com/en/1.8/howto/static-files/
+
+
+
+Template-loader postmortem
+
+Django tried loading these templates, in this order:
+
+    Using loader django.template.loaders.filesystem.Loader:
+        /home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src/templates/address.html (File does not exist)
+    Using loader django.template.loaders.app_directories.Loader:
+        /home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/myvenv/local/lib/python2.7/site-packages/django/contrib/admin/templates/address.html (File does not exist)
+        /home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/myvenv/local/lib/python2.7/site-packages/django/contrib/auth/templates/address.html (File does not exist)
+        /home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src/address/templates/address.html (File does not exist)
+

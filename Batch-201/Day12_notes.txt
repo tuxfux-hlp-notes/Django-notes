@@ -1,0 +1,6 @@
+# urls for the links
+https://docs.djangoproject.com/en/1.10/intro/tutorial03/#removing-hardcoded-urls-in-templates
+# Authentication and Autherization
+https://django-registration-redux.readthedocs.io/en/latest/
+# crispy forms
+http://django-crispy-forms.readthedocs.io/en/latest/

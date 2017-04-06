@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load fontawesome %}
+{% load staticfiles %}
 
 <style>
 {% block style %}
@@ -7,34 +9,79 @@
 	text-align : center;
 }
 
+.jumbotron
+{
+	background-color: #FFF;
+
+}
+
+.navbar
+{
+
+	margin-bottom:0px;
+
+}
+
+.navbar-default
+{
+	background-color: #FFF;
+}
+
+navbar-default .navbar-nav > li > a
+{
+ 
+   color: #C22323;
+}
+
+navbar-default .navbar-nav > li > a:hover
+{
+	color: #FFF;
+}
 
 {% endblock %}
 </style>
 
 {% block jumbtron %}
-      <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron">
-        <h1>Welcome to the Key2Gyaaan - Learning Django a easy way!! </h1>
-        <p>We are more inot the opensource solution for multiple projects.
-           We also deal with Python,Django,Openstack and related worlds.</p>
-        <p>
-          <a class="btn btn-lg btn-primary" href="#" role="button">Join Us  &raquo;</a>
-        </p>
-      </div>
+<div class="container"> 
+				
+				      <!-- Main component for a primary marketing message or call to action -->
+				<div class="jumbotron">
+					<div class="row">
+						<div class="col-sm-6" class="text-align-center" >
+									<h3> Welcome to the Key2Gyaaan  </h3>
+							        <p>Learning Django a easy way!! </p>
+							        <p>We are more inot the opensource solution for multiple projects.
+							           We also deal with Python,Django,Openstack and related worlds.</p>
+							        <p>
+							          <a class="btn btn-lg btn-primary" href="#" role="button">Join Us  &raquo;</a>
+							        </p>
+					    </div>
+					    <div class="col-sm-6" >
+					    	<iframe width="500" height="300" src="https://www.youtube.com/embed/C7ojH-DXqvs" frameborder="0" allowfullscreen></iframe>
+					    </div>
 
-<div class="row">
-			<div class="col-sm-3 pull-right" >
-				<p class="lead"> Welcome to python sessions </p>
-			</div>
-			<div class="col-sm-3" >
-				<p class="lead text-align-center"> Welcome to Django sessions</p>
-			</div>
-			<div class="col-sm-3" >
-				<p class="lead text-align-center"> Welcome to Devops sessions</p> 
-			</div>
-			<div class="col-sm-3" >
-				<p class="lead text-align-center"> Welcome to Openstack sessions</p>
-			</div>
-</div>
+				     </div>
+				</div>
 
+				<div class="row">
+							<div class="col-sm-3 pull-right" >
+								<p class="lead"> Welcome to python sessions </p>
+								<img src='{% static "images/python.png" %}' height="300px" width="300px"/>
+								
+							</div>
+							<div class="col-sm-3" >
+								<p class="lead text-align-center"> Welcome to Django sessions</p>
+								<img src='{% static "images/django.png" %}' height="300px" width="200px"/>
+							</div>
+							<div class="col-sm-3" >
+								<p class="lead text-align-center"> Welcome to Devops sessions</p> 
+								<img src='{% static "images/devops.png" %}' height="300px" width="200px"/>
+							</div>
+							<div class="col-sm-3" >
+								<p class="lead text-align-center"> Welcome to Openstack sessions</p>
+								<img src='{% static "images/openstack.png" %}' height="300px" width="200px"/>
+							</div>
+				</div>			
+</div> <!-- /container -->
 {% endblock %}
+
