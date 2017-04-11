@@ -46,7 +46,7 @@ INSTALLED_APPS = (
     # installed apps
     'crispy_forms',
     'registration',
-     'fontawesome',  # https://github.com/redouane/django-fontawesome
+    'fontawesome',  # https://github.com/redouane/django-fontawesome
     
 )
 
