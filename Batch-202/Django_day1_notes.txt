@@ -1,0 +1,46 @@
+# Django
+# web server/web sites
+# HTML - Hyper text markup language.
+# css
+# java scripts
+# angularjs
+# nodejs
+# You come with static pages
+
+ex: facebook,twitter,bigbasket.
+A site -> static pages(contact page),Dynamic pages(data keeps on changing),database
+
+# www.google.com
+user (browser ) -> request -> .(root server) -> resolving( name to ip) -> google.com -> www(local server) -> response -> user
+
+# Django Architecture.
+
+ex: www.google.com/mail
+# url.py ( all your urls) (ex url: <mydomain>/mail)
+# views.py (functions)  (ex: when some is requesting mail - what do do ?)
+# Templates - set of pages (static/dynamic)
+ -> static page -> give a respone to the user.
+ -> Dynamic page -> lets say we want to connect to backend database/files
+# models.py  -> schemas/defination of your databases. (ORM)
+# ORM - Object Relational Mapper.
+Treating your tables as a python object.
+
+1) url (controller) - The controller accepts input and converts it to commands for model or view.
+2) views - A view can be any output representation of information, such as chart of diagram , multiple views of information are possible.
+3) models - The model manages the data,logic and rules of the application
+
+Django - MVC framework
+Model-view-controller
+
+References:
+
+MVA Framework : https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93adapter
+MVP Framework : https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter
+https://docs.djangoproject.com/en/1.10/faq/general/#django-appears-to-be-a-mvc-framework-but-you-call-the-controller-the-view-and-the-view-the-template-how-come-you-don-t-use-the-standard-names
+
+# django admin
+training portal.
+
++webpage
+django 500$
+flask  200$
