@@ -1,0 +1,177 @@
+* Django - web server , contents.
+* Apache
+
+# created a softlink to the batch-202 for each access to files.
+khyaathi@khyaathi-Technologies:~/Desktop$ ln -s /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/ Batch-202
+khyaathi@khyaathi-Technologies:~/Desktop$ ls -l
+total 28
+lrwxrwxrwx 1 khyaathi khyaathi   65 May 21 22:04 Batch-201 -> /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/
+-rw-r--r-- 1 khyaathi khyaathi   57 May 21 22:05 batch-201.sublime-project
+-rw-r--r-- 1 khyaathi khyaathi 1578 May 23 08:26 batch-201.sublime-workspace
+lrwxrwxrwx 1 khyaathi khyaathi   65 May 25 08:25 Batch-202 -> /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/
+-rw-r--r-- 1 khyaathi khyaathi  108 May 23 08:27 batch-202.sublime-project
+-rw-r--r-- 1 khyaathi khyaathi 1578 May 23 08:26 batch-202.sublime-workspace
+-rw-r--r-- 1 khyaathi khyaathi   72 May 21 22:09 requirement.txt
+khyaathi@khyaathi-Technologies:~/Desktop$ 
+
+
+# virtualenv
+you have theree project - binary/installables/modules to disturb each other.
+
+# sudo apt-get install python-virtualenv
+
+# how to create a virtualenv.
+
+khyaathi@khyaathi-Technologies:~/Desktop/Batch-202$ pwd
+/home/khyaathi/Desktop/Batch-202
+khyaathi@khyaathi-Technologies:~/Desktop/Batch-202$ virtualenv myenv
+New python executable in /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/bin/python
+Installing setuptools, pip, wheel...done.
+khyaathi@khyaathi-Technologies:~/Desktop/Batch-202$ ls myenv/
+bin  include  lib  local  pip-selfcheck.json
+khyaathi@khyaathi-Technologies:~/Desktop/Batch-202$ ls
+Django_day1_notes.txt  Django_day2_notes.txt  myenv
+khyaathi@khyaathi-Technologies:~/Desktop/Batch-202$ 
+khyaathi@khyaathi-Technologies:~/Desktop/Batch-202$ source myenv/bin/activate
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202$ pip freeze
+appdirs==1.4.3
+packaging==16.8
+pyparsing==2.2.0
+six==1.10.0
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202$ 
+
+## Installation of an editor
+
+## sublime2
+
+# sudo add-apt-repository ppa:webupd8team/sublime-text-2
+# sudo apt-get update
+# sudo apt-get install sublime-text
+
+## sublime3
+# sudo add-apt-repository ppa:webupd8team/sublime-text-3
+# sudo apt-get update
+# sudo apt-get install sublime-text-installer
+
+## installation of pycharm
+
+#sudo add-apt-repository ppa:mystic-mirage/pycharm
+#sudo apt-get update
+#sudo apt-get install pycharm
+
+## installation of django 
+
+khyaathi@khyaathi-Technologies:~/Desktop/Batch-202$ source myenv/bin/activate
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202$ 
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202$ pip install django==1.8
+Collecting django==1.8
+  Using cached Django-1.8-py2.py3-none-any.whl
+Installing collected packages: django
+Successfully installed django-1.8
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202$ pip freeze
+appdirs==1.4.3
+Django==1.8
+packaging==16.8
+pyparsing==2.2.0
+six==1.10.0
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202$ python
+Python 2.7.12+ (default, Sep 17 2016, 12:08:02) 
+[GCC 6.2.0 20160914] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import django
+>>> quit()
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202$ 
+
+## create our project and add it to sublime text
+
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202$ django-admin startproject mysite
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202$ ls
+Django_day1_notes.txt  Django_day2_notes.txt  myenv  mysite
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202$ ls mysite/
+manage.py  mysite
+
+## running the server for the first time.
+
+myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202/src$ pwd
+/home/khyaathi/Desktop/Batch-202/src
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202/src$ ls
+manage.py  mysite
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202/src$ python manage.py runserver
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have unapplied migrations; your app may not work properly until they are applied.
+Run 'python manage.py migrate' to apply them.
+
+May 25, 2017 - 03:15:51
+Django version 1.8, using settings 'mysite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+
+## sorting the error in the first run
+
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202/src$ python manage.py migrate
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages
+  Apply all migrations: admin, contenttypes, auth, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  Rendering model states... DONE
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying sessions.0001_initial... OK
+
+# A seperate file called db.sqlite3 gets created.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202/src$ python manage.py runserver
+Performing system checks...
+
+System check identified no issues (0 silenced).
+May 25, 2017 - 03:20:02
+Django version 1.8, using settings 'mysite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+
+# creating our first admin user.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202/src$ python manage.py createsuperuser
+Username (leave blank to use 'khyaathi'): admin
+Email address: admin@gmail.com
+Password: 
+Password (again): 
+Superuser created successfully.
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202/src$ 
+
+## creation of our first app.
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202/src$ python manage.py startapp blog
+
+
+## Later created method inside the views.py
+
+from django.http import HttpResponse
+
+def hello_world(request):
+	return HttpResponse("hello world \n")
+
+## Later update your urls.py site.
+    
+url(r'^$', 'blog.views.hello_world', name='hello'),
+
+
+
+
+
+
