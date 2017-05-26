@@ -1,0 +1,149 @@
+## Templates
+
+* create a templates folder inside the blog app.
+* create a file test.html with underlying content.
+<html>
+	<head><title> Hello there </title></head>
+	<h1> Hello world </h1>
+</html>
+
+* create a view under `views.py` location
+
+def test_html(request):
+	f = open('/home/khyaathi/Desktop/Batch-202/src/blog/templates/test.html')
+	content = f.read()
+	return HttpResponse(content)
+
+* create a link under the `urls.py`
+
+url(r'^test/', 'blog.views.test_html', name='testhello'),
+
+* make sure you start your server
+
+python manage.py runserver 
+
+* http://127.0.0.1:8000/test
+
+## render 
+
++ urls.py
+    url(r'^test/', 'blog.views.test_html', name='testhello'),
+
++ views.py
+	from django.shortcuts import render
+	def test_html(request):
+		context = {}
+		return render(request,'test.html',context)
+
++ http://127.0.0.1:8000
+
+Template-loader postmortem
+
+Django tried loading these templates, in this order:
+
+    Using loader django.template.loaders.filesystem.Loader:
+    Using loader django.template.loaders.app_directories.Loader:
+        /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/django/contrib/admin/templates/test.html (File does not exist)
+        /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/django/contrib/auth/templates/test.html (File does not exist)
+
+
+# our app 'blog' is not part of the installed apps.
++ settings.py
+	INSTALLED_APPS = (
+    'django.contrib.admin',  # admin app
+    'django.contrib.auth',   # auth app
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'blog',
+)
+
+# every app has a models.py and it needs to synced.
+# run these two commands when you make any changes to models.py or add any new app to INSTALLED_APPS
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py migrate
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages
+  Apply all migrations: admin, contenttypes, auth, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  No migrations to apply.
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py makemigrations
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+No changes detected
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ 
+
+## just to check if your template path is updated. you can modify your template to 'test1.html'
+## hit the url - http://127.0.0.1:8000/test_html
+
+
+Template-loader postmortem
+
+Django tried loading these templates, in this order:
+
+    Using loader django.template.loaders.filesystem.Loader:
+    Using loader django.template.loaders.app_directories.Loader:
+        /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/django/contrib/admin/templates/test.html (File does not exist)
+        /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/django/contrib/auth/templates/test.html (File does not exist)
+        *** see the line below ***
+        /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/blog/templates/test.html (File does not exist)
+
+
+# TEMPLATES
+
++ setting.py
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+* create a templates folder outside of the apps location - src/templates
+* create a text.html under the templates location.
+* Tell in the DIRS location of settings.py file what location need to looked outside of app templates.
+* Make modification to the DIRS location.
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR + "/templates"],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+* the order of the templates search is the following order
+
+Template-loader postmortem
+
+Django tried loading these templates, in this order:
+
+    Using loader django.template.loaders.filesystem.Loader:
+        /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/templates/test.html (File does not exist)
+    Using loader django.template.loaders.app_directories.Loader:
+        /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/django/contrib/admin/templates/test.html (File does not exist)
+        /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/django/contrib/auth/templates/test.html (File does not exist)
+        /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/blog/templates/test.html (File does not exist)
+
