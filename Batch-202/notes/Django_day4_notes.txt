@@ -1,0 +1,172 @@
+# bootstrap
+# angularbootstrap
+# django inbuild variables,tags,filters
+
+References:
+Variables : https://docs.djangoproject.com/en/1.8/topics/templates/#variables
+Tags: https://docs.djangoproject.com/en/1.8/topics/templates/#tags
+ Inbuild : https://docs.djangoproject.com/en/1.11/ref/templates/builtins/#ref-templates-builtins-tags
+ custom: https://docs.djangoproject.com/en/1.11/howto/custom-template-tags/#howto-writing-custom-template-tags
+Filters: https://docs.djangoproject.com/en/1.8/topics/templates/#filters
+ Inbuild: https://docs.djangoproject.com/en/1.8/ref/templates/builtins/#ref-templates-builtins-filters
+ custom: https://docs.djangoproject.com/en/1.8/howto/custom-template-tags/#howto-writing-custom-template-filters
+
+## first create a file `address.html` under the location templates/address/address.html
+
+## template
++ address.html
+<html>
+<head>
+	<title> My Address Page.</title>
+</head>
+<body>
+<div class="address">
+	<table>
+		<tr>
+			<td> student1 </td>
+			<td> student1@gmail.com</td>
+		</tr>
+		<tr>
+			<td> student2</td>
+			<td> student2@gmail.com</td>
+		</tr>
+	</table>
+</div>
+</body>
+</html>
+
+## views.py
+# filters,tags
+def address(request):
+	context = {}
+	return render(request,'address/address.html',context)
+
+## urls.py
+    url(r'^address/','blog.views.address',name='address')
+
+## use case - II
+### Populating the context variable.
+
++ views.py
+# day 4
+# filters,tags
+def address(request):
+	context = {'name1':'student1','email1':'student1@gmail.com','name2':'student2','email2':'student2@gmail.com'}
+	return render(request,'address/address.html',context)
+
++ urls.py
+    url(r'^address/','blog.views.address',name='address')
+
++ templates/address/address.html
+<html>
+<head>
+	<title> My Address Page.</title>
+</head>
+<body>
+<div class="address">
+	<table>
+		<tr>
+			<td> {{name1}} </td>
+			<td> {{email1}} </td>
+		</tr>
+		<tr>
+			<td> {{name2}} </td>
+			<td> {{email2}} </td>
+		</tr>
+	</table>
+</div>
+</body>
+</html>
+
+
+
+## use case - II
+### Populating the context variable along with filters.
+
++ views.py
+# day 4
+# filters,tags
+def address(request):
+	context = {'name1':'student1','email1':'student1@gmail.com','name2':'student2','email2':'student2@gmail.com'}
+	return render(request,'address/address.html',context)
+
++ urls.py
+    url(r'^address/','blog.views.address',name='address')
+
++ templates/address/address.html
+<html>
+<head>
+	<title> My Address Page.</title>
+</head>
+<body>
+<div class="address">
+	<table>
+		<tr>
+			<td> {{ name1|capfirst }} </td>
+			<td> {{ email1|upper }} </td>
+		</tr>
+		<tr>
+			<td> {{ name2|capfirst }} </td>
+			<td> {{ email2|upper }} </td>
+		</tr>
+	</table>
+</div>
+</body>
+</html>
+
+## using tags
+
++urls.py
+    url(r'^address/','blog.views.address',name='address')
+
++ views.py
+# day 4
+# filters,tags
+def address(request):
+	context = {'namesdb':[{'name':'student11','email':''},{'name':'student12','email':'student12@gmail.com'}]}
+	return render(request,'address/address.html',context)
+
++ address.html
+
+<html>
+<head>
+	<title> My Address Page.</title>
+</head>
+<body>
+<div class="address">
+	<table>
+		{% for value in namesdb  %}
+		<tr>
+			<td> {{ value.name|capfirst }} </td>
+			<td> {{ value.email|default:'student@khyaathi.com' }} </td>
+		</tr>
+		{% endfor %}
+	</table>
+</div>
+</body>
+</html>
+
+
+# Deployment via Git.
++ create a github account.
+# lets consider you created your whole project here.
+/home/khyaathi/Desktop/Batch-202
+
+a) Install a git command.
+# sudo apt-get install git
+
+b) initiate git
+# git init
+# git config --global user.name "yourname"
+# git config --global user.email "you@youremail.com"
+
+c) create a .gitignore file
+cat .gitignore
+*.pyc
+myenv
+db.sqlite3
+
+d) git status
+e) git add --all .
+f) git commit -m "adding the content for today"
+g) git push -u origin master

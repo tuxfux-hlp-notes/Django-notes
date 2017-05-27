@@ -22,3 +22,9 @@ def hello_world(request):
 def test_html(request):
 	context = {}
 	return render(request,'test.html',context)
+
+# day 4
+# filters,tags
+def address(request):
+	context = {'namesdb':[{'name':'student11','email':''},{'name':'student12','email':'student12@gmail.com'}]}
+	return render(request,'address/address.html',context)
