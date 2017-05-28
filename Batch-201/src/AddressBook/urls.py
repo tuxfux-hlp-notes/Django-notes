@@ -1,5 +1,7 @@
 from django.conf.urls import include, url
 from django.contrib import admin
+from address.api import AddressResource
+address_resource = AddressResource()
 #from address.views import hello_world
 # bug with 1.8
 #from address.views import test_hello
@@ -24,4 +26,7 @@ urlpatterns = [
     url(r'^thankyou/','address.views.thank_you',name="thankyou"), #  Thank you form
     url(r'^bootme/','address.views.bootme',name='bootme'),  # testing the bootstrap
     url(r'^accounts/', include('registration.backends.default.urls')), # django-registration redux
+    url(r'^api/', include(address_resource.urls)),
+    url(r'^i18n/', include('django.conf.urls.i18n')),
+    url(r'^local/','address.views.my_function',name="localtest"),
 ]

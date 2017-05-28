@@ -46,7 +46,9 @@ INSTALLED_APPS = (
     # installed apps
     'crispy_forms',
     'registration',
-     'fontawesome',  # https://github.com/redouane/django-fontawesome
+    'fontawesome',  # https://github.com/redouane/django-fontawesome
+    'tastypie',
+    'django_extensions',
     
 )
 
@@ -87,13 +89,28 @@ WSGI_APPLICATION = 'AddressBook.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+# https://docs.djangoproject.com/en/1.11/intro/tutorial02/#database-setup
+# https://docs.djangoproject.com/en/1.11/ref/databases/#third-party-notes
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# sqlite3 settings
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
+# # mysql setting
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'my_address',
+#         'USER':'myprojectuser',
+#         'PASSWORD':'password',
+#         'HOST':'localhost'
+#         'PORT':'',
+#     }
+# }
 
 
 # Internationalization

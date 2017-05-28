@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from django.utils.translation import ugettext_lazy as _
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # /home/key2gyaan/Documents/git_repositories/tuxfux-hlp-notes/Django-notes/Batch-201/src
@@ -47,6 +48,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'registration',
     'fontawesome',  # https://github.com/redouane/django-fontawesome
+
     
 )
 
@@ -59,6 +61,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 )
 
 ROOT_URLCONF = 'AddressBook.urls'
@@ -88,12 +91,37 @@ WSGI_APPLICATION = 'AddressBook.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
+#mysql setting
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'my_address',
+        'USER':'myprojectuser',
+        'PASSWORD':'password',
+        'HOST':'localhost',
+        'PORT':'',
     }
 }
+
+# postgre settings
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'my_address',
+#         'USER':'myprojectuser',
+#         'PASSWORD':'password',
+#         'HOST':'localhost',
+#         'PORT':'',
+#     }
+# }
+
 
 
 # Internationalization
@@ -143,3 +171,12 @@ EMAIL_USE_TLS = True
 # Django registration redux settings.
 LOGIN_REDIRECT_URL="/"
 ACCOUNT_ACTIVATION_DAYS=7
+
+# Internationalization
+LOCALE_PATHS = (os.path.join(BASE_DIR ,"local"),)
+
+
+LANGUAGES = [
+    ('de', _('German')),
+    ('en', _('English')),
+]
