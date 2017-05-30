@@ -1,0 +1,167 @@
+
+References:
+
+https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+https://docs.djangoproject.com/en/1.11/intro/tutorial02/
+https://docs.djangoproject.com/en/1.11/topics/db/models/#fields
+
+
+# A new app: https://docs.djangoproject.com/en/1.11/
+
+
+prior to django 1.8
+
+# python manage.py syncdb
+* sync your database
+* creating of admin user.
+
+# south : https://south.readthedocs.io/en/latest/
+
+
+Django 1.8 ( includes the features of south)
+#  python manage.py makemigrations
+#  python manage.py migrate
+
+* project level
+* app level
+
+super user:
+# python manage.py createsuperuser
+
+
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202/src$ python manage.py migrate
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages
+  Apply all migrations: admin, contenttypes, auth, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  Rendering model states... DONE
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying sessions.0001_initial... OK
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202/src$ 
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202/src$ python manage.py createsuperuser
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+Username (leave blank to use 'khyaathi'): admin
+Email address: admin@gmail.com 
+Password: 
+Password (again): 
+Superuser created successfully.
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202/src$ 
+
+
+# sqlitebroswer - GUI
+
+* sudo add-apt-repository -y ppa:linuxgndu/sqlitebrowser
+* sudo apt-get update
+* sudo apt-get install sqlitebrowser
+
+# sqlite3 - commandline Cli
+* sudo apt-get install sqlite3
+
+# mysqlworkbook
+
+# 
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202/src$ sqlite3 db.sqlite3 
+SQLite version 3.14.1 2016-08-11 18:53:32
+Enter ".help" for usage hints.
+sqlite> .tables
+auth_group                  auth_user_user_permissions
+auth_group_permissions      django_admin_log          
+auth_permission             django_content_type       
+auth_user                   django_migrations         
+auth_user_groups            django_session            
+sqlite> 
+
+
+##
+# create a model - blog/model.py
+##
+
+from django.db import models
+from django.utils import timezone
+
+# Create your models here.
+
+class Post(models.Model):
+	author = models.ForeignKey('auth.user')
+	title = models.CharField(max_length=200)
+	text = models.TextField()
+	created_date = models.DateTimeField(default=timezone.now)
+	published_date = models.DateTimeField(blank=True,null=True)  # blank=True - Form,# null = True - database
+
+
+ 	def publish(self):
+ 		self.published_date = timezone.now()
+ 		self.save()
+
+ 	def __str__(self):     # __str__ or __unicode__
+ 		return self.title
+
+
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202/src$ python manage.py makemigrations blog
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+Migrations for 'blog':
+  0001_initial.py:
+    - Create model Post
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202/src$ 
+
+myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202/src$ python manage.py migrate blog
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+Operations to perform:
+  Apply all migrations: blog
+Running migrations:
+  Rendering model states... DONE
+  Applying blog.0001_initial... OK
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202/src$ 
+
+
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-202/src$ sqlite3 db.sqlite3 
+SQLite version 3.14.1 2016-08-11 18:53:32
+Enter ".help" for usage hints.
+sqlite> .tables
+auth_group                  blog_post                 
+auth_group_permissions      django_admin_log          
+auth_permission             django_content_type       
+auth_user                   django_migrations         
+auth_user_groups            django_session            
+auth_user_user_permissions
+sqlite> 
+
+
+sqlite> .schema blog_post
+CREATE TABLE "blog_post" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "title" varchar(200) NOT NULL, "text" text NOT NULL, "created_date" datetime NOT NULL, "published_date" datetime NULL, "author_id" integer NOT NULL REFERENCES "auth_user" ("id"));
+CREATE INDEX "blog_post_4f331e2f" ON "blog_post" ("author_id");
+sqlite> 
+
+sqlite> 
+sqlite> select * from blog_post;
+sqlite> 
+
+
+# Adding our blog_post to the admin portal.
+
++ blog/admin.py
+
+from django.contrib import admin
+from .models import Post
+
+# Register your models here.
+
+admin.site.register(Post)
+
+
+
+
+
