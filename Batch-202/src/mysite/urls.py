@@ -6,8 +6,6 @@ urlpatterns = [
     # url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^hello/', 'blog.views.hello_world', name='hello'),
-    url(r'^test/', 'blog.views.test_html', name='testhello'),
-    url(r'^address/','blog.views.address',name='address')
+    url(r'^admin/', include(admin.site.urls)),   # django admin app.
+    url(r'^blog/',include('blog.urls')),         # blog app
 ]

@@ -1,0 +1,53 @@
+## urls ###
+
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^admin/', include(admin.site.urls)),   # django admin app.
+    url(r'^hello/', 'blog.views.hello_world', name='hello'),
+    url(r'^test/', 'blog.views.test_html', name='testhello'),
+    url(r'^address/','blog.views.address',name='address'),
+    #home
+    # url(r'^$', 'mysite.views.home', name='home'),
+]
+
+
+## what is include(admin.site.urls)
+https://stackoverflow.com/questions/19919547/where-can-i-find-the-source-file-of-admin-site-urls
+
+##
+# self contained urls for a app within a project.
+##
+
+# create a urls.py under the blog app
+
++ blog/urls.py
+
+from django.conf.urls import include, url
+from . import views
+
+urlpatterns = [
+	#url(r'^$',views.post_list,name='post_list'),
+	url(r'^hello/', views.hello_world, name='hello'),
+    url(r'^test/', views.test_html, name='testhello'),
+    url(r'^address/',views.address,name='address'),
+]
+
+# views.py
++ blog/views.py 
+No changes to views as such.
+
+# Included the blog/urls into the mysite/urls.py
+
+from django.conf.urls import include, url
+from django.contrib import admin
+
+urlpatterns = [
+    url(r'^admin/', include(admin.site.urls)),   # django admin app.
+    url(r'',include('blog.urls')),
+]
+
+

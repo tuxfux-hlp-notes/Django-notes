@@ -28,3 +28,8 @@ def test_html(request):
 def address(request):
 	context = {'namesdb':[{'name':'student11','email':''},{'name':'student12','email':'student12@gmail.com'}]}
 	return render(request,'address/address.html',context)
+
+## blog views
+def post_list(request):
+	return render(request,'blog/post_list.html',{})
+

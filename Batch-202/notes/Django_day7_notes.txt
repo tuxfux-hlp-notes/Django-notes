@@ -1,0 +1,4 @@
+## TODO
+# STATIC FILES
+# integrate the template to the model
+# ORM
