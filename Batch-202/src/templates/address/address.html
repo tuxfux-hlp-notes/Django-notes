@@ -1,17 +1,14 @@
+{% load staticfiles %}
+
 <html>
 <head>
+<link href="{% static "blog/styles.css" %}" rel="stylesheet" text="text/css"> 
+<!-- <link href="{% static "common_static.css" %}" rel="stylesheet" text="text/css"> -->
 	<title> My Address Page.</title>
 </head>
 <body>
-<div class="address">
-	<table>
-		{% for value in namesdb  %}
-		<tr>
-			<td> {{ value.name|capfirst }} </td>
-			<td> {{ value.email|default:'student@khyaathi.com' }} </td>
-		</tr>
-		{% endfor %}
-	</table>
-</div>
+	<p>
+		we are trying to understand the static files.
+	<p>
 </body>
 </html>

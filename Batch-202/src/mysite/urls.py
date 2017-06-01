@@ -8,4 +8,5 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),   # django admin app.
     url(r'^blog/',include('blog.urls')),         # blog app
+    url(r'^address/',include('address.urls')),         # address app
 ]

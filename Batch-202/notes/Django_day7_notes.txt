@@ -2,3 +2,141 @@
 # STATIC FILES
 # integrate the template to the model
 # ORM
+
+##
+# Understanding the static files.
+## 
+
+references:
+https://docs.djangoproject.com/en/1.11/howto/static-files/
+
++ mysite/settings.py
+
+a) Make sure you have the following installed app installed - 'django.contrib.staticfiles'
+INSTALLED_APPS = (
+    'django.contrib.admin',  # admin app
+    'django.contrib.auth',   # auth app
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles', # static files
+    'blog',
+)
+
+b) Make sure you have the static URL path set - 
+STATIC_URL = '/static/'
+
+c) create a static folder under your app - blog. To keep them in an order create one more folder "blog" and dump
+your styles.css under it.
+
+#src/blog/static/blog/styles.css
+
+http://localhost:8000/static/blog/styles.css
+
+case II: if you change your STATIC_URL="/newstatic/" your url path for static files will change.
+http://localhost:8000/newstatic/blog/styles.css
+
+d) content of styles.css
+
+body
+{
+	background-color: red;	
+}
+
+e) we want to integrate the stylesheet in our address.html page.
+
+# src/templates/address/address.html
+# before this i made sure that i take backup of my old address.html page.
+
+{% load staticfiles %}
+
+<html>
+<head>
+	<link href="{% static "blog/styles.css" %}" rel="stylesheet" text="text/css">
+	<title> My Address Page.</title>
+</head>
+<body>
+	<p>
+		we are trying to understand the static files.
+	<p>
+</body>
+</html>
+
+f) No changes to the urls.py in either the mysite project or blog app.
+g) views also i made no modification - blog/views.py 
+h) http://localhost:8000/blog/address/  - the page should show red colour.
+
+
+
+2. How about if i have couple of apps and how does the static files work.
+
+a) first lets create an address app.
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py startapp address
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ 
+
+b) Add your new app to the INSTALLED_APPS locations.
+
+
+INSTALLED_APPS = (
+    'django.contrib.admin',  # admin app
+    'django.contrib.auth',   # auth app
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles', # static files
+    'blog',
+    'address',
+)
+
+c) want to create my static folder under my app - address.
++ src/address/static/address/styles.css
+
+body
+{
+	background-color: green;	
+}
+
+d) add the url link to myapp/urls.py
+
+    url(r'^address/',include('address.urls')),         # address app
+
+e) create a new urls.py under the address/urls.py app.
+
+from django.conf.urls import include, url
+from . import views
+
+urlpatterns = [
+	url(r'^$',views.address_test,name='address_test'),
+]
+
+f) create a view under address/views.py
+
+from django.shortcuts import render
+
+# Create your views here.
+
+def address_test(request):
+	context = {}
+	return render(request,'address/new_address.html',context)
+
+g) create a template new_address.html under the location src/templates/new_address.html
+
+{% load staticfiles %}
+
+<html>
+<head>
+<!-- 	<link href="{% static "address/styles.css" %}" rel="stylesheet" text="text/css"> -->
+<link href="{% static "common_static.css" %}" rel="stylesheet" text="text/css">
+	<title> My Address Page.</title>
+</head>
+<body>
+	<p>
+		we are trying to understand the static files - new_address.html.
+	<p>
+</body>
+</html>
+
+#  open the links to see different colours.
+http://localhost:8000/blog/address/  - red
+http://localhost:8000/address/ - green
