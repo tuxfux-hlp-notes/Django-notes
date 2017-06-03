@@ -1,0 +1,188 @@
+--- continuation of day7 - static files -----
+
+###
+#  STATICFILES_DIRS
+###
+
+a) We are trying to put some common files/css/images which are common to both apps.
+ 1) address
+ 2) blog
+
+b) go to your mysite/settings.py files and update the following entry.
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "project_static"),   # this is the location for common static files.
+)
+
+c) created a project_static folder under the src/project_static locations.
+d) Inside this i created a base.css file.
+e) populate the base.css file.
+
+h1
+{
+	font-style: italic;
+}
+
+f) run the server to see if the base.css is available via static urls.
+
+# python manage.py runserver
+
+http://localhost:8000/static/base.css
+
+g) Made the necessar modification to the templates.
+
++templates/address/address.html
+
+{% load staticfiles %}
+
+<html>
+<head>
+<link href="{% static "blog/styles.css" %}" rel="stylesheet" text="text/css"> 
+<link href="{% static "base.css" %}" rel="stylesheet" text="text/css">
+<!-- <link href="{% static "common_static.css" %}" rel="stylesheet" text="text/css"> -->
+	<title> My Address Page.</title>
+</head>
+<body>
+	<h1> This is page from Blog APP</h1>
+	<p>
+		we are trying to understand the static files.
+	<p>
+</body>
+</html>
+
+++templates/address/new_address.html
+
+{% load staticfiles %}
+
+<html>
+<head>
+	<link href="{% static "address/styles.css" %}" rel="stylesheet" text="text/css"> 
+	<link href="{% static "base.css" %}" rel="stylesheet" text="text/css">
+<!-- <link href="{% static "common_static.css" %}" rel="stylesheet" text="text/css">
+ -->	<title> My Address Page.</title>
+</head>
+<body>
+	<h1> This is page from address APP</h1>
+	<p>
+		we are trying to understand the static files - new_address.html.
+	<p>
+</body>
+</html>
+
+If you notice both the pages now should give your headed in italics.
+
+* http://localhost:8000/address/
+* http://localhost:8000/blog/address/
+
+
+# the order for fetching your static files is - STATICFILES_DIRS,static under address,static under blog
+# depends on the order of INSTALLED_APPS locations.
+
+
+###
+#  STATIC_ROOT
+###
+reference: https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-STATIC_ROOT
+
+During deployment you want all the image,css,js all in a common location.
+
++mysite/setting.py
+
+# files which will be used for deployment  stage - apache,pythonanywhere
+STATIC_ROOT = os.path.join(BASE_DIR,"project_public")
+
+
+##
+# Django ORM 
+##
+# reference: https://docs.djangoproject.com/en/1.11/ref/models/querysets/
+
+we accessed the database two way:
+
+1) sqlite database
+ * admin
+ * sqlite3 command line
+ * sqlitebroswer
+
+# django shell
+# django has inbuld ORM - object relation mapper
+
+
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+Python 2.7.12+ (default, Sep 17 2016, 12:08:02) 
+[GCC 6.2.0 20160914] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> 
+>>> from blog.models import Post
+>>> Post.
+Post.DoesNotExist(                          Post.__setstate__(                          Post._perform_date_checks(
+Post.MultipleObjectsReturned(               Post.__sizeof__(                            Post._perform_unique_checks(
+Post.__base__(                              Post.__str__(                               Post._prepare(
+Post.__bases__                              Post.__subclasscheck__(                     Post._save_parents(
+Post.__basicsize__                          Post.__subclasses__(                        Post._save_table(
+Post.__call__(                              Post.__subclasshook__(                      Post._set_pk_val(
+Post.__class__(                             Post.__weakref__                            Post.add_to_class(
+Post.__delattr__(                           Post.__weakrefoffset__                      Post.author
+Post.__dict__                               Post._base_manager                          Post.check(
+Post.__dictoffset__                         Post._check_column_name_clashes(            Post.clean(
+Post.__doc__                                Post._check_field_name_clashes(             Post.clean_fields(
+Post.__eq__(                                Post._check_fields(                         Post.copy_managers(
+Post.__flags__                              Post._check_id_field(                       Post.date_error_message(
+Post.__format__(                            Post._check_index_together(                 Post.delete(
+Post.__ge__(                                Post._check_local_fields(                   Post.from_db(
+Post.__getattribute__(                      Post._check_long_column_names(              Post.full_clean(
+Post.__gt__(                                Post._check_m2m_through_same_relationship(  Post.get_deferred_fields(
+Post.__hash__(                              Post._check_managers(                       Post.get_next_by_created_date(
+Post.__init__(                              Post._check_model(                          Post.get_previous_by_created_date(
+Post.__instancecheck__(                     Post._check_ordering(                       Post.mro(
+Post.__itemsize__                           Post._check_swappable(                      Post.objects
+Post.__le__(                                Post._check_unique_together(                Post.pk
+Post.__lt__(                                Post._default_manager                       Post.prepare_database_save(
+Post.__module__                             Post._deferred                              Post.publish(
+Post.__mro__                                Post._do_insert(                            Post.refresh_from_db(
+Post.__name__                               Post._do_update(                            Post.save(
+Post.__ne__(                                Post._get_FIELD_display(                    Post.save_base(
+Post.__new__(                               Post._get_next_or_previous_by_FIELD(        Post.serializable_value(
+Post.__reduce__(                            Post._get_next_or_previous_in_order(        Post.unique_error_message(
+Post.__reduce_ex__(                         Post._get_pk_val(                           Post.validate_unique(
+Post.__repr__(                              Post._get_unique_checks(                    
+Post.__setattr__(                           Post._meta                                  
+>>> Post.objects.all()
+[<Post: My first post>, <Post:  My second post>]
+>>> # create
+>>> 
+>>> Post.object.create(author=me,title="third title",text="This is the content for the django ORM shell")
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: type object 'Post' has no attribute 'object'
+>>> Post.objects.create(author=me,title="third title",text="This is the content for the django ORM shell")
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'me' is not defined
+>>> Post.objects.create(author='kumar',title="third title",text="This is the content for the django ORM shell")
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/django/db/models/manager.py", line 127, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/django/db/models/query.py", line 346, in create
+    obj = self.model(**kwargs)
+  File "/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/django/db/models/base.py", line 468, in __init__
+    setattr(self, field.name, rel_obj)
+  File "/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/django/db/models/fields/related.py", line 627, in __set__
+    self.field.rel.to._meta.object_name,
+ValueError: Cannot assign "'kumar'": "Post.author" must be a "User" instance.
+>>> 
+
+>>> from django.contrib.auth.models import User
+>>> User.objects.all()
+[<User: admin>, <User: kumar>]
+>>> me = User.objects.get(username='kumar')
+>>> print me
+kumar
+>>> Post.objects.create(author=me,title="third title",text="This is the content for the django ORM shell")
+<Post: third title>
+>>> Post.objects.all()
+[<Post: My first post>, <Post:  My second post>, <Post: third title>]
+>>> 
+
