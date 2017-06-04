@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from mysite.settings import BASE_DIR
+from .models import Post
 
 # Create your views here.
 # function based views.
@@ -31,6 +32,8 @@ from mysite.settings import BASE_DIR
 
 ## blog views
 def post_list(request):
-	context= {}
+	posts = Post.objects.all()
+	context= {'namesdb':posts}
+	#context = {}
 	return render(request,'blog/post_list.html',context)
 

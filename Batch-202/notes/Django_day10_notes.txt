@@ -1,0 +1,7 @@
+# TODO
+- Boot strap integrations
+- template inheritance
+- Bootstrap grid system
+- Cosemtic changes to our site.
+- Deploy your site in pythonanywhere.
+- Deploy your site in apahce.

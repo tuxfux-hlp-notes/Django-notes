@@ -5,6 +5,7 @@ from django.utils import timezone
 
 class Post(models.Model):
 	author = models.ForeignKey('auth.user')
+	email = models.EmailField(max_length=20,null=True,blank=True)  # database and form both can be null.
 	title = models.CharField(max_length=200)
 	text = models.TextField()
 	created_date = models.DateTimeField(default=timezone.now)

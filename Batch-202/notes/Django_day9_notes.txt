@@ -1,0 +1,234 @@
+# integrating the templates with the underlying database - (any database)
+# going to use our ORM queries to connect to the database in the backend.
+
+##
+# how to make the pages dynamic
+##
+
++ blog/urls.py
+ from django.conf.urls import include, url
+from . import views
+
+urlpatterns = [
+	url(r'^$',views.post_list,name='post_list'),
+	# url(r'^hello/', views.hello_world, name='hello'),
+    # url(r'^test/', views.test_html, name='testhello'),
+    # url(r'^address/',views.address,name='address'),
+]
+
++ blog/views.py
+
+from django.shortcuts import render
+from django.http import HttpResponse
+from mysite.settings import BASE_DIR
+from .models import Post
+
+## blog views
+def post_list(request):
+	posts = Post.objects.all()
+	context= {'namesdb':posts}
+	#context = {}
+	return render(request,'blog/post_list.html',context)
+
++ blog/models.py
+
+from django.db import models
+from django.utils import timezone
+
+# Create your models here.
+
+class Post(models.Model):
+	author = models.ForeignKey('auth.user')
+	title = models.CharField(max_length=200)
+	text = models.TextField()
+	created_date = models.DateTimeField(default=timezone.now)
+	published_date = models.DateTimeField(blank=True,null=True)  # blank=True - Form,# null = True - database
+
+
+ 	def publish(self):
+ 		self.published_date = timezone.now()
+ 		self.save()
+
+ 	def __str__(self):     # __str__ or __unicode__
+ 		return self.title
+
+ + templates/blog/post_list.html
+
+ <html>
+ <head> 
+ 	<title> This is my blog site </title>
+ </head>
+<body>
+
+{% for value in namesdb %}
+	<p> author : {{ value.author }}  </p>
+	<p> published : {{ value.published_date }} </p>
+	<h2><a href=""> {{ value.title}} </a></h2>
+	<p> {{ value.text}} </p>
+{% endfor %}
+
+</body>
+</html>
+
+
+## other notes
+
+>>> Post.objects.all()
+[<Post: My first post>, <Post:  My second post>, <Post: third title>, <Post: Fourth Post>]
+>>> a = {'namesdb':Post.objects.all()}
+>>> print a
+{'namesdb': [<Post: My first post>, <Post:  My second post>, <Post: third title>, <Post: Fourth Post>]}
+>>> for value in namesdb:
+...    print value
+... 
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'namesdb' is not defined
+>>> for value in a['namesdb']:
+...  print value
+... 
+My first post
+ My second post
+third title
+Fourth Post
+>>> for value in a['namesdb']:
+...   print value,value.author,value.title,value.text
+... 
+My first post kumar My first post Today we are learning about the django static files. we learned lot of good information which was relative to how to display the static files like css and java script. we learned about STATICFILES_DIR and we also learned about the STATIC_ROOT.
+ My second post kumar  My second post we have already learned about templates. We are tyring to integrate the ORM backend data into our html pages.
+Lets hope we will get the data from the backend database into our html pages.
+third title kumar third title This is the content for the django ORM shell
+Fourth Post kumar Fourth Post This is my fourth post
+
+
+###
+# Adding a new field to the model.
+#
+###
+
+# before:
+----------
+
+from django.db import models
+from django.utils import timezone
+
+# Create your models here.
+
+class Post(models.Model):
+	author = models.ForeignKey('auth.user')
+	title = models.CharField(max_length=200)
+	text = models.TextField()
+	created_date = models.DateTimeField(default=timezone.now)
+	published_date = models.DateTimeField(blank=True,null=True)  # blank=True - Form,# null = True - database
+
+
+ 	def publish(self):
+ 		self.published_date = timezone.now()
+ 		self.save()
+
+ 	def __str__(self):     # __str__ or __unicode__
+ 		return self.title
+
+# after:
+---------
+
+from django.db import models
+from django.utils import timezone
+
+# Create your models here.
+
+class Post(models.Model):
+	author = models.ForeignKey('auth.user')
+	email = models.EmailField(max_length=20)
+	title = models.CharField(max_length=200)
+	text = models.TextField()
+	created_date = models.DateTimeField(default=timezone.now)
+	published_date = models.DateTimeField(blank=True,null=True)  # blank=True - Form,# null = True - database
+
+
+ 	def publish(self):
+ 		self.published_date = timezone.now()
+ 		self.save()
+
+ 	def __str__(self):     # __str__ or __unicode__
+ 		return self.title
+
+
+ (myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py makemigrations
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+You are trying to add a non-nullable field 'email' to post without a default; we can't do that (the database needs something to populate existing rows).
+Please select a fix:
+ 1) Provide a one-off default now (will be set on all existing rows)
+ 2) Quit, and let me add a default in models.py
+Select an option: 2
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ 
+
+## modification
+
+from django.db import models
+from django.utils import timezone
+
+# Create your models here.
+
+class Post(models.Model):
+	author = models.ForeignKey('auth.user')
+	email = models.EmailField(max_length=20,null=True,blank=True)  # database and form both can be null.
+	title = models.CharField(max_length=200)
+	text = models.TextField()
+	created_date = models.DateTimeField(default=timezone.now)
+	published_date = models.DateTimeField(blank=True,null=True)  # blank=True - Form,# null = True - database
+
+
+ 	def publish(self):
+ 		self.published_date = timezone.now()
+ 		self.save()
+
+ 	def __str__(self):     # __str__ or __unicode__
+ 		return self.title
+
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py makemigrations
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+Migrations for 'blog':
+  0002_post_email.py:
+    - Add field email to post
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ 
+
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py migrate
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages
+  Apply all migrations: admin, blog, contenttypes, auth, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  Rendering model states... DONE
+  Applying blog.0002_post_email... OK
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ 
+
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py sqlmigrate blog 0002
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+BEGIN;
+CREATE TABLE "blog_post__new" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "email" varchar(20) NULL, "title" varchar(200) NOT NULL, "text" text NOT NULL, "created_date" datetime NOT NULL, "published_date" datetime NULL, "author_id" integer NOT NULL REFERENCES "auth_user" ("id"));
+INSERT INTO "blog_post__new" ("title", "text", "published_date", "email", "created_date", "author_id", "id") SELECT "title", "text", "published_date", NULL, "created_date", "author_id", "id" FROM "blog_post";
+DROP TABLE "blog_post";
+ALTER TABLE "blog_post__new" RENAME TO "blog_post";
+CREATE INDEX "blog_post_4f331e2f" ON "blog_post" ("author_id");
+
+COMMIT;
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py sqlmigrate blog 0001
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+BEGIN;
+CREATE TABLE "blog_post" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "title" varchar(200) NOT NULL, "text" text NOT NULL, "created_date" datetime NOT NULL, "published_date" datetime NULL, "author_id" integer NOT NULL REFERENCES "auth_user" ("id"));
+CREATE INDEX "blog_post_4f331e2f" ON "blog_post" ("author_id");
+
+COMMIT;
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-not
+
+
+
+

@@ -96,16 +96,22 @@ STATIC_ROOT = os.path.join(BASE_DIR,"project_public")
 # Django ORM 
 ##
 # reference: https://docs.djangoproject.com/en/1.11/ref/models/querysets/
+# sqlalchemy : https://www.sqlalchemy.org/
 
 we accessed the database two way:
 
-1) sqlite database
- * admin
- * sqlite3 command line
- * sqlitebroswer
+1) sqlite database - 
+ * admin                   - inbuild django tool.
+ * sqlite3 command line    - sqlite relative tool.
+ * sqlitebroswer           - third party tool to connect to sqlite
 
-# django shell
+2) Django shell
 # django has inbuld ORM - object relation mapper
+you are treating your database as an object.
+
+
+# explanation about auth.user in the blog/models.py
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/lib/python2.7/site-packages/django/contrib/auth/models.py
 
 
 /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
@@ -185,4 +191,31 @@ kumar
 >>> Post.objects.all()
 [<Post: My first post>, <Post:  My second post>, <Post: third title>]
 >>> 
+
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ source ../myenv/bin/activate
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ ls
+address  blog  db.sqlite3  manage.py  mysite  project_public  project_static  templates
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py shell
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+Python 2.7.12+ (default, Sep 17 2016, 12:08:02) 
+[GCC 6.2.0 20160914] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from blog.models import Post
+>>> # select * from Post;
+>>> # ORM
+>>> Post.objects.all()
+[<Post: My first post>, <Post:  My second post>, <Post: third title>]
+>>> 
+>>> from django.contrib.auth.models import User
+>>> User.objects.all()
+[<User: admin>, <User: kumar>]
+>>> Post.objects.create(author=User.objects.get(username='kumar'),title="Fourth Post",text="This is my fourth post")
+<Post: Fourth Post>
+>>> 
+>>> Post.objects.all()
+[<Post: My first post>, <Post:  My second post>, <Post: third title>, <Post: Fourth Post>]
+>>> 
+
+
 
