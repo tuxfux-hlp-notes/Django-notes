@@ -5,3 +5,59 @@
 - Cosemtic changes to our site.
 - Deploy your site in pythonanywhere.
 - Deploy your site in apahce.
+
+References:
+https://thinkster.io/django-angularjs-tutorial   # angular boostap.
+http://getbootstrap.com/getting-started/
+https://docs.djangoproject.com/en/1.7/topics/templates/#template-inheritance
+
+
+I want to get this template integrated into my website.
+http://getbootstrap.com/examples/blog/#
+
+step1:
+* Download the getbootstrap application link and copy the static files under the project_static locations.
+https://github.com/twbs/bootstrap/releases/download/v3.3.7/bootstrap-3.3.7-dist.zip
+* extract this and i put it under src/project_static.
+* I opened the link - http://getbootstrap.com/examples/blog/# , right click - view page source - on it and copy the code.
+* Under your templates - create a base.html file and copy the above page content there.
+
+# creating your home page.
+blog/urls.py 
+- 
+
+from django.conf.urls import include, url
+from . import views
+
+urlpatterns = [
+	url(r'^pages/',views.post_list,name='post_list'),
+	url(r'^$',views.home,name='home'),                    # i created a new home link.
+	# url(r'^hello/', views.hello_world, name='hello'),
+    # url(r'^test/', views.test_html, name='testhello'),
+    # url(r'^address/',views.address,name='address'),
+]
+
+# created a view.
+blog/views.py
+
+
+def home(request):
+	context = {}
+	return render(request,'blog/home.html',context)
+
+# create a home.html page under - template/blog/home.html
+{% extends "base.html" %}
+
+# break the html pages into multiple pages so that we can inherit from those pages.
+# created the following pages under templates location.
+- templates/blog
+  + home.html
+- templates/common
+  + footer.html
+  + header.html
+  + navbar.html
+  + side_bar.html
+
+# make sure you include all these pages under the base.html file.  - Look at the file location from git hub.
+# make sure your have the home.html page blog/home.html populated with correct data - Look at the file location from git hub.
+
