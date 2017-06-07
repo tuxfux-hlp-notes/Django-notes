@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from mysite.settings import BASE_DIR
 from .models import Post
+from .forms import ContactForm
+from django.core.mail import EmailMessage
 
 # Create your views here.
 # function based views.
@@ -40,4 +42,25 @@ def post_list(request):
 def home(request):
 	context = {}
 	return render(request,'blog/home.html',context)
+
+# https://docs.djangoproject.com/en/1.11/topics/forms/#the-view
+def contact(request):
+	form = ContactForm
+	context = {'form':form}
+
+	if request.method == 'POST':
+		form = ContactForm(request.POST)
+		print dir(form)
+		if form.is_valid():
+			contact_name = form.cleaned_data['contact_name']
+			subject = ' A new lead - Contact Information {}'.format(contact_name)
+			contact_email = form.cleaned_data['contact_email']
+			content = form.cleaned_data['content']
+			email = EmailMessage(subject,contact_name + '\n' + contact_email + '\n' + content, to=['tuxfux.hlp@gmail.com'])
+			email.send()
+			return HttpResponseRedirect('/blog/thanks/')
+	return render(request,'blog/contact.html',context)
+
+def thanks(request):
+	return HttpResponse("Thank you and Have a great day !!!")
 

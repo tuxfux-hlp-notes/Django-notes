@@ -3,11 +3,13 @@
 <html lang="en">
   <head>
     {% include 'common/header.html' %}
+    <title>{% block 'title' %} {% endblock %}</title>
   </head>
 
   <body>
     {% include 'common/navbar.html' %}
     {% block 'frontpage' %} {% endblock %}
+    {% block 'content' %} {% endblock %}
     {% include 'common/footer.html' %}
   </body>
 </html>

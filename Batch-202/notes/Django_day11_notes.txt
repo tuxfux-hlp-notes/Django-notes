@@ -1,0 +1,152 @@
+# forms and integrate it to our site.
+
+Forms in forms:
+* custom forms - generic
+* modular forms.
+
+
+# days activity:
+- working with forms
+- sending an email from forms.
+# Tomorrow
+- Modular forms
+- form validation
+# day after tomorrow
+- crispy forms
+- bootstrap grib
+
+References:
+https://docs.djangoproject.com/en/1.11/topics/forms/
+https://docs.djangoproject.com/en/1.11/topics/forms/#working-with-form-templates
+https://docs.djangoproject.com/en/1.11/ref/forms/fields/
+https://docs.djangoproject.com/en/1.11/ref/forms/widgets/
+https://docs.djangoproject.com/en/1.8/ref/csrf/
+https://docs.djangoproject.com/en/1.11/topics/email/
+https://docs.djangoproject.com/en/1.11/topics/forms/#the-view
+
+
+###
+# Contact Form
+###
+
+1) blog/urls.py - create a contact url.
+
+from django.conf.urls import include, url
+from . import views
+
+urlpatterns = [
+	url(r'^pages/',views.post_list,name='post_list'),
+	url(r'^$',views.home,name='home'),
+	url(r'^contact',views.contact,name="contact"),
+	# url(r'^hello/', views.hello_world, name='hello'),
+    # url(r'^test/', views.test_html, name='testhello'),
+    # url(r'^address/',views.address,name='address'),
+]
+
+2) create a forms.py under the blog locations.
+
+from django import forms
+
+class ContactForm(forms.Form):
+	contact_name = forms.CharField(required=True)
+	contact_email = forms.EmailField(required=True)
+	content = forms.CharField(
+		required = True,
+		widget = forms.Textarea
+		)
+
+3) go the blog/views.py and create the blog locations.
+from .forms import ContactForm
+
+def contact(request):
+	form = ContactForm
+	context = {'form':form}
+	return render(request,'blog/contact.html',context)
+
+
+4) create a template under templates/blog/contact.html .
+
+{% extends "base.html" %}
+{% block 'title' %} This is our contact page {% endblock %}
+{% block 'content' %} 
+<h1> Contact us </h1>
+<form role="form" action='' method='post'>
+	{{form.as_p}}
+	<button type="submit">Submit</button>
+</form>
+{% endblock %}
+
+
+5) Now hit on the submit button and you will see the below error:
+http://localhost:8000/blog/contact
+
+# Forbidden (403)
+# CSRF verification failed. Request aborted.
+Help
+Reason given for failure:
+    CSRF token missing or incorrect.
+    
+In general, this can occur when there is a genuine Cross Site Request Forgery, or when Django's CSRF mechanism has not been used correctly. For POST forms, you need to ensure:
+Your browser is accepting cookies.
+The view function passes a request to the template's render method.
+In the template, there is a {% csrf_token %} template tag inside each POST form that targets an internal URL.
+If you are not using CsrfViewMiddleware, then you must use csrf_protect on any views that use the csrf_token template tag, as well as those that accept the POST data.
+You're seeing the help section of this page because you have DEBUG = True in your Django settings file. Change that to False, and only the initial error message will be displayed.
+You can customize this page using the CSRF_FAILURE_VIEW setting.
+
+6) To avoid this error you go for the following. you add {% csrf_token %} to your form entries.
+
+{% extends "base.html" %}
+{% block 'title' %} This is our contact page {% endblock %}
+{% block 'content' %} 
+<h1> Contact us </h1>
+<form role="form" action='' method='post'>
+	{% csrf_token %}
+	{{form.as_p}}
+	<button type="submit">Submit</button>
+</form>
+{% endblock %}
+
+7) For sending email you need to setup - mysite/settings.py
+
+## Email settings
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'tuxfux.django@gmail.com'
+EMAIL_HOST_PASSWORD = 'tuxfux.django123'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+8) create a view for thanking people or submitting the form.
+
+blog/views.py
+
+
+def thanks(request):
+	return HttpResponse("Thank you and Have a great day !!!")
+
+
+9) we need to modify our view to pick up values from the form.
+
+from django.http import HttpResponse,HttpResponseRedirect
+from django.core.mail import EmailMessage
+
+# https://docs.djangoproject.com/en/1.11/topics/forms/#the-view
+def contact(request):
+	form = ContactForm
+	context = {'form':form}
+
+	if request.method == 'POST':
+		form = ContactForm(request.POST)
+		print dir(form)
+		if form.is_valid():
+			contact_name = form.cleaned_data['contact_name']
+			subject = ' A new lead - Contact Information {}'.format(contact_name)
+			contact_email = form.cleaned_data['contact_email']
+			content = form.cleaned_data['content']
+			email = EmailMessage(subject,contact_name + '\n' + contact_email + '\n' + content, to=['tuxfux.hlp@gmail.com'])
+			email.send()
+			return HttpResponseRedirect('/blog/thanks/')
+	return render(request,'blog/contact.html',context)
+
+def thanks(request):
+	return HttpResponse("Thank you and Have a great day !!!")

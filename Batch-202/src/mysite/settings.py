@@ -111,3 +111,11 @@ STATICFILES_DIRS = (
 
 # files which will be used for deployment  stage - apache,pythonanywhere
 STATIC_ROOT = os.path.join(BASE_DIR,"project_public")
+
+
+## Email settings
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'tuxfux.django@gmail.com'
+EMAIL_HOST_PASSWORD = 'tuxfux.django123'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
