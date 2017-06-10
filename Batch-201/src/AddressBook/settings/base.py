@@ -173,6 +173,8 @@ LOGIN_REDIRECT_URL="/"
 ACCOUNT_ACTIVATION_DAYS=7
 
 # Internationalization
+
+USE_L10N = True
 LOCALE_PATHS = (os.path.join(BASE_DIR ,"local"),)
 
 

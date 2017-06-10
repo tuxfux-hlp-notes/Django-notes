@@ -1,0 +1,93 @@
+# Django toolbar
+https://django-debug-toolbar.readthedocs.io/en/stable/
+
+##
+# Install the django-toolbar
+###
+
+pip install django-debug-toolbar
+
+
+##
+#  setting.py file under AddressBook/settings/development.py 
+##
+
+INSTALLED_APPS = (
+    # Django inbuild apps
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',  # this is the app for laying our your static files.
+    # custom apps
+    'newtest_app',
+    'address',
+    # installed apps
+    'crispy_forms',
+    'registration',
+    'fontawesome',  # https://github.com/redouane/django-fontawesome
+    'tastypie',
+    'django_extensions',
+    'debug_toolbar',
+    
+)
+
+###
+# Update your url pages
+###
+
+from AddressBook.settings.development import DEBUG
+
+if DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
+
+###
+## Add -  'debug_toolbar.middleware.DebugToolbarMiddleware', to the MIDDLEWARE_CLASSES
+### 
+
+MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+)
+
+###
+#    run these commands 
+###
+
+# python manage.py makemigrations
+# python manage.py migrate
+# python manage.py collectstatic
+
+###
+# Make sure you have your DEBUG in setting files set to True.
+###
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+###
+# Please set the internal_ips in the settings.py file.
+###
+
+# Django debug toolbar
+INTERNAL_IPS = ('127.0.0.1')
+
+
+# please run your server if in developemnt
+# 
+
+python manage.py runserver
+-- After this your want to open a broswer to see the toolbar available.
+
+-- you can set the toolbar to off state by setting the DEBUG=FALSE in the settings.py files.

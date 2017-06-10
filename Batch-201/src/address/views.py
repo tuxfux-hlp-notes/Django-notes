@@ -5,7 +5,16 @@ from .models import Address_Detail
 from .forms import ContactForm, AddressForm
 from django.core.mail import EmailMessage
 from django.utils.translation import ugettext as _
+from django.views.decorators.cache import cache_page
 
+# logging
+import logging
+# the below line is from first example.. just hashing it out for things to work.
+#logger = logging.getLogger('django.request')
+# the below edits are for second example.
+logger1 = logging.getLogger('django') # console
+logger2 = logging.getLogger('ourapp') # mail admin
+logger3 = logging.getLogger('ourapp') # console and mail admins
 
 # day 10
 # creating our home page
@@ -61,6 +70,8 @@ def home(request):
 
 # Day 4
 # trying to integrate the template with the database.
+
+@cache_page(60*15)
 def Naddress(request):
     # context = {'namesdb':[{'name':'student1','email':'tuxfux.hlp@gmail.com'},{'name':'student2','email':'tuxfux.hlp@edu.com'}]}
     values = Address_Detail.objects.all()
@@ -71,7 +82,7 @@ def Naddress(request):
 # Day 7
 # creation of a contact page
 # https://docs.djangoproject.com/en/1.10/ref/forms/validation/#cleaning-and-validating-fields-that-depend-on-each-other
-
+@cache_page(60*15)
 def contact(request):
     form_class = ContactForm  # form_class is an instance of our contact form.
     context = {'form': form_class}  # {'form': <class 'address.forms.ContactForm'>}
@@ -108,14 +119,20 @@ def address_form(request):
             name = form.cleaned_data['name']
             email = form.cleaned_data['email']
             gender = form.cleaned_data['gender']
+            #logger.info("The form is valid with the entries - name:{},email:{},age:{}".format(name,email,gender)) # from first example
+            logger2.info("The form is valid with the entries - name:{},email:{},age:{}".format(name,email,gender))
             # ORM related entry to create a new object
             Address_Detail.objects.create(name=name, email=email, gender=gender)
+            #logger.info("Entries made into the databases")  # from first example
+            logger2.info("Entries made into the databases") 
             return HttpResponseRedirect('/thankyou/')
         else:
             # POST and FORM=INVALID
-            print request.method
+            #print request.method
             # print form.errors
-            print form
+            #print form
+            #logger.error("Form is not valid - {}".format(form)) # example 1
+            logger3.error("Form is not valid - {}".format(form))
             context = {'form': form}
             return render(request, 'address/Address_form.html', context)
     # GET

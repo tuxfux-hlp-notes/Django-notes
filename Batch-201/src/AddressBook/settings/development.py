@@ -27,6 +27,7 @@ SECRET_KEY = 'ps-vfc(!*fgy!+cx&=^#&$z)#=06&%q+xg3$w*&fndghn^0nk9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 ALLOWED_HOSTS = ['127.0.0.1']
 
 
@@ -49,6 +50,7 @@ INSTALLED_APPS = (
     'fontawesome',  # https://github.com/redouane/django-fontawesome
     'tastypie',
     'django_extensions',
+    'debug_toolbar',
     
 )
 
@@ -61,6 +63,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'AddressBook.urls'
@@ -160,3 +163,85 @@ EMAIL_USE_TLS = True
 # Django registration redux settings.
 LOGIN_REDIRECT_URL="/"
 ACCOUNT_ACTIVATION_DAYS=7
+
+# Django debug toolbar
+INTERNAL_IPS = ('127.0.0.1')
+
+## Logging setup
+import logging
+
+## Admins to whom you need to send an mail.
+ADMINS = [('tuxfux','tuxfux.hlp@gmail.com')]
+
+LOGGING = {
+    'version':1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s" ,
+            'datefmt' : '%d/%b/%Y %H:%M:%S',
+        },
+
+    },
+
+    'handlers':{
+        'null':{
+            'level':'DEBUG',
+            'class':'django.utils.log.NullHandler',
+        },
+   
+        'logfile':{
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR,'logs/myaddress.log'),
+            'maxBytes' : 50000,
+            'backupCount':2,
+            'formatter':'standard',
+        },
+
+        'console':{
+             'level':'INFO',
+             'class':'logging.StreamHandler',
+             'formatter':'standard',
+        },
+        'mail_admins': {
+            'level':'ERROR',
+            'class':'django.utils.log.AdminEmailHandler',
+            'formatter':'standard',
+        },
+    },
+    
+
+    'loggers':{
+        'django':{
+            'handlers':['console'],
+            'level':'WARN',
+            'propagate':True,
+            },
+
+        'django.db.backends':{
+            'handlers' :['console'],
+            'level' :'DEBUG',
+            'propograte':False,
+
+        },
+        'ourapp':{
+            'handlers':['mail_admins','logfile','console'],
+            'level':'DEBUG',
+
+        },
+
+
+    },
+
+
+}
+
+
+# cache related entries
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}

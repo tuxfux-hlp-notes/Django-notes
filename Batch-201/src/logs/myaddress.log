@@ -1,0 +1,13 @@
+Form is not valid - <tr><th><label for="id_name">Name:</label></th><td><ul class="errorlist"><li>This field is required.</li></ul><input id="id_name" maxlength="20" name="name" type="text" /></td></tr>
+<tr><th><label for="id_email">Email:</label></th><td><ul class="errorlist"><li>This field is required.</li></ul><input id="id_email" maxlength="20" name="email" type="email" /></td></tr>
+<tr><th><label for="id_gender">Gender:</label></th><td><input id="id_gender" maxlength="6" name="gender" type="text" /></td></tr>
+The form is valid with the entries - name:vijaya,email:vijaya@edu.com,age:f
+Entries made into the databases
+The form is valid with the entries - name:happy,email:happy@edu.com,age:m
+Entries made into the databases
+Form is not valid - <tr><th><label for="id_name">Name:</label></th><td><ul class="errorlist"><li>This field is required.</li></ul><input id="id_name" maxlength="20" name="name" type="text" /></td></tr>
+<tr><th><label for="id_email">Email:</label></th><td><ul class="errorlist"><li>This field is required.</li></ul><input id="id_email" maxlength="20" name="email" type="email" /></td></tr>
+<tr><th><label for="id_gender">Gender:</label></th><td><input id="id_gender" maxlength="6" name="gender" type="text" /></td></tr>
+[10/Jun/2017 11:41:32] ERROR [ourapp:132] Form is not valid - <tr><th><label for="id_name">Name:</label></th><td><ul class="errorlist"><li>This field is required.</li></ul><input id="id_name" maxlength="20" name="name" type="text" /></td></tr>
+<tr><th><label for="id_email">Email:</label></th><td><ul class="errorlist"><li>This field is required.</li></ul><input id="id_email" maxlength="20" name="email" type="email" /></td></tr>
+<tr><th><label for="id_gender">Gender:</label></th><td><input id="id_gender" maxlength="6" name="gender" type="text" /></td></tr>

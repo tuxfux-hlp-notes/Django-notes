@@ -1,0 +1,72 @@
+
+
+Reference:
+https://docs.djangoproject.com/en/1.11/topics/i18n/
+https://docs.djangoproject.com/en/1.11/topics/i18n/translation/
+
+
+
+# Django extensions
+References:https://django-extensions.readthedocs.io/en/latest/
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src$ pip install django-extensions
+Collecting django-extensions
+  Downloading django_extensions-1.7.9-py2.py3-none-any.whl (203kB)
+    100% |████████████████████████████████| 204kB 276kB/s
+Requirement already satisfied: six>=1.2 in /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/myenv/lib/python2.7/site-packages (from django-extensions)
+Installing collected packages: django-extensions
+Successfully installed django-extensions-1.7.9
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src$
+
+
+please add your django extension to INSTALLED_APPS
+
+INSTALLED_APPS = (
+    # Django inbuild apps
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',  # this is the app for laying our your static files.
+    # custom apps
+    'newtest_app',
+    'address',
+    # installed apps
+    'crispy_forms',
+    'registration',
+    'fontawesome',  # https://github.com/redouane/django-fontawesome
+    'tastypie',
+    'django_extensions',
+
+myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-201/src$ python manage.py makemigrations
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src
+No changes detected
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-201/src$ python manage.py migrate
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, django_extensions, messages, crispy_forms, fontawesome
+  Apply all migrations: sessions, admin, address, tastypie, auth, contenttypes, registration
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  No migrations to apply.
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-201/src$
+
+https://django-extensions.readthedocs.io/en/latest/index.html
+
+## next week
+# saturday
+Django toolbar
+werkzueg
+Logging
+# sunday
+caching
+session and cookies
+test cases
+# integrate maven with django.
+# multiple block in multiple templates.
+#TODO: add a django grouop with experts.
+

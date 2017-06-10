@@ -1,0 +1,149 @@
+## caching in your sites
+
+https://docs.djangoproject.com/en/1.11/topics/cache/
+https://docs.djangoproject.com/en/1.11/misc/design-philosophies/#cache-design-philosophy
+http://www.squid-cache.org/
+
+
+Setting up of cache:
+*memcache     
+*database cache  - redis
+*filesystem cache
+*local memory cache
+*Dummy caching
+*customcache backend
+
+## install the memcache service ##
+sudo apt-get install memcached
+
+---
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src$ sudo apt-get install memcached
+[sudo] password for khyaathi: 
+Sorry, try again.
+[sudo] password for khyaathi: 
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following packages were automatically installed and are no longer required:
+  linux-headers-4.8.0-22 linux-headers-4.8.0-22-generic linux-image-4.8.0-22-generic linux-image-extra-4.8.0-22-generic
+Use 'sudo apt autoremove' to remove them.
+Suggested packages:
+  libcache-memcached-perl libmemcached libanyevent-perl libyaml-perl libterm-readkey-perl
+The following NEW packages will be installed:
+  memcached
+0 upgraded, 1 newly installed, 0 to remove and 185 not upgraded.
+Need to get 89.0 kB of archives.
+After this operation, 246 kB of additional disk space will be used.
+Get:1 http://in.archive.ubuntu.com/ubuntu yakkety-updates/main amd64 memcached amd64 1.4.25-2ubuntu2.1 [89.0 kB]
+Fetched 89.0 kB in 20s (4,323 B/s)      
+Selecting previously unselected package memcached.
+(Reading database ... 237850 files and directories currently installed.)
+Preparing to unpack .../memcached_1.4.25-2ubuntu2.1_amd64.deb ...
+Unpacking memcached (1.4.25-2ubuntu2.1) ...
+Processing triggers for ureadahead (0.100.0-19) ...
+Setting up memcached (1.4.25-2ubuntu2.1) ...
+Created symlink /etc/systemd/system/multi-user.target.wants/memcached.service → /lib/systemd/system/memcached.service.
+Processing triggers for systemd (231-9git1) ...
+Processing triggers for man-db (2.7.5-1) ...
+Processing triggers for ureadahead (0.100.0-19) ...
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src$ service memcached status
+● memcached.service - memcached daemon
+   Loaded: loaded (/lib/systemd/system/memcached.service; enabled; vendor preset: enabled)
+   Active: active (running) since Sat 2017-06-10 17:45:46 IST; 19s ago
+ Main PID: 8216 (memcached)
+   CGroup: /system.slice/memcached.service
+           └─8216 /usr/bin/memcached -m 64 -p 11211 -u memcache -l 127.0.0.1
+
+Jun 10 17:45:46 khyaathi-Technologies systemd[1]: Started memcached daemon.
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src$ 
+
+---
+
+## python binding with memcache
+
+# pip install python-memcached
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src$ pip install python-memcached
+Collecting python-memcached
+  Downloading python-memcached-1.58.tar.gz
+Requirement already satisfied: six>=1.4.0 in /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/myenv/lib/python2.7/site-packages (from python-memcached)
+Building wheels for collected packages: python-memcached
+  Running setup.py bdist_wheel for python-memcached ... done
+  Stored in directory: /home/khyaathi/.cache/pip/wheels/16/75/11/86f65dfdcfcfbdaee336d5a3c125b5ac1c53973c4515c77ef5
+Successfully built python-memcached
+Installing collected packages: python-memcached
+Successfully installed python-memcached-1.58
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src$ pip freeze|grep -i cache
+python-memcached==1.58
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src$ 
+
+
+###
+# caching entries in the settings.py file.
+###
+
+# cache related entries
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
+###
+# how to check the caching is working with our django settings.
+###
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src$ python manage.py shell
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src
+Python 2.7.12+ (default, Sep 17 2016, 12:08:02) 
+Type "copyright", "credits" or "license" for more information.
+
+IPython 5.4.1 -- An enhanced Interactive Python.
+?         -> Introduction and overview of IPython's features.
+%quickref -> Quick reference.
+help      -> Python's own help system.
+object?   -> Details about 'object', use 'object??' for extra details.
+
+In [1]: from django.core.cache import cache
+
+In [2]: cache.get?
+Signature: cache.get(key, default=None, version=None)
+Docstring: <no docstring>
+File:      ~/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/myenv/local/lib/python2.7/site-packages/django/core/cache/backends/memcached.py
+Type:      instancemethod
+
+In [3]: cache.get('whatsup')
+
+In [4]: cache.set?
+Signature: cache.set(key, value, timeout=<object object at 0x7f0f843ef5b0>, version=None)
+Docstring: <no docstring>
+File:      ~/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/myenv/local/lib/python2.7/site-packages/django/core/cache/backends/memcached.py
+Type:      instancemethod
+
+In [5]: cache.set('whatsup','dude')
+
+In [6]: cache.get('whatsup')
+Out[6]: 'dude'
+
+In [7]: 
+
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src$ python manage.py shell
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src
+Python 2.7.12+ (default, Sep 17 2016, 12:08:02) 
+Type "copyright", "credits" or "license" for more information.
+
+IPython 5.4.1 -- An enhanced Interactive Python.
+?         -> Introduction and overview of IPython's features.
+%quickref -> Quick reference.
+help      -> Python's own help system.
+object?   -> Details about 'object', use 'object??' for extra details.
+
+In [1]: from django.core.cache import cache
+
+In [2]: cache.get('whatsup')
+Out[2]: 'dude'
+
+In [3]: 

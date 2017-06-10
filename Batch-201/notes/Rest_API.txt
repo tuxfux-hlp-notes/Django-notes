@@ -1,0 +1,71 @@
+# references
+https://django-tastypie.readthedocs.io/en/latest/
+
+# installation of the tastypie
+
+pip install django-tastypie
+
+#  we need to add the app to the ``setting.py`` file.
+# i made the modification in the development.py file.
+
+
+INSTALLED_APPS = (
+    # Django inbuild apps
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',  # this is the app for laying our your static files.
+    # custom apps
+    'newtest_app',
+    'address',
+    # installed apps
+    'crispy_forms',
+    'registration',
+    'fontawesome',  # https://github.com/redouane/django-fontawesome
+    'tastypie',
+
+
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-201/src$ python manage.py makemigrations tastypie
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src
+No changes detected in app 'tastypie'
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-201/src$ python manage.py migrate
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages, crispy_forms, fontawesome
+  Apply all migrations: sessions, admin, address, tastypie, auth, contenttypes, registration
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  Rendering model states... DONE
+  Applying tastypie.0001_initial... OK
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-201/src$
+
+##
+# api.py under our app(address)  - app.py
+##
+
+from tastypie.resources import ModelResource
+from .models import Address_Detail
+
+class AddressResource(ModelResource):
+    class Meta:
+        queryset = Address_Detail.objects.all()
+        resource_name = 'address'
+
+##
+#  urls.py
+##
+
+from address.api import AddressResource
+address_resource = AddressResource()
+url(r'^api/', include(address_resource.urls)),
+
+http://127.0.0.1:8000/api/address/?format=json
+
+# things to play around with
+http://www.django-rest-framework.org/tutorial/quickstart/
+http://www.django-rest-framework.org/
