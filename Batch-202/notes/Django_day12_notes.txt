@@ -1,0 +1,218 @@
+# modular forms
+# integrating the url to our forms
+References:
+https://docs.djangoproject.com/en/1.11/topics/forms/modelforms/#module-django.forms.models
+https://docs.djangoproject.com/en/1.11/ref/models/options/
+https://docs.djangoproject.com/en/1.11/topics/forms/modelforms/#overriding-the-default-fields
+
+
+###
+#  Check your models.
+###
+
+# Create your models here.
+
+class Post(models.Model):
+	author = models.ForeignKey('auth.user')
+	email = models.EmailField(max_length=20,null=True,blank=True)  # database and form both can be null.
+	title = models.CharField(max_length=200)
+	text = models.TextField()
+	created_date = models.DateTimeField(default=timezone.now)
+	published_date = models.DateTimeField(blank=True,null=True)  # blank=True - Form,# null = True - database
+
+
+ 	def publish(self):
+ 		self.published_date = timezone.now()
+ 		self.save()
+
+ 	def __str__(self):     # __str__ or __unicode__
+ 		return self.title
+
+ ###
+ ## create a PostForm in forms.py
+ ####
+
+from django import forms
+from .models import Post
+
+ # form for your posts
+
+class PostForm(forms.ModelForm):
+	class Meta:
+		model = Post
+		fields = ('author','email','title','text','created_date',)
+		#fields = ('title','text',)
+
+###
+#   create a view for the form.
+###
+
+from django.shortcuts import render
+from django.http import HttpResponse,HttpResponseRedirect
+from mysite.settings import BASE_DIR
+from .models import Post
+from .forms import ContactForm,PostForm
+from django.core.mail import EmailMessage
+
+# def modular views
+def Postview(request):
+	form = PostForm()
+	context = {'form':form}
+	if request.method == 'POST':
+		form = PostForm(request.POST)
+		print form.is_valid()
+		if form.is_valid():
+			author = form.cleaned_data['author']
+			email  = form.cleaned_data['email']
+			title  = form.cleaned_data['title']
+			text   = form.cleaned_data["text"]
+			created_date = form.cleaned_data['created_date']
+			print author,email,title,text,created_date
+			Post.objects.create(author=author,email=email,title=title,text=text,created_date=created_date)
+			#print title,text
+			return HttpResponseRedirect('/blog/thanks/')
+	return render(request,"blog/PostForm.html",context)
+
+
+###
+#  create a template templates/blog/PostForm.html
+###
+
+{% extends 'base.html' %}
+{% block 'title' %} Please enter your blog post {% endblock %}
+
+
+{% block 'content' %} 
+<h1> Person Details</h1>
+	<form role="form" action="" method="post">
+		{%csrf_token %}
+		{{form.as_p}}
+		<button type="submit">Submit</button>
+	</form>
+{% endblock %}
+
+###
+## Define a url for our form.
+###
+
+from django.conf.urls import include, url
+from . import views
+
+urlpatterns = [
+	url(r'^pages/',views.post_list,name='post_list'),
+	url(r'^$',views.home,name='home'),
+	url(r'^ContactForm',views.contact,name="ContactForm"),
+	url(r'^PostForm',views.Postview,name="PostForm"),
+	url(r'^thanks',views.thanks,name="thanks"),
+	# url(r'^hello/', views.hello_world, name='hello'),
+    # url(r'^test/', views.test_html, name='testhello'),
+    # url(r'^address/',views.address,name='address'),
+]
+
+###
+## Insert url links into your site.
+####
+
+## urls.py ##
+from django.conf.urls import include, url
+from . import views
+
+urlpatterns = [
+	url(r'^pages/',views.post_list,name='post_list'),
+	url(r'^$',views.home,name='home'),
+	url(r'^ContactForm',views.contact,name="ContactForm"),
+	url(r'^PostForm',views.Postview,name="PostForm"),
+	url(r'^thanks',views.thanks,name="thanks"),
+	# url(r'^hello/', views.hello_world, name='hello'),
+    # url(r'^test/', views.test_html, name='testhello'),
+    # url(r'^address/',views.address,name='address'),
+]
+
+## changes to my navbar.html ###
+## templates/common/navbar.html
+
+   <div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <a class="blog-nav-item active" href="{%url 'home' %}">Home</a>
+          <a class="blog-nav-item" href="{%url 'PostForm' %}">Enter a topic</a>
+          <a class="blog-nav-item" href="{%url 'ContactForm' %}">Contact</a>
+        </nav>
+      </div>
+    </div>
+
+
+###
+# django crispy forms
+###
+
+References:
+
+http://django-crispy-forms.readthedocs.io/en/latest/
+
+# install the cripsy form in your myenv areas.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202$ ls
+myenv  notes  src
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202$ pip freeze
+appdirs==1.4.3
+Django==1.8
+packaging==16.8
+pyparsing==2.2.0
+six==1.10.0
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202$ pip install django-crispy-forms
+Collecting django-crispy-forms
+  Using cached django_crispy_forms-1.6.1-py2.py3-none-any.whl
+Installing collected packages: django-crispy-forms
+Successfully installed django-crispy-forms-1.6.1
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202$ pip freeze
+appdirs==1.4.3
+Django==1.8
+django-crispy-forms==1.6.1
+packaging==16.8
+pyparsing==2.2.0
+six==1.10.0
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202$ 
+
+
+# make an entry into the setting.py files under the project areas(mysite)
+
+# Application definition
+
+INSTALLED_APPS = (
+    'django.contrib.admin',  # admin app
+    'django.contrib.auth',   # auth app
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles', # static files
+    # custom apps
+    'address',
+    'blog',
+    # other apps
+    'crispy_forms',
+
+)
+
+## make sure you run the migrations.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py makemigrations
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+No changes detected
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py migrate
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages, crispy_forms
+  Apply all migrations: admin, blog, contenttypes, auth, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  No migrations to apply.
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ 
+
+
+
+
+

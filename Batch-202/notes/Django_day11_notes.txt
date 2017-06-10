@@ -10,10 +10,11 @@ Forms in forms:
 - sending an email from forms.
 # Tomorrow
 - Modular forms
+- url integration to the templates.
 - form validation
 # day after tomorrow
 - crispy forms
-- bootstrap grib
+- bootstrap grid
 
 References:
 https://docs.djangoproject.com/en/1.11/topics/forms/

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from mysite.settings import BASE_DIR
 from .models import Post
-from .forms import ContactForm
+from .forms import ContactForm,PostForm
 from django.core.mail import EmailMessage
 
 # Create your views here.
@@ -59,8 +59,27 @@ def contact(request):
 			email = EmailMessage(subject,contact_name + '\n' + contact_email + '\n' + content, to=['tuxfux.hlp@gmail.com'])
 			email.send()
 			return HttpResponseRedirect('/blog/thanks/')
-	return render(request,'blog/contact.html',context)
+	return render(request,'blog/ContactForm.html',context)
 
 def thanks(request):
 	return HttpResponse("Thank you and Have a great day !!!")
+
+# def modular views
+def Postview(request):
+	form = PostForm()
+	context = {'form':form}
+	if request.method == 'POST':
+		form = PostForm(request.POST)
+		print form.is_valid()
+		if form.is_valid():
+			author = form.cleaned_data['author']
+			email  = form.cleaned_data['email']
+			title  = form.cleaned_data['title']
+			text   = form.cleaned_data["text"]
+			created_date = form.cleaned_data['created_date']
+			print author,email,title,text,created_date
+			Post.objects.create(author=author,email=email,title=title,text=text,created_date=created_date)
+			#print title,text
+			return HttpResponseRedirect('/blog/thanks/')
+	return render(request,"blog/PostForm.html",context)
 
