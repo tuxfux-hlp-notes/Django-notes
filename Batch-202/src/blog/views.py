@@ -40,7 +40,8 @@ def post_list(request):
 	return render(request,'blog/post_list.html',context)
 
 def home(request):
-	context = {}
+	posts = Post.objects.all()
+	context= {'namesdb':posts}
 	return render(request,'blog/home.html',context)
 
 # https://docs.djangoproject.com/en/1.11/topics/forms/#the-view
@@ -59,6 +60,9 @@ def contact(request):
 			email = EmailMessage(subject,contact_name + '\n' + contact_email + '\n' + content, to=['tuxfux.hlp@gmail.com'])
 			email.send()
 			return HttpResponseRedirect('/blog/thanks/')
+		else:
+			context = {'form':form}
+			return render(request,'blog/ContactForm.html',context)
 	return render(request,'blog/ContactForm.html',context)
 
 def thanks(request):
@@ -68,9 +72,15 @@ def thanks(request):
 def Postview(request):
 	form = PostForm()
 	context = {'form':form}
+
+	print "what is my request method {}".format(request.method)
+	## we get into the if loop if request is POST
 	if request.method == 'POST':
 		form = PostForm(request.POST)
-		print form.is_valid()
+		print "is my form valid {}".format(form.is_valid())
+		print "what is the form {}".format(form)
+
+	## we get into the if loop if form is valid.
 		if form.is_valid():
 			author = form.cleaned_data['author']
 			email  = form.cleaned_data['email']
@@ -81,5 +91,10 @@ def Postview(request):
 			Post.objects.create(author=author,email=email,title=title,text=text,created_date=created_date)
 			#print title,text
 			return HttpResponseRedirect('/blog/thanks/')
+	## what if form is not valid
+		else:
+			context = {'form':form}
+			return render(request,"blog/PostForm.html",context)
+	## we get to render this if the form is not POST - we get GET operation
 	return render(request,"blog/PostForm.html",context)
 

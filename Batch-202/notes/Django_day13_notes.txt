@@ -1,0 +1,112 @@
+# Django Forms
+# error handling or showing errors on the form areas.
+# form validation.
+
+# error handing in the forms.
+
+when you enter a submit button without entring any data. you want the form should show some validation errors on screen.
+Note:these validation errors are from the django framework.
+
++ blog/views.py
+
+# def modular views
+def Postview(request):
+	form = PostForm()
+	context = {'form':form}
+
+	print "what is my request method {}".format(request.method)
+	## we get into the if loop if request is POST
+	if request.method == 'POST':
+		form = PostForm(request.POST)
+		print "is my form valid {}".format(form.is_valid())
+		print "what is the form {}".format(form)
+
+	## we get into the if loop if form is valid.
+		if form.is_valid():
+			author = form.cleaned_data['author']
+			email  = form.cleaned_data['email']
+			title  = form.cleaned_data['title']
+			text   = form.cleaned_data["text"]
+			created_date = form.cleaned_data['created_date']
+			print author,email,title,text,created_date
+			Post.objects.create(author=author,email=email,title=title,text=text,created_date=created_date)
+			#print title,text
+			return HttpResponseRedirect('/blog/thanks/')
+	## what if form is not valid
+		else:
+			context = {'form':form}
+			return render(request,"blog/PostForm.html",context)
+	## we get to render this if the form is not POST - we get GET operation
+	return render(request,"blog/PostForm.html",context)
+
+
+##
+# form validation - customized.
+##
+reference: https://docs.djangoproject.com/en/1.11/ref/forms/validation/
+
++blog/forms.py
+
+##
+# validation of the email for  your contact form.
+##
+
+# genric form.
+class ContactForm(forms.Form):
+	contact_name = forms.CharField(required=True)
+	contact_email = forms.EmailField(required=True)
+	content = forms.CharField(
+		required = True,
+		widget = forms.Textarea
+		)
+
+# validation
+# clean has to be used before the field. 
+# clean_email has to be used.
+	def clean_contact_email(self):
+		contact_email = self.cleaned_data.get('contact_email')
+		(ename,edomain) = contact_email.split('@')
+		if edomain != 'khyaathi.com':
+			raise forms.ValidationError("please try to enter a valid khyaathi edu mail address")
+		return email
+
+##
+# validation of the email for  your Post form.
+##
+
+
+class PostForm(forms.ModelForm):
+	class Meta:
+		model = Post
+		fields = ('author','email','title','text','created_date',)
+		#fields = ('title','text',)
+
+# validation
+# clean has to be used before the field. 
+# clean_email has to be used.
+	def clean_email(self):
+		email = self.cleaned_data.get('email')
+		(ename,edomain) = email.split('@')
+		if edomain != 'khyaathi.com':
+			raise forms.ValidationError("please try to enter a valid khyaathi edu mail address")
+		return email
+
+
+
+###
+# Making the blog front page give our data in  a valid way.
+#
+###
+
+Look at the following areas
+
++ blog/views.py
+
+def home(request):
+	posts = Post.objects.all()
+	context= {'namesdb':posts}
+	return render(request,'blog/home.html',context)
+
++ Made some changes to the home.html under templates/blog/home.html.
+
+Please have a look at the github location to find more about the tempate.
