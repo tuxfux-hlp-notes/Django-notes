@@ -1,0 +1,49 @@
+# Advanced database concepts
+# relationships
+# or change your underlying database.
+# mysql or postgre
+
+
+Many to one
+References:
+https://docs.djangoproject.com/en/1.11/topics/db/models/#many-to-one-relationships
+https://docs.djangoproject.com/en/1.11/ref/models/fields/#foreign-key-arguments
+https://docs.djangoproject.com/en/1.11/topics/db/queries/#backwards-related-objects
+https://docs.djangoproject.com/en/1.11/topics/db/examples/many_to_one/
+
+# example 1
+school
+ - student
+
+tenth
+  - student(school.student) - foreign key
+
+painting
+gardening
+karate
+
+
+# example 2
+
+from django.db import models
+
+class Manufacturer(models.Model):
+    # ...
+    pass
+
+class Car(models.Model):
+    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
+    # ...
+
+# on_delete=models.CASCADE,
+
+# Many to many
+References:
+https://docs.djangoproject.com/en/1.11/topics/db/examples/many_to_many/
+https://docs.djangoproject.com/en/1.11/topics/db/models/#many-to-many-relationships
+https://docs.djangoproject.com/en/1.11/topics/db/models/#extra-fields-on-many-to-many-relationships
+
+
+One to one
+https://docs.djangoproject.com/en/1.11/topics/db/examples/one_to_one/
+https://docs.djangoproject.com/en/1.11/topics/db/models/#one-to-one-relationships

@@ -1,0 +1,4 @@
+# Advanced database concepts
+# Django Extensions - data pumping
+# or change your underlying database.
+# mysql or postgre
