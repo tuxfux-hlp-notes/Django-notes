@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'blog',
     # other apps
     'crispy_forms',
+    'django_extensions',
 
 )
 
@@ -83,10 +84,23 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'blog',   # Note this needs to be created manually.
+        'USER': 'batch202',
+        'PASSWORD': 'batch202',
+        'HOST':'localhost',
+        'PORT':'',
     }
 }
+
+# previous database.
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 # Internationalization
