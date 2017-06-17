@@ -1,8 +1,9 @@
 # Advanced database concepts
  + Django extensions
-# Django Extensions - data pumping
+# Django Extensions - data pumping  - TODO
 # or change your underlying database.
 # mysql or postgre
+# Addding mongodb to the backend databases.
 
 ## Django extensions
 https://django-extensions.readthedocs.io/en/latest

@@ -1,0 +1,22 @@
+# Angular bootstrap 
+https://thinkster.io/django-angularjs-tutorial
+
+
+# Bootstrap grid
+http://getbootstrap.com/css/#grid
+
+# check your example in the following locations
+
+# for example on bootstrap grid
++ mysite/urls.py
++ address/urls.py
++ address/views.py
++ templates/
+  + address/test_boot.html
+
+# templates
+
+# final output
+templates/
+ +  blog/ContactForm.html
+ +  blog/PostForm.html
