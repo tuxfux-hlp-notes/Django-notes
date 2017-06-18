@@ -1,2 +1,131 @@
-# Django Extensions - data pumping  - TODO
-# Addding mongodb to the backend databases.
+# Django registration redux
+REFERENCE:
+http://django-registration-redux.readthedocs.io/en/latest/quickstart.html
+https://github.com/macdhuibh/django-registration-templates
+
+##
+# Installation of django-registration-redux
+##
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202$ pip install django-registration-redux
+Collecting django-registration-redux
+  Downloading django_registration_redux-1.6-py2.py3-none-any.whl (151kB)
+    100% |████████████████████████████████| 153kB 852kB/s 
+Installing collected packages: django-registration-redux
+Successfully installed django-registration-redux-1.6
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202$ 
+
+##
+# Added 'registration' to the INSTALLED_APPS location.
+##
+
+INSTALLED_APPS = (
+    'django.contrib.admin',  # admin app
+    'django.contrib.auth',   # auth app
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles', # static files
+    # custom apps
+    'address',
+    'blog',
+    # other apps
+    'crispy_forms',
+    'django_extensions',
+    'registration',
+
+ ##
+ # Other setting for django registration redux
+ ##
+
+ACCOUNT_ACTIVATION_DAYS = 7
+
+###
+# setting the urls.py under the mysite/urls.py
+###
+
+    url(r'^accounts/', include('registration.backends.default.urls')),
+
+###
+# run migrate and makemigration
+###
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py makemigrations
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+No changes detected
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py migrate
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, django_extensions, messages, crispy_forms
+  Apply all migrations: sessions, admin, auth, blog, contenttypes, registration
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  Rendering model states... DONE
+  Applying registration.0001_initial... OK
+  Applying registration.0002_registrationprofile_activated... OK
+  Applying registration.0003_migrate_activatedstatus... OK
+  Applying registration.0004_supervisedregistrationprofile... OK
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ 
+
+
+###
+# Copying the registartion redux templates
+#  templates/registration
+#  https://github.com/macdhuibh/django-registration-templates
+###
+
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/templates$ pwd
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/templates
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/templates$ git clone https://github.com/macdhuibh/django-registration-templates.git
+Cloning into 'django-registration-templates'...
+remote: Counting objects: 65, done.
+remote: Total 65 (delta 0), reused 0 (delta 0), pack-reused 65
+Unpacking objects: 100% (65/65), done.
+Checking connectivity... done.
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/templates$ ls
+address  base.html  blog  common  django-registration-templates  test.html
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/templates$ cd django-registration-templates/
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/templates/django-registration-templates$ ls
+base.html  index.html  LICENSE  README.md  registration
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/templates/django-registration-templates$ mv registration/ ../
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/templates/django-registration-templates$ ls
+base.html  index.html  LICENSE  README.md
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/templates/django-registration-templates$ cd ..
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/templates$ ls -l
+total 28
+drwxr-xr-x 2 khyaathi khyaathi 4096 Jun 17 10:26 address
+-rw-r--r-- 1 khyaathi khyaathi  340 Jun 13 07:16 base.html
+drwxr-xr-x 2 khyaathi khyaathi 4096 Jun 10 10:34 blog
+drwxr-xr-x 2 khyaathi khyaathi 4096 Jun  6 07:23 common
+drwxr-xr-x 3 khyaathi khyaathi 4096 Jun 18 10:36 django-registration-templates
+drwxr-xr-x 2 khyaathi khyaathi 4096 Jun 18 10:36 registration
+-rw-r--r-- 1 khyaathi khyaathi   81 May 26 08:56 test.html
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/templates$ rm -rf django-registration-templates/
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/templates$ ls
+address  base.html  blog  common  registration  test.html
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/templates$ 
+
+###
+## modify your navbar.html
+###
+
+Bootstrap:
+http://getbootstrap.com/css/#forms-inline
+http://getbootstrap.com/css/#helper-classes-floats
+http://getbootstrap.com/css/#forms
+https://docs.djangoproject.com/en/1.11/topics/auth/default/#authentication-in-web-requests
+https://docs.djangoproject.com/en/1.11/ref/request-response/#django.http.HttpRequest.build_absolute_uri
+https://docs.djangoproject.com/en/1.11/ref/request-response/#module-django.http
+
+## to understand the links that needs to be put. Please do the following.
+http://localhost:8000/accounts/aa
+
+Made the changes to the following files
++ templates/common/navbar.html
++ Also see mysite/settings.py files.
+
+
+
+

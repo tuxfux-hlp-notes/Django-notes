@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     # other apps
     'crispy_forms',
     'django_extensions',
+    'registration',
 
 )
 
@@ -136,3 +137,10 @@ EMAIL_HOST_USER = 'tuxfux.django@gmail.com'
 EMAIL_HOST_PASSWORD = 'tuxfux.django123'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+##
+# settings of django registartion redux
+###
+
+ACCOUNT_ACTIVATION_DAYS = 7
+LOGIN_REDIRECT_URL = "/blog"

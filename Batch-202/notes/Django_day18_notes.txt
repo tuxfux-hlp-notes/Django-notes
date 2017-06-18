@@ -1,0 +1,6 @@
+# Django Extensions - data pumping  - TODO
+# Addding mongodb to the backend databases. - kiran
+# Django Toolbar
+# Django Logging
+# Django testcases
+# werkzeug/pdb debugger
