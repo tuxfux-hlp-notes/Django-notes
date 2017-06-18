@@ -1,0 +1,108 @@
+https://docs.djangoproject.com/en/1.11/topics/testing/
+https://docs.djangoproject.com/en/1.11/topics/testing/overview/
+https://docs.djangoproject.com/en/1.11/topics/testing/tools/
+https://docs.djangoproject.com/en/1.11/topics/testing/advanced/
+https://jeffknupp.com/blog/2013/12/09/improve-your-python-understanding-unit-testing/
+https://docs.python.org/2/library/unittest.html
+
+
++ make changes in the address/tests.py
+
+from django.test import TestCase
+from .models import Address_Detail
+
+# Create your tests here.
+
+class AddressTestCase(TestCase):
+
+	# i want to check the values is inserted or not.
+	def setUp(self):
+		Address_Detail.objects.create(name='chiru',email='chiru1@edu.com',gender='m')
+
+	# i want to test if we are able to retrive the data
+	def test_address_student_exist(self):
+		student_name = Address_Detail.objects.get(name="chiru",email="chiru1@edu.com")
+		self.assertEqual(student_name.email,"chiru1@edu.com")
+		self.assertEqual(student_name.name,"chiru")
+
++ you can run the following command
+
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src$ python manage.py test address --keepdb
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src
+Using existing test database for alias 'default'...
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+OK
+Preserving test database for alias 'default'...
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src$ 
+
+## Advance testing tool called coverage
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src$ coverage run --source="." manage.py test address
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src
+Creating test database for alias 'default'...
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+OK
+Destroying test database for alias 'default'...
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src$ coverage run --source="." manage.py test
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src
+Creating test database for alias 'default'...
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+OK
+Destroying test database for alias 'default'...
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src$ clear
+
+
+
+
+
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-201/src$ coverage report
+Name                                            Stmts   Miss  Cover
+-------------------------------------------------------------------
+AddressBook/__init__.py                             0      0   100%
+AddressBook/settings/__init__.py                    9      4    56%
+AddressBook/settings/base.py                       31      0   100%
+AddressBook/settings/development.py                31      0   100%
+AddressBook/settings/production.py                  0      0   100%
+AddressBook/urls.py                                11     11     0%
+AddressBook/wsgi.py                                 4      4     0%
+address/__init__.py                                 0      0   100%
+address/admin.py                                    4      0   100%
+address/api.py                                      7      7     0%
+address/forms.py                                   23     23     0%
+address/migrations/0001_initial.py                  5      0   100%
+address/migrations/0002_auto_20170317_1459.py       5      0   100%
+address/migrations/0003_person.py                   5      0   100%
+address/migrations/0004_auto_20170411_1445.py       5      0   100%
+address/migrations/0005_auto_20170411_1508.py       5      0   100%
+address/migrations/0006_auto_20170411_1534.py       5      0   100%
+address/migrations/0007_course.py                   5      0   100%
+address/migrations/0008_auto_20170411_1604.py       5      0   100%
+address/migrations/__init__.py                      0      0   100%
+address/models.py                                  58      9    84%
+address/tests.py                                    9      0   100%
+address/views.py                                   59     59     0%
+manage.py                                           6      0   100%
+newtest_app/__init__.py                             0      0   100%
+newtest_app/admin.py                                1      0   100%
+newtest_app/migrations/__init__.py                  0      0   100%
+newtest_app/models.py                               1      0   100%
+newtest_app/tests.py                                1      0   100%
+newtest_app/views.py                                4      4     0%
+scripts/__init__.py                                 0      0   100%
+scripts/testdata.py                                98     76    22%
+-------------------------------------------------------------------
+TOTAL                                             397    197    50%
+
+
+

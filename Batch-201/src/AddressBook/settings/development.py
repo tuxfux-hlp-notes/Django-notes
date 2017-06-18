@@ -95,13 +95,13 @@ WSGI_APPLICATION = 'AddressBook.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/intro/tutorial02/#database-setup
 # https://docs.djangoproject.com/en/1.11/ref/databases/#third-party-notes
 
-# sqlite3 settings
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+#sqlite3 settings
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 # # mysql setting
 # DATABASES = {
