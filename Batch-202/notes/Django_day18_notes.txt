@@ -1,6 +1,161 @@
-# Django Extensions - data pumping  - TODO
-# Addding mongodb to the backend databases. - kiran
+
 # Django Toolbar
-# Django Logging
-# Django testcases
-# werkzeug/pdb debugger
+
+
+
+##
+#  Django debug toolbar
+##
+https://django-debug-toolbar.readthedocs.io/en/stable/
+
+1.  Installation of the package.
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202$ pip install django-debug-toolbar
+Collecting django-debug-toolbar
+  Using cached django_debug_toolbar-1.8-py2.py3-none-any.whl
+Collecting sqlparse>=0.2.0 (from django-debug-toolbar)
+  Using cached sqlparse-0.2.3-py2.py3-none-any.whl
+Requirement already satisfied: Django>=1.8 in ./myenv/lib/python2.7/site-packages (from django-debug-toolbar)
+Installing collected packages: sqlparse, django-debug-toolbar
+Successfully installed django-debug-toolbar-1.8 sqlparse-0.2.3
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202$ 
+
+2. Pre requisites for the django toolbar.
+
+* Add an debug_toolbar entry to our mysite/setting.py file.
+
+INSTALLED_APPS = (
+    'django.contrib.admin',  # admin app
+    'django.contrib.auth',   # auth app
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles', # static files
+    # custom apps
+    'address',
+    'blog',
+    # other apps
+    'crispy_forms',
+    'django_extensions',
+    'registration',
+    'debug_toolbar',
+
+)
+
+* make sure you have the django.contrib.staticfiles under your INSTALLED_APPS
+* Make sure you have the /static link configured in your mysite/settings.py file.
+
+STATIC_URL = '/static/'
+
+* make sure your DEBUG is set to true and also set your INTERNAL_IPS
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True  # for django-toolbar to work this should be set to true.
+INTERNAL_IPS = ('127.0.0.1')
+
+* update the urls.py files.
+
+from django.conf import settings
+
+if settings.DEBUG:  # when DEBUG is set to TRUE
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
+
+##
+# please do run the makemigrations and migrate
+##
+
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+SystemCheckError: System check identified some issues:
+
+ERRORS:
+?: debug_toolbar.middleware.DebugToolbarMiddleware is missing from MIDDLEWARE_CLASSES.
+	HINT: Add debug_toolbar.middleware.DebugToolbarMiddleware to MIDDLEWARE_CLASSES.
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ 
+
+
+###
+## Add debug_toolbar.middleware.DebugToolbarMiddleware to MIDDLEWARE_CLASSES. And later makemigrations and migrate.
+####
+
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py makemigrations
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+No changes detected
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py migrate
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, debug_toolbar, django_extensions, messages, crispy_forms
+  Apply all migrations: sessions, admin, auth, blog, contenttypes, registration
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  No migrations to apply.
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ 
+
+
+###
+# Please do run the collect static.
+###
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py collectstatic
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+
+You have requested to collect static files at the destination
+location as specified in your settings:
+
+    /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_public
+
+This will overwrite existing files!
+Are you sure you want to do this?
+
+Type 'yes' to continue, or 'no' to cancel: yes
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_static/css/bootstrap-theme.min.css.map'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_static/css/bootstrap-theme.min.css'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_static/css/ie10-viewport-bug-workaround.css'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_static/css/blog.css'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_static/css/bootstrap-theme.css.map'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_static/css/bootstrap.css'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_static/css/bootstrap.min.css'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_static/css/bootstrap-theme.css'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_static/css/bootstrap.min.css.map'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_static/css/bootstrap.css.map'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_static/fonts/glyphicons-halflings-regular.eot'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_static/fonts/glyphicons-halflings-regular.ttf'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_static/fonts/glyphicons-halflings-regular.woff'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_static/fonts/glyphicons-halflings-regular.woff2'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_static/fonts/glyphicons-halflings-regular.svg'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_static/js/bootstrap.min.js'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_static/js/ie-emulation-modes-warning.js'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_static/js/npm.js'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_static/js/bootstrap.js'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/django_extensions/static/django_extensions/css/jquery.autocomplete.css'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/django_extensions/static/django_extensions/img/indicator.gif'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/django_extensions/static/django_extensions/js/jquery.ajaxQueue.js'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/django_extensions/static/django_extensions/js/jquery.bgiframe.js'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/django_extensions/static/django_extensions/js/jquery.autocomplete.js'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/debug_toolbar/static/debug_toolbar/css/print.css'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/debug_toolbar/static/debug_toolbar/css/toolbar.css'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/debug_toolbar/static/debug_toolbar/img/back.png'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/debug_toolbar/static/debug_toolbar/img/close_hover.png'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/debug_toolbar/static/debug_toolbar/img/indicator.png'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/debug_toolbar/static/debug_toolbar/img/djdt_vertical.png'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/debug_toolbar/static/debug_toolbar/img/ajax-loader.gif'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/debug_toolbar/static/debug_toolbar/img/back_hover.png'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/debug_toolbar/static/debug_toolbar/img/close.png'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/debug_toolbar/static/debug_toolbar/js/jquery_pre.js'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/debug_toolbar/static/debug_toolbar/js/toolbar.timer.js'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/debug_toolbar/static/debug_toolbar/js/toolbar.js'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/debug_toolbar/static/debug_toolbar/js/jquery_existing.js'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/debug_toolbar/static/debug_toolbar/js/toolbar.profiling.js'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/debug_toolbar/static/debug_toolbar/js/jquery_post.js'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/debug_toolbar/static/debug_toolbar/js/toolbar.sql.js'
+Copying '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/myenv/local/lib/python2.7/site-packages/debug_toolbar/static/debug_toolbar/js/toolbar.template.js'
+
+41 static files copied to '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src/project_public', 66 unmodified.
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ 
+
+

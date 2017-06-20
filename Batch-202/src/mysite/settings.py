@@ -24,9 +24,10 @@ print BASE_DIR
 SECRET_KEY = '98wz)m$mla=vfcckqpu_-4+cvg-6@%tk_zi^x12a$b=%^v!y+x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True  # for django-toolbar to work this should be set to true.
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','localhost'] # django proudction implementation
+INTERNAL_IPS = ('127.0.0.1')   # django-debug-toolbar
 
 
 # Application definition
@@ -45,6 +46,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'django_extensions',
     'registration',
+    'debug_toolbar',
 
 )
 
@@ -57,6 +59,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'mysite.urls'
