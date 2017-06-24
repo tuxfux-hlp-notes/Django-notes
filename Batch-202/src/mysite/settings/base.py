@@ -13,8 +13,9 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-print BASE_DIR
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -47,6 +48,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'registration',
     'debug_toolbar',
+    'tastypie',
 
 )
 
@@ -147,3 +149,91 @@ EMAIL_USE_TLS = True
 
 ACCOUNT_ACTIVATION_DAYS = 7
 LOGIN_REDIRECT_URL = "/blog"
+ADMINS = [('tuxfux.hlp@gmail.com','tuxfux')]  # entry to push mail during logging.
+
+# Logging example 1
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': True,
+#     'handlers':{
+#         'file':{
+#                 'level':'DEBUG',
+#                 'class':'logging.FileHandler',
+#                 'filename':os.path.join(BASE_DIR,'logs/apps.log'),
+#         },
+#         },
+#     'loggers':{
+#         'django.request': {
+#             'handlers':['file'],
+#             'level':DEBUG,
+#             'propogate':True,
+#                           },
+#                 },
+#     }
+
+
+LOGGING = {
+
+# Formatters
+    'version':1,
+    'disable_existing_loggers': True,
+    'formatters':{
+        'standard':{
+            'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt' : "%d/%b/%Y %H:%M:%S"
+
+        },
+
+    },
+
+# All handlers
+    'handlers' :{
+        'null':{
+            'level':'DEBUG',
+            'class':'django.utils.log.NullHandler',
+        },
+        'logfile':{
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename':os.path.join(BASE_DIR,'logs/apps.log'),
+            'maxBytes':50000,
+            'backupCount':2,
+            'formatter': 'standard',
+
+
+        },
+        'console':{
+            'level':'INFO',
+            'class':'logging.StreamHandler',
+            'formatter':'standard',
+        },
+        'mail_admins': {
+            'level':'ERROR',
+            'class':'django.utils.log.AdminEmailHandler',
+            'formatter':'standard',
+        },
+
+    },
+
+# Loggers
+
+    'loggers':{
+        'django': {
+            'handlers':['console'],
+            'propogate':True,
+            'level':'WARN',
+        },
+    'django.db.backends':{
+        'handlers':['console'],
+        'level':'DEBUG',
+        'propogate':'False',
+    },
+    'ourapp':{
+        'handlers':['mail_admins','logfile','console'],
+        'level':'DEBUG',
+    },
+
+
+}
+}

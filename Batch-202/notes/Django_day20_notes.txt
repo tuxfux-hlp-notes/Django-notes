@@ -1,0 +1,140 @@
+# Django rest API
+API - Application programming interface.
+
+reference:
+https://django-tastypie.readthedocs.io/en/latest/tutorial.html
+book - Building restful webservices in python
+
+1) installation of the django-tastypie
+# install
+pip install django-tastypie
+
+2) The only mandatory configuration is adding 'tastypie' to your INSTALLED_APPS.
+
+INSTALLED_APPS = (
+    'django.contrib.admin',  # admin app
+    'django.contrib.auth',   # auth app
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles', # static files
+    # custom apps
+    'address',
+    'blog',
+    # other apps
+    'crispy_forms',
+    'django_extensions',
+    'registration',
+    'debug_toolbar',
+    'tastypie',
+
+) 
+
+3) make sure you run the migrate and makemigrations command.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py migrate
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, debug_toolbar, django_extensions, messages, crispy_forms
+  Apply all migrations: sessions, admin, tastypie, auth, blog, contenttypes, registration
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  Rendering model states... DONE
+  Applying tastypie.0001_initial... OK
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py makemigrations
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+No changes detected
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ 
+
+4) create a `api.py` in the blog location - src/blog/api.py
+
+from tastypie.resources import ModelResource
+from .models import Post
+
+class PostResource(ModelResource):
+    class Meta:
+        queryset = Post.objects.all()
+        resource_name = 'post'
+
+5) Make the following modification in `urls.py`.
+
+from django.conf.urls import include, url
+from . import views
+from .api import PostResource
+
+# entry for the API
+post_resource = PostResource()
+
+urlpatterns = [
+	url(r'^pages/',views.post_list,name='post_list'),
+	url(r'^$',views.home,name='home'),
+	url(r'^ContactForm',views.contact,name="ContactForm"),
+	url(r'^PostForm',views.Postview,name="PostForm"),
+	url(r'^thanks',views.thanks,name="thanks"),
+	url(r'^api/',include(post_resource.urls)),
+	# url(r'^hello/', views.hello_world, name='hello'),
+    # url(r'^test/', views.test_html, name='testhello'),
+    # url(r'^address/',views.address,name='address'),
+
+]
+
+
+
+6) Accessing the data using the urls.
+http://localhost:8000/blog/api/post/?format=json
+http://localhost:8000/blog/api/post/1/?format=json
+http://localhost:8000/blog/api/post/schema/?format=json
+http://localhost:8000/blog/api/post/set/1;7/?format=json
+
+
+# check the data using the curl command.
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ curl -H 'Accept:application/json' http://localhost:8000/blog/api/post/
+{"meta": {"limit": 20, "next": null, "offset": 0, "previous": null, "total_count": 9}, "objects": [{"created_date": "2017-06-02T05:02:35", "email": "tuxfux.hlp@gmail.com", "id": 1, "published_date": "2017-06-03T05:03:20", "resource_uri": "/blog/api/post/1/", "text": "Today we are learning about the django static files. we learned lot of good information which was relative to how to display the static files like css and java script. we learned about STATICFILES_DIR and we also learned about the STATIC_ROOT.", "title": "My first post"}, {"created_date": "2017-06-03T05:03:25", "email": "tuxfux.hlp@gmail.com", "id": 2, "published_date": "2017-06-03T05:03:53", "resource_uri": "/blog/api/post/2/", "text": "we have already learned about templates. We are tyring to integrate the ORM backend data into our html pages.\r\nLets hope we will get the data from the backend database into our html pages.", "title": " My second post"}, {"created_date": "2017-06-03T05:19:44", "email": "tuxfux.hlp@gmail.com", "id": 3, "published_date": null, "resource_uri": "/blog/api/post/3/", "text": "This is the content for the django ORM shell", "title": "third title"}, {"created_date": "2017-06-04T05:07:20", "email": "tuxfux.hlp@gmail.com", "id": 4, "published_date": null, "resource_uri": "/blog/api/post/4/", "text": "This is my fourth post", "title": "Fourth Post"}, {"created_date": "2017-06-04T05:29:33", "email": "admin@gmail.com", "id": 5, "published_date": "2017-06-04T05:29:55", "resource_uri": "/blog/api/post/5/", "text": "I am good with the content writing. I am tying to test my django pages.", "title": "Fifth Post"}, {"created_date": "2017-06-10T05:34:12", "email": "kiran@gmail.com", "id": 6, "published_date": null, "resource_uri": "/blog/api/post/6/", "text": "hello there how are you doing.", "title": "hello there"}, {"created_date": "2017-06-11T05:30:26", "email": "keerthan@edu.com", "id": 7, "published_date": null, "resource_uri": "/blog/api/post/7/", "text": "Hey i am keerthan.", "title": "First blog of keethan"}, {"created_date": "2017-06-21T02:03:48", "email": "raviraj@khyaathi.com", "id": 8, "published_date": null, "resource_uri": "/blog/api/post/8/", "text": "hey there this is a topic from Ravi raj", "title": "First blog from Raviraj"}, {"created_date": "2017-06-21T02:07:21", "email": "siva@khyaathi.com", "id": 9, "published_date": null, "resource_uri": "/blog/api/post/9/", "text": "This is the first blog from siva.", "title": "The first blog from siva"}]}(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ 
+
+
+
+# Production ready or deployment
+
+1)
+* First create a setting folder - mysite/setttings.
+* Later to make it a module create a __init__.py file underneath it.
+* Later create a base.py file under the settings folder.
+* rename the original settings.py to sv.settings.py file.
+* copy the content of the settings.py to base.py file.
+* Later make sure you create the development.py and production.py files.
+
+2)
+content of the __init__.py file.
+---------------------------------
+
+from .base import *
+
+try:
+	from .development import *
+except:
+	pass
+
+try:
+	from .production import *
+except:
+	pass
+
+3) Make sure you set your DEBUG=True
+   ALLOWED_HOSTS = ['127.0.0.1','localhost'] set in your development.py file.
+
+4) make sure your BASE_DIR is setup correctly in both base.py and development.py file
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# setting your pages for 404 and other request
+https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/#customize-the-default-error-views
+https://docs.djangoproject.com/en/1.11/ref/views/#the-500-server-error-view
+https://docs.djangoproject.com/en/1.11/ref/views/#the-404-page-not-found-view
+https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
+
+# integrating our site to apache.
+# integrating our site to pythonanywhere
+

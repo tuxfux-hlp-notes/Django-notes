@@ -1,0 +1,64 @@
+My request method is GET
+Not Found: /dist/js/bootstrap.min.js
+Not Found: /assets/js/ie10-viewport-bug-workaround.js
+Not Found: /assets/js/ie10-viewport-bug-workaround.js
+My request method is POST
+Not Found: /dist/js/bootstrap.min.js
+Not Found: /assets/js/ie10-viewport-bug-workaround.js
+Not Found: /dist/js/bootstrap.min.js
+Not Found: /assets/js/ie10-viewport-bug-workaround.js
+My request method is POST
+Not Found: /dist/js/bootstrap.min.js
+Not Found: /assets/js/ie10-viewport-bug-workaround.js
+Not Found: /assets/js/ie10-viewport-bug-workaround.js
+My request method is GET
+Not Found: /dist/js/bootstrap.min.js
+Not Found: /assets/js/ie10-viewport-bug-workaround.js
+Not Found: /assets/js/ie10-viewport-bug-workaround.js
+My request method is POST
+my form is valid - False and this is my form - <tr><th><label for="id_author">Author:</label></th><td><select id="id_author" name="author">
+<option value="">---------</option>
+<option value="1" selected="selected">admin</option>
+<option value="2">ravi</option>
+</select></td></tr>
+<tr><th><label for="id_email">Email:</label></th><td><ul class="errorlist"><li>please try to enter a valid khyaathi edu mail address</li></ul><input id="id_email" maxlength="20" name="email" type="email" value="siva@edu.com" /></td></tr>
+<tr><th><label for="id_title">Title:</label></th><td><input id="id_title" maxlength="200" name="title" type="text" value="The first blog from siva" /></td></tr>
+<tr><th><label for="id_text">Text:</label></th><td><textarea cols="40" id="id_text" name="text" rows="10">
+This is the first blog from siva.</textarea></td></tr>
+<tr><th><label for="id_created_date">Created date:</label></th><td><input id="id_created_date" name="created_date" type="text" value="2017-06-21 02:07:21" /><input id="initial-id_created_date" name="initial-created_date" type="hidden" value="2017-06-21 02:07:21" /></td></tr>
+Not Found: /dist/js/bootstrap.min.js
+Not Found: /assets/js/ie10-viewport-bug-workaround.js
+Not Found: /assets/js/ie10-viewport-bug-workaround.js
+My request method is POST
+my form is valid - True and this is my form - <tr><th><label for="id_author">Author:</label></th><td><select id="id_author" name="author">
+<option value="">---------</option>
+<option value="1" selected="selected">admin</option>
+<option value="2">ravi</option>
+</select></td></tr>
+<tr><th><label for="id_email">Email:</label></th><td><input id="id_email" maxlength="20" name="email" type="email" value="siva@khyaathi.com" /></td></tr>
+<tr><th><label for="id_title">Title:</label></th><td><input id="id_title" maxlength="200" name="title" type="text" value="The first blog from siva" /></td></tr>
+<tr><th><label for="id_text">Text:</label></th><td><textarea cols="40" id="id_text" name="text" rows="10">
+This is the first blog from siva.</textarea></td></tr>
+<tr><th><label for="id_created_date">Created date:</label></th><td><input id="id_created_date" name="created_date" type="text" value="2017-06-21 02:07:21" /><input id="initial-id_created_date" name="initial-created_date" type="hidden" value="2017-06-21 02:07:21" /></td></tr>
+values passed to my form - admin,siva@khyaathi.com,The first blog from siva,This is the first blog from siva.,2017-06-21 02:07:21+00:00
+we are able to make a entry into the databases.
+[21/Jun/2017 02:38:59] ERROR [ourapp:109] Form is not valid - <tr><th><label for="id_author">Author:</label></th><td><select id="id_author" name="author">
+<option value="">---------</option>
+<option value="1" selected="selected">admin</option>
+<option value="2">ravi</option>
+</select></td></tr>
+<tr><th><label for="id_email">Email:</label></th><td><ul class="errorlist"><li>please try to enter a valid khyaathi edu mail address</li></ul><input id="id_email" maxlength="20" name="email" type="email" value="kumarji@edu.com" /></td></tr>
+<tr><th><label for="id_title">Title:</label></th><td><input id="id_title" maxlength="200" name="title" type="text" value="The first blog from kumarji" /></td></tr>
+<tr><th><label for="id_text">Text:</label></th><td><textarea cols="40" id="id_text" name="text" rows="10">
+I am trying to understand the logging chapter.</textarea></td></tr>
+<tr><th><label for="id_created_date">Created date:</label></th><td><input id="id_created_date" name="created_date" type="text" value="2017-06-21 02:38:24" /><input id="initial-id_created_date" name="initial-created_date" type="hidden" value="2017-06-21 02:38:24" /></td></tr>
+[21/Jun/2017 02:47:07] ERROR [ourapp:109] Form is not valid - <tr><th><label for="id_author">Author:</label></th><td><select id="id_author" name="author">
+<option value="">---------</option>
+<option value="1" selected="selected">admin</option>
+<option value="2">ravi</option>
+</select></td></tr>
+<tr><th><label for="id_email">Email:</label></th><td><ul class="errorlist"><li>please try to enter a valid khyaathi edu mail address</li></ul><input id="id_email" maxlength="20" name="email" type="email" value="kumarji@edu.com" /></td></tr>
+<tr><th><label for="id_title">Title:</label></th><td><input id="id_title" maxlength="200" name="title" type="text" value="The first blog from kumarji" /></td></tr>
+<tr><th><label for="id_text">Text:</label></th><td><textarea cols="40" id="id_text" name="text" rows="10">
+I am learning about logging.</textarea></td></tr>
+<tr><th><label for="id_created_date">Created date:</label></th><td><input id="id_created_date" name="created_date" type="text" value="2017-06-21 02:46:47" /><input id="initial-id_created_date" name="initial-created_date" type="hidden" value="2017-06-21 02:46:47" /></td></tr>

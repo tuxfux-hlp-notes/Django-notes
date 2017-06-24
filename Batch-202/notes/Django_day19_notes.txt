@@ -1,5 +1,88 @@
-# Django Extensions - data pumping  - TODO
-# Addding mongodb to the backend databases. - kiran
+# Django Extensions - data pumping 
+Nothing done from my end.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py runscript new_blog_data
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ 
+
+Look into the scripts/new_blog_data.py for further clarifications.
+
+
 # Django Logging
-# Django testcases
-# werkzeug/pdb debugger
+https://docs.python.org/2/howto/logging.html
+https://docs.python.org/2/library/logging.html
+https://docs.python.org/2/howto/logging-cookbook.html
+https://docs.djangoproject.com/en/1.11/topics/logging/#configuring-logging
+
+
+--- first make the configuraiton in the settting.py
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'handlers':{
+        'file':{
+                'level':'DEBUG',
+                'class':'logging.FileHandler',
+                'filename':os.path.join(BASE_DIR,'logs/apps.log'),
+        },
+        },
+    'loggers':{
+        'django.request': {
+            'handlers':['file'],
+            'level':DEBUG,
+            'propogate':True,
+
+
+                          },
+
+
+                },
+
+
+    }
+
+
+ --- create a logs folder inside the src tree ---
+ +src/logs
+
+ ---  in views.py --
+ import logging
+ logger = logging.getLogger('django.request')
+
+ # def modular views
+def Postview(request):
+	form = PostForm()
+	context = {'form':form}
+
+	#print "what is my request method {}".format(request.method)
+	logger.info("My request method is {}".format(request.method))
+	## we get into the if loop if request is POST
+	if request.method == 'POST':
+		form = PostForm(request.POST)
+		logger.info("my form is valid - {} and this is my form - {}".format(form.is_valid(),form))
+		# print "is my form valid {}".format(form.is_valid())
+		# print "what is the form {}".format(form)
+
+	## we get into the if loop if form is valid.
+		if form.is_valid():
+			author = form.cleaned_data['author']
+			email  = form.cleaned_data['email']
+			title  = form.cleaned_data['title']
+			text   = form.cleaned_data["text"]
+			created_date = form.cleaned_data['created_date']
+			logger.info("values passed to my form - {},{},{},{},{}".format(author,email,title,text,created_date))
+			#print author,email,title,text,created_date
+			Post.objects.create(author=author,email=email,title=title,text=text,created_date=created_date)
+			logger.info("we are able to make a entry into the databases.")
+			#print title,text
+			return HttpResponseRedirect('/blog/thanks/')
+	## what if form is not valid
+		else:
+			context = {'form':form}
+			return render(request,"blog/PostForm.html",context)
+	## we get to render this if the form is not POST - we get GET operation
+	return render(request,"blog/PostForm.html",context)
+
+--- testing ---
+for all the entries you make to the logs folder - they should go to apps.log

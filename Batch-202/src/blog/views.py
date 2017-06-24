@@ -4,6 +4,8 @@ from mysite.settings import BASE_DIR
 from .models import Post
 from .forms import ContactForm,PostForm
 from django.core.mail import EmailMessage
+import logging
+import logging.handlers
 
 # Create your views here.
 # function based views.
@@ -31,6 +33,13 @@ from django.core.mail import EmailMessage
 # def address(request):
 # 	context = {'namesdb':[{'name':'student11','email':''},{'name':'student12','email':'student12@gmail.com'}]}
 # 	return render(request,'address/address.html',context)
+
+## enabling logging for my django.
+logger = logging.getLogger('django.request')
+logger1 = logging.getLogger('django') # console
+logger2 = logging.getLogger('ourapp') # mail admin
+
+
 
 ## blog views
 def post_list(request):
@@ -73,12 +82,14 @@ def Postview(request):
 	form = PostForm()
 	context = {'form':form}
 
-	print "what is my request method {}".format(request.method)
+	#print "what is my request method {}".format(request.method)
+	logger.info("My request method is {}".format(request.method))
 	## we get into the if loop if request is POST
 	if request.method == 'POST':
 		form = PostForm(request.POST)
-		print "is my form valid {}".format(form.is_valid())
-		print "what is the form {}".format(form)
+		#logger.info("my form is valid - {} and this is my form - {}".format(form.is_valid(),form))
+		# print "is my form valid {}".format(form.is_valid())
+		# print "what is the form {}".format(form)
 
 	## we get into the if loop if form is valid.
 		if form.is_valid():
@@ -87,12 +98,15 @@ def Postview(request):
 			title  = form.cleaned_data['title']
 			text   = form.cleaned_data["text"]
 			created_date = form.cleaned_data['created_date']
-			print author,email,title,text,created_date
+			#logger.info("values passed to my form - {},{},{},{},{}".format(author,email,title,text,created_date))
+			#print author,email,title,text,created_date
 			Post.objects.create(author=author,email=email,title=title,text=text,created_date=created_date)
+			#logger.info("we are able to make a entry into the databases.")
 			#print title,text
 			return HttpResponseRedirect('/blog/thanks/')
 	## what if form is not valid
 		else:
+			logger2.error("Form is not valid - {}".format(form))
 			context = {'form':form}
 			return render(request,"blog/PostForm.html",context)
 	## we get to render this if the form is not POST - we get GET operation

@@ -1,0 +1,4 @@
+# Deploy our site - apache and pythonanywhere
+# Django testcases
+# werkzeug/pdb debugger
+# Addding mongodb to the backend databases. - kiran
