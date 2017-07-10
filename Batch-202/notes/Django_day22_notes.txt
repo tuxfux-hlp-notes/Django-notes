@@ -1,0 +1,296 @@
+# Deploy in apache
+
+# Apache server
+
+1) first i intalled the openssh-server package, just to make sure i have direct access to the ssh node.
+
+# sudo apt-get install openssh-server
+# sudo apt-get install apache2
+# sudo apt-get install libapache2-mod-wsgi
+
+# Django server
+
+2) we copied all the relavent files from django server to the apache server.
+
+Django Server :scp src.tar khyaathi@192.168.1.11:/tmp/
+khyaathi@192.168.1.11's password: 
+src.tar                                                                                                     100% 4350KB  35.7MB/s   00:00    
+Django Server :
+
+Django Server :scp requirements.txt  khyaathi@192.168.1.11:/tmp/
+khyaathi@192.168.1.11's password: 
+requirements.txt                                                                                            100%  324   365.1KB/s   00:00    
+Django Server :
+
+
+# rest all steps are in the apache server.
+
+3) cp the src.tar and requirement.txt files to the /var/www/html locations.
+
+Apache :pwd
+/var/www/html
+Apache :sudo cp /tmp/src.tar .
+Apache :ls
+index.html  src.tar
+Apache :sudo cp /tmp/requirements.txt .
+Apache :ls -l
+total 4368
+-rw-r--r-- 1 root root   11321 Jul  1 15:23 index.html
+-rw-r--r-- 1 root root     324 Jul  1 15:33 requirements.txt
+-rw-r--r-- 1 root root 4454400 Jul  1 15:33 src.tar
+Apache :
+Apache :
+
+4) install virtual env if not there.
+# sudo apt-get install virtualenv
+
+5) creating the virtualenv.
+
+Apache :sudo virtualenv myenv
+New python executable in /var/www/html/myenv/bin/python
+Installing setuptools, pip, wheel...done.
+Apache :
+
+6) Install the mysql-server package as this apache setup is a production setup.
+# sudo apt-get install mysql-server
+
+7) Install some dependency packages
+sudo apt-get install libmysqlclient-dev
+
+8) Please make sure you install the virtualenv relative packages inside our virtualenv.
+
+Apache :ls
+index.html  myenv  requirements.txt  src.tar
+Apache :source myenv/bin/activate
+(myenv) Apache :pip install -r requirements.txt 
+The directory '/home/khyaathi/.cache/pip/http' or its parent directory is not owned by the current user and the cache has been disabled. Please check the permissions and owner of that directory. If executing pip with sudo, you may want sudo's -H flag.
+The directory '/home/khyaathi/.cache/pip' or its parent directory is not owned by the current user and caching wheels has been disabled. check the permissions and owner of that directory. If executing pip with sudo, you may want sudo's -H flag.
+Collecting appdirs==1.4.3 (from -r requirements.txt (line 1))
+  Downloading appdirs-1.4.3-py2.py3-none-any.whl
+Collecting Django==1.8 (from -r requirements.txt (line 2))
+  Downloading Django-1.8-py2.py3-none-any.whl (6.2MB)
+    100% |████████████████████████████████| 6.2MB 186kB/s 
+Collecting django-crispy-forms==1.6.1 (from -r requirements.txt (line 3))
+  Downloading django_crispy_forms-1.6.1-py2.py3-none-any.whl (103kB)
+    100% |████████████████████████████████| 112kB 4.0MB/s 
+Collecting django-debug-toolbar==1.8 (from -r requirements.txt (line 4))
+  Downloading django_debug_toolbar-1.8-py2.py3-none-any.whl (205kB)
+    100% |████████████████████████████████| 215kB 2.3MB/s 
+Collecting django-extensions==1.7.9 (from -r requirements.txt (line 5))
+  Downloading django_extensions-1.7.9-py2.py3-none-any.whl (203kB)
+    100% |████████████████████████████████| 204kB 2.1MB/s 
+Collecting django-registration-redux==1.6 (from -r requirements.txt (line 6))
+  Downloading django_registration_redux-1.6-py2.py3-none-any.whl (151kB)
+    100% |████████████████████████████████| 153kB 2.3MB/s 
+Collecting django-tastypie==0.13.3 (from -r requirements.txt (line 7))
+  Downloading django_tastypie-0.13.3-py2.py3-none-any.whl (75kB)
+    100% |████████████████████████████████| 81kB 4.5MB/s 
+Collecting MySQL-python==1.2.5 (from -r requirements.txt (line 8))
+Collecting mysqlclient==1.3.10 (from -r requirements.txt (line 9))
+Collecting packaging==16.8 (from -r requirements.txt (line 10))
+  Downloading packaging-16.8-py2.py3-none-any.whl
+Collecting PyMySQL==0.7.11 (from -r requirements.txt (line 11))
+  Downloading PyMySQL-0.7.11-py2.py3-none-any.whl (78kB)
+    100% |████████████████████████████████| 81kB 4.0MB/s 
+Collecting pyparsing==2.2.0 (from -r requirements.txt (line 12))
+  Downloading pyparsing-2.2.0-py2.py3-none-any.whl (56kB)
+    100% |████████████████████████████████| 61kB 2.9MB/s 
+Collecting python-dateutil==2.6.0 (from -r requirements.txt (line 13))
+  Downloading python_dateutil-2.6.0-py2.py3-none-any.whl (194kB)
+    100% |████████████████████████████████| 194kB 2.2MB/s 
+Collecting python-mimeparse==1.6.0 (from -r requirements.txt (line 14))
+  Downloading python_mimeparse-1.6.0-py2.py3-none-any.whl
+Collecting six==1.10.0 (from -r requirements.txt (line 15))
+  Downloading six-1.10.0-py2.py3-none-any.whl
+Collecting sqlparse==0.2.3 (from -r requirements.txt (line 16))
+  Downloading sqlparse-0.2.3-py2.py3-none-any.whl
+Installing collected packages: appdirs, Django, django-crispy-forms, sqlparse, django-debug-toolbar, six, django-extensions, django-registration-redux, python-mimeparse, python-dateutil, django-tastypie, MySQL-python, mysqlclient, pyparsing, packaging, PyMySQL
+Successfully installed Django-1.8 MySQL-python-1.2.5 PyMySQL-0.7.11 appdirs-1.4.3 django-crispy-forms-1.6.1 django-debug-toolbar-1.8 django-extensions-1.7.9 django-registration-redux-1.6 django-tastypie-0.13.3 mysqlclient-1.3.10 packaging-16.8 pyparsing-2.2.0 python-dateutil-2.6.0 python-mimeparse-1.6.0 six-1.10.0 sqlparse-0.2.3
+(myenv) Apache :
+(myenv) Apache :pip freeze
+appdirs==1.4.3
+Django==1.8
+django-crispy-forms==1.6.1
+django-debug-toolbar==1.8
+django-extensions==1.7.9
+django-registration-redux==1.6
+django-tastypie==0.13.3
+MySQL-python==1.2.5
+mysqlclient==1.3.10
+packaging==16.8
+PyMySQL==0.7.11
+pyparsing==2.2.0
+python-dateutil==2.6.0
+python-mimeparse==1.6.0
+six==1.10.0
+sqlparse==0.2.3
+The directory '/home/khyaathi/.cache/pip/http' or its parent directory is not owned by the current user and the cache has been disabled. Please check the permissions and owner of that directory. If executing pip with sudo, you may want sudo's -H flag.
+(myenv) Apache :
+
+9) Now untar the src.tar under the /var/www/html locations.
+# tar -xvf src.tar
+
+10) run the server under the src directory to check if the server is working as expected.
+# python manage.py runserver 0.0.0.0:8000
+
+11) how to create your configuration files to work on port 80
+
+a) Made the following changes to the configuration files - /etc/apache2/sites-available/000-default.conf
+
+---------------------------------------------------------------------------------------------------------
+
+<VirtualHost *:80>
+
+Alias /static /var/www/html/src/project_public
+
+<Directory /var/www/html/src/project_public>
+Require all granted
+</Directory>
+
+<Directory /var/www/html/src/mysite>
+ <Files wsgi.py>
+        Require all granted
+ </Files>
+</Directory>
+
+
+
+WSGIDaemonProcess mysite python-path=/var/www/html/src python-home=/var/www/html/myenv
+WSGIProcessGroup mysite
+WSGIScriptAlias / /var/www/html/src/mysite/wsgi.py
+
+ErrorLog ${APACHE_LOG_DIR}/error.log
+CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+---------------------------------------------------------------------------------------------------------
+
+b) 
+
+- Also made sure only production.py files get loaded.
+
+(myenv) root@khyaathi-Technologies:/var/www/html/src/mysite/settings# cat __init__.py
+from .base import *
+
+try:
+  from .production import *
+except:
+  pass
+(myenv) root@khyaathi-Technologies:/var/www/html/src/mysite/settings# pwd
+/var/www/html/src/mysite/settings
+(myenv) root@khyaathi-Technologies:/var/www/html/src/mysite/settings# 
+
+- Made couple of changes in production.py files.
+
+* commented out the logging sections - line 175 till end.
+
+DEBUG = False  # for django-toolbar to work this should be set to true.
+ALLOWED_HOSTS = ['127.0.0.1','localhost','192.168.1.13'] # django proudction implementation.
+
+
+c) Needed to make the following changes to the wsgi.py files.
+
+(myenv) root@khyaathi-Technologies:/var/www/html/src/mysite# pwd
+/var/www/html/src/mysite
+(myenv) root@khyaathi-Technologies:/var/www/html/src/mysite# cat wsgi.py
+"""
+WSGI config for mysite project.
+
+It exposes the WSGI callable as a module-level variable named ``application``.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/1.8/howto/deployment/wsgi/
+"""
+
+import os
+import sys
+
+#path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+path = "/var/www/html/src/"
+print path
+sys.path.append(path)
+
+from django.core.wsgi import get_wsgi_application
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")
+
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
+
+#from django.core.handlers.wsgi import WSGIHandler
+#application = WSGIHandler()
+(myenv) root@khyaathi-Technologies:/var/www/html/src/mysite# 
+
+
+d) After that restarted the service to find out if all is working great.
+# sudo service apache2 restart
+
+e) Later try this on your site : http://<ip of apache server> , ex: http://192.168.1.13
+if you still see any errors , please go to the following location /var/log/apache2 and inspect the following location.
+
+myenv) root@khyaathi-Technologies:/var/log/apache2# ls
+access.log  error.log  other_vhosts_access.log
+(myenv) root@khyaathi-Technologies:/var/log/apache2# ls -l error.log
+-rw-r----- 1 root adm 8063 Jul 10 12:07 error.log
+(myenv) root@khyaathi-Technologies:/var/log/apache2# ls -l access.log
+-rw-r----- 1 root adm 1132 Jul 10 12:07 access.log
+(myenv) root@khyaathi-Technologies:/var/log/apache2# 
+
+
+
+ERRORS:
+
+for my case i got an error for logging.
+
+error 1:
+
+Mon Jul 10 12:07:24.856164 2017] [wsgi:error] [pid 22401:tid 139644407777024] [remote 192.168.1.11:51063]   File "/usr/lib/python2.7/logging/config.py", line 576, in configure
+[Mon Jul 10 12:07:24.856170 2017] [wsgi:error] [pid 22401:tid 139644407777024] [remote 192.168.1.11:51063]     '%r: %s' % (name, e))
+[Mon Jul 10 12:07:24.856180 2017] [wsgi:error] [pid 22401:tid 139644407777024] [remote 192.168.1.11:51063] ValueError: Unable to configure handler 'logfile': [Errno 13] Permission denied: '/var/www/html/src/logs/apps.log'
+
+error 2:
+Target WSGI script '/var/www/html/src/mysite/wsgi.py' cannot be loaded as Python module
+
+
+solution:
+
+I saw the issue was relative to logging module. Couldn't figure out the real cause but had to comment out the logging setup done.
+in following files.
+
+- /var/www/html/src/base.py 
+removed all the entries related to logging - 175 to last line.
+
+-  /var/www/html/src/blog/views.py
+hashed out all the entries related to logger in the files.
+
+- Also made sure only production.py files get loaded.
+
+(myenv) root@khyaathi-Technologies:/var/www/html/src/mysite/settings# cat __init__.py
+from .base import *
+
+try:
+  from .production import *
+except:
+  pass
+(myenv) root@khyaathi-Technologies:/var/www/html/src/mysite/settings# pwd
+/var/www/html/src/mysite/settings
+(myenv) root@khyaathi-Technologies:/var/www/html/src/mysite/settings# 
+
+- Made couple of changes in production.py files.
+
+* commented out the logging sections - line 175 till end.
+
+DEBUG = False  # for django-toolbar to work this should be set to true.
+ALLOWED_HOSTS = ['127.0.0.1','localhost','192.168.1.13'] # django proudction implementation.
+
+
+# References:
+https://docs.djangoproject.com/en/1.11/howto/deployment/wsgi/modwsgi/
+https://apps.ubuntu.com/cat/applications/natty/secpanel/
+https://www.thecodeship.com/deployment/deploy-django-apache-virtualenv-and-mod_wsgi/
+https://www.digitalocean.com/community/tutorials/how-to-serve-django-applications-with-apache-and-mod_wsgi-on-ubuntu-14-04
+
+
+
+
+# Django testcases
+# werkzeug/pdb debugger
