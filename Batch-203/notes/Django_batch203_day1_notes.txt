@@ -1,0 +1,80 @@
+khyaathi@khyaathi-Technologies:~$ ls
+Class_Archieves  Desktop  Documents  Downloads  examples.desktop  Music  Pictures  Public  Templates  test  test.sh  Videos
+khyaathi@khyaathi-Technologies:~$ cd Documents/
+khyaathi@khyaathi-Technologies:~/Documents$ ls
+bit-tuxfux  tuxfux-hlp-notes
+khyaathi@khyaathi-Technologies:~/Documents$ cd tuxfux-hlp-notes/
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes$ ls
+Django-notes  Django-notes-sv  python-notes
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes$ cd Django-notes
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes$ ls -lrt
+total 8
+drwxr-xr-x 5 khyaathi khyaathi 4096 Jun 18 14:37 Batch-201
+drwxr-xr-x 6 khyaathi khyaathi 4096 Jun 25 15:54 Batch-202
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes$ mkdir Batch-203
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes$ ls -l
+total 12
+drwxr-xr-x 5 khyaathi khyaathi 4096 Jun 18 14:37 Batch-201
+drwxr-xr-x 6 khyaathi khyaathi 4096 Jun 25 15:54 Batch-202
+drwxr-xr-x 2 khyaathi khyaathi 4096 Jul 12 07:36 Batch-203
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes$ pwd
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes$ cd
+khyaathi@khyaathi-Technologies:~$ 
+khyaathi@khyaathi-Technologies:~$ cd Desktop/
+khyaathi@khyaathi-Technologies:~/Desktop$ ln -s /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203 Batch-203
+khyaathi@khyaathi-Technologies:~/Desktop$ 
+khyaathi@khyaathi-Technologies:~/Desktop$ cd Batch-203
+khyaathi@khyaathi-Technologies:~/Desktop/Batch-203$ ls
+khyaathi@khyaathi-Technologies:~/Desktop/Batch-203$ mkdir notes
+khyaathi@khyaathi-Technologies:~/Desktop/Batch-203$ ls notes
+
+###
+# Initial setup for our django project
+###
+
+# sudo apt-get install python-pip
+# sudo pip install virtualenv
+
+###
+# Install the django and create the virtual env
+###
+
+khyaathi@khyaathi-Technologies:~/Desktop/Batch-203$ ls -lart
+total 12
+drwxr-xr-x 6 khyaathi khyaathi 4096 Jul 12 07:36 ..
+drwxr-xr-x 3 khyaathi khyaathi 4096 Jul 12 07:38 .
+drwxr-xr-x 2 khyaathi khyaathi 4096 Jul 12 07:40 notes
+khyaathi@khyaathi-Technologies:~/Desktop/Batch-203$ mkdir myenv
+khyaathi@khyaathi-Technologies:~/Desktop/Batch-203$ cd myenv/
+khyaathi@khyaathi-Technologies:~/Desktop/Batch-203/myenv$ virtualenv .
+New python executable in /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/myenv/bin/python
+Installing setuptools, pip, wheel...done.
+khyaathi@khyaathi-Technologies:~/Desktop/Batch-203/myenv$ ls
+bin  include  lib  local  pip-selfcheck.json
+khyaathi@khyaathi-Technologies:~/Desktop/Batch-203/myenv$ cd ..
+khyaathi@khyaathi-Technologies:~/Desktop/Batch-203$ ls
+myenv  notes
+khyaathi@khyaathi-Technologies:~/Desktop/Batch-203$ source myenv/bin/activate
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-203$ pip install django==1.8
+Collecting django==1.8
+  Using cached Django-1.8-py2.py3-none-any.whl
+Installing collected packages: django
+Successfully installed django-1.8
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-203$ pip freeze
+Django==1.8
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-203$ 
+
+
+# A good IDE
+Installation of pycharm - https://www.jetbrains.com/pycharm-edu/quickstart/installation.html#linux
+Installation of sublime text - https://askubuntu.com/questions/172698/how-do-i-install-sublime-text-2-3
+django plugins for sublime text - Djaneiro or sublime-jedi
+
+Some modification for your sublime text
+In the sublime text Goto preferences -> Colour Scheme -> Mac Classic.
+Click Project -> Save Project as -> myblog.sublime-project
+Click Project -> Add Folder to Project Add all the folder for our project.
+Click view -> Side bar -> Show Side bar
+
+# create a github account.
