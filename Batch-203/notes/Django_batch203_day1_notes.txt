@@ -78,3 +78,6 @@ Click Project -> Add Folder to Project Add all the folder for our project.
 Click view -> Side bar -> Show Side bar
 
 # create a github account.
+
+References:
+https://www.djangoproject.com/start/overview/
