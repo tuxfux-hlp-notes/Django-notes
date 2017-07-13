@@ -1,0 +1,229 @@
+# create your first project
+
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203$ ls
+myenv  notes
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203$ source myenv/bin/activate
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203$ 
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203$ pip freeze
+Django==1.8
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203$ django-admin.py startproject mysite
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203$ ls
+myenv  mysite  notes
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203$ 
+
+
+## make sure your rename the top - mysite to src folder name.
++ src
+  + mysite
+
+
+# Getting the development server started.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203$ ls
+myenv  notes  src
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203$ cd src
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ ls
+manage.py  mysite
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ python manage.py runserver
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have unapplied migrations; your app may not work properly until they are applied.
+Run 'python manage.py migrate' to apply them.
+
+July 13, 2017 - 01:45:25
+Django version 1.8, using settings 'mysite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+[13/Jul/2017 01:46:40]"GET / HTTP/1.1" 200 1767
+[13/Jul/2017 01:46:40]"GET /favicon.ico HTTP/1.1" 404 1936
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ python manage.py runserver 0.0.0.0:8000
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have unapplied migrations; your app may not work properly until they are applied.
+Run 'python manage.py migrate' to apply them.
+
+July 13, 2017 - 01:48:43
+Django version 1.8, using settings 'mysite.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+
+###
+# resolving the above issue.
+###
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ python manage.py migrate
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages
+  Apply all migrations: admin, contenttypes, auth, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  Rendering model states... DONE
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying sessions.0001_initial... OK
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ python manage.py runserver 0.0.0.0:8000
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 13, 2017 - 01:53:30
+Django version 1.8, using settings 'mysite.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+
+###
+# creating my first super user.
+###
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ python manage.py createsuperuser
+Username (leave blank to use 'khyaathi'): admin
+Email address: admin@gmail.com
+Password: 
+Password (again): 
+Superuser created successfully.
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ 
+
+try loggging into the admin site - http://localhost:8000/admin
+
+
+## for version prior to django 1.8 < syncdb
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ python manage.py syncdb
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/myenv/local/lib/python2.7/site-packages/django/core/management/commands/syncdb.py:24: RemovedInDjango19Warning: The syncdb command will be removed in Django 1.9
+  warnings.warn("The syncdb command will be removed in Django 1.9", RemovedInDjango19Warning)
+
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages
+  Apply all migrations: admin, contenttypes, auth, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  Rendering model states... DONE
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying sessions.0001_initial... OK
+
+You have installed Django's auth system, and don't have any superusers defined.
+Would you like to create one now? (yes/no): yes
+Username (leave blank to use 'khyaathi'): admin
+Email address: admin@gmail.com
+Password: 
+Password (again): 
+Superuser created successfully.
+
+###
+# Lets say hello world to everyone.
+#
+###
+
+myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ ls
+db.sqlite3  manage.py  mysite
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ python manage.py startapp blog
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ ls
+blog  db.sqlite3  manage.py  mysite
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ 
+
+###
+## Our first view.
+###
+
+under the blog app create a hello_world under the views.py
+
+---
+# Create your views here.
+
+def hello_world(request):
+	return HttpResponse("Hello!! world \n")
+
+---
+
+create a link to the view using the mysite/urls.py
+
+---
+
+from django.conf.urls import include, url
+from django.contrib import admin
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', 'blog.views.hello_world', name='home'),
+]
+
+---
+
+* Dont forget to start the server.
+* once you open the page, you should see the hello world there.
+
+###
+# how to render the static page - html.pages
+###
+
+a) Created a templates folder under the blog app.
++ blog/templates
+
+b) created a 'test.html' file under the templates folder.
++ blog/templates/test.html
+
+<html>
+	<head>
+		<title> Hello there world. </title>
+	</head>
+	<h1>  Hello world. How is it going ? </h1>
+</html>
+
+c) create a view under the + blog/views.py
+
+
+def test_hello(request):
+	f = open('/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src/blog/templates/test.html')
+	content = f.read()
+	return HttpResponse(content)
+
+d) create a url under the + mysite/urls.py
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', 'blog.views.hello_world', name='home'),
+    url(r'^test/', 'blog.views.test_hello', name='testhome'),
+]
+
+
+e) Please run your server and test the pages.
+
+
+## Reference
+https://docs.djangoproject.com/en/1.11/topics/http/views/
+https://docs.djangoproject.com/en/1.11/ref/request-response/#django.http.HttpResponse
