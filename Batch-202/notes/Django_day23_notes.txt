@@ -1,0 +1,140 @@
+# how to run the unit testing in django.
+
+a) under the +blog/tests.py you can write your test cases.
+By default its a empty file. when you run it it gives you the output as shown.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py test
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+Creating test database for alias 'default'...
+
+----------------------------------------------------------------------
+Ran 0 tests in 0.000s
+
+OK
+Destroying test database for alias 'default'...
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ 
+
+###
+# lets start with a simple example 1 
+###
+
+# Example 1: A very simple example on the test cases.
+class SimpleTest(TestCase):
+	def test_basic_addition(self):
+		self.assertEqual(1+1,2)
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py test blog
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+Creating test database for alias 'default'...
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+Destroying test database for alias 'default'...
+
+
+If you see in the above example the test has passed correctly.
+
+###
+# Example 2
+###
+
+# Example 2: A example to test if our view is working as expected.
+class BlogViewsTestCase(TestCase):
+	def test_index(self):
+		resp = self.client.get('/blog/')
+		self.assertEqual(resp.status_code,200)
+
+if you check the urls.py and run the server, you will notice the home page goes to "/blog/" so you can test the url with the following test case.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ python manage.py test blog
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+Creating test database for alias 'default'...
+True
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.088s
+
+OK
+Destroying test database for alias 'default'...
+
+so currently we have set an example on how to deal with the resp code for a particular view, Lets now work on the content of the test cases.
+
+
+####
+# Example 3
+# Testing of the rest api
+####
+
+Below are the api we worked on in the initial setup of our app. Lets now test them using the test cases.
+
+http://localhost:8000/blog/api/post/?format=json
+http://localhost:8000/blog/api/post/1/?format=json
+http://localhost:8000/blog/api/post/schema/?format=json
+http://localhost:8000/blog/api/post/set/1;7/?format=json
+
+Lets take the example of the first link. we can write a test for it using the following way.
+
+## Example 3: A example to test out our rest APIS
+
+from tastypie.test import ResourceTestCase
+
+class PostResourceTest(ResourceTestCase):
+	def test_get_api_json(self):
+		resp = self.api_client.get('/blog/api/post/',format='json')
+		self.assertValidJSONResponse(resp)
+
+if we are going for a xml format we need to using the lxml and defusedxml packages.
+
+
+####
+# A third party app.
+# coverage 
+####
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ pip install coverage
+Collecting coverage
+  Using cached coverage-4.4.1-cp27-cp27mu-manylinux1_x86_64.whl
+Installing collected packages: coverage
+Successfully installed coverage-4.4.1
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ 
+
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ coverage run manage.py test
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src
+Creating test database for alias 'default'...
+True
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.341s
+
+OK
+Destroying test database for alias 'default'...
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-202/src$ 
+
+###
+# to get a complete report run
+###
+
+coverage report -m
+
+
+References:
+------------
+https://docs.djangoproject.com/en/1.11/topics/testing/overview/
+https://docs.djangoproject.com/en/1.11/intro/tutorial05/
+https://docs.djangoproject.com/en/1.11/topics/testing/tools/
+https://docs.djangoproject.com/en/1.11/topics/testing/advanced/
+
+## practice ##
+http://toastdriven.com/blog/2011/apr/10/guide-to-testing-in-django/
+https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Testing
+https://micropyramid.com/blog/django-unit-test-cases-with-forms-and-views/
+
+
+
+
+
+
+
