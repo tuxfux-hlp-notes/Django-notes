@@ -1,0 +1,218 @@
+Render function to display the test.html file.
+-----------------------------------------------
+
+blog/views.py
+
+# example 2
+def test_hello(request):
+	context = {}
+	return render(request,'test.html',context)
+
+mysite/urls.py
+
+from django.conf.urls import include, url
+from django.contrib import admin
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', 'blog.views.hello_world', name='home'),
+    url(r'^test/', 'blog.views.test_hello', name='testhome'),
+]
+
+###
+# Run your server to see the changes.
+###
+
+# python manage.py runserver
+# http://localhost:8000/test
+
+you get the below error on your page.
+
+Template-loader postmortem
+
+Django tried loading these templates, in this order:
+
+    Using loader django.template.loaders.filesystem.Loader:
+    Using loader django.template.loaders.app_directories.Loader:
+        /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/myenv/local/lib/python2.7/site-packages/django/contrib/admin/templates/test.html (File does not exist)
+        /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/myenv/local/lib/python2.7/site-packages/django/contrib/auth/templates/test.html (File does not exist)
+
+
+###
+# our blog app is not available yet. so we need to add it to the project.
+###
+
+add the blog to the INSTALLED_APPS locations.
+
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'blog',
+)
+
+###
+# make sure you run the migrate and makemigrations to apply any models in your apps.
+###
+
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-203/src$ python manage.py migrate
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages
+  Apply all migrations: admin, contenttypes, auth, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  No migrations to apply.
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-203/src$ python manage.py makemigrations
+No changes detected
+
+###
+# Run your server to see the changes.
+###
+
+# python manage.py runserver
+# http://localhost:8000/test
+
+Template-loader postmortem
+
+Django tried loading these templates, in this order:
+
+    Using loader django.template.loaders.filesystem.Loader:
+    Using loader django.template.loaders.app_directories.Loader:
+        /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/myenv/local/lib/python2.7/site-packages/django/contrib/admin/templates/test.html (File does not exist)
+        /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/myenv/local/lib/python2.7/site-packages/django/contrib/auth/templates/test.html (File does not exist)
+        /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src/blog/templates/test.html (File does not exist)
+
+
+###
+#  Creating a templates folder for multiple apps.
+###
+
+a) first create a templates folder under the location src/templates
+b) What location does BASE_DIR link to - its pointing to the src location.
+c) How to tell django that the templates location is under the src/templates.
+mysite/settings.py file
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [ BASE_DIR + "/templates"],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+###
+# Run your server to see the changes.
+###
+
+# python manage.py runserver
+# http://localhost:8000/test
+
+provided we dont have the test.html in any of the templates folder - src/templates or blog/templates
+
+we get the below post morterm error, stating where all our django is searching for the test.html file.
+
+Template-loader postmortem
+
+Django tried loading these templates, in this order:
+
+    Using loader django.template.loaders.filesystem.Loader:
+        /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src/templates/test.html (File does not exist)
+    Using loader django.template.loaders.app_directories.Loader:
+        /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/myenv/local/lib/python2.7/site-packages/django/contrib/admin/templates/test.html (File does not exist)
+        /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/myenv/local/lib/python2.7/site-packages/django/contrib/auth/templates/test.html (File does not exist)
+        /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src/blog/templates/test.html (File does not exist)
+
+
+# variables,filters,tags
+References:
+Templates:https://docs.djangoproject.com/en/1.11/ref/templates/
+filters:https://docs.djangoproject.com/en/1.11/ref/templates/builtins/#filter
+tags:https://docs.djangoproject.com/en/1.11/ref/templates/language/#tags
+
+
+variables:https://docs.djangoproject.com/en/1.11/ref/templates/language/#variables
+
+a)
+
++ blog/templates/testdata.html
+<html>
+	<head>
+		<title> Data for the blog </title>
+	</head>
+	<h1>  Welcome to my blog </h1>
+	<body>
+		<div class="blog">
+			<table>
+				<tr>
+					<td> {{ name1 }} </td>
+					<td> {{ blogname1 }} </td>
+					<td> {{ message1 }} </td>
+				</tr>
+				<tr>
+					<td> {{ name2 }} </td>
+					<td> {{ blogname2 }} </td>
+					<td> {{ message2 }} </td>
+				</tr>
+				<tr>
+					<td> {{ name3 }} </td>
+					<td> {{ blogname3 }} </td>
+					<td> {{ message3 }} </td>
+				</tr>
+
+			</table>
+		</div>	
+	</body>
+
+</html>
+
+b)
+
++ blog/views.py
+
+# example 3
+def testdata(request):
+	context = {'name1':'arjouth-a','blogname1':'arjouth first blog','message1':'Today is friday.'
+				,'name2':'deepthi-a','blogname2':'deepthi first blog','message2':'Today is friday.'
+				,'name3':'govardan-a','blogname3':'govardhan first blog','message3':'Today is friday.'}
+	return render(request,'testdata.html',context)	
+
+c)
++ mysite/urls.py
+
+from django.conf.urls import include, url
+from django.contrib import admin
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', 'blog.views.hello_world', name='home'),
+    url(r'^test/', 'blog.views.test_hello', name='testhome'),
+    url(r'^testdata/', 'blog.views.testdata', name='testdata'),
+]
+
+
+# start another project
+https://docs.djangoproject.com/en/1.11/#first-steps
+
