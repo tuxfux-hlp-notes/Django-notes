@@ -6,24 +6,14 @@
 	<body>
 		<div class="blog">
 			<table>
+				{%  for key in namesdb %}
 				<tr>
-					<td> {{ name1 }} </td>
-					<td> {{ blogname1 }} </td>
-					<td> {{ message1 }} </td>
+					<td> {{ key.name|capfirst }} </td>
+					<td> {{ key.blogname|default:"My first blog." }} </td>
+					<td> {{ key.message|upper }} </td>
 				</tr>
-				<tr>
-					<td> {{ name2 }} </td>
-					<td> {{ blogname2 }} </td>
-					<td> {{ message2 }} </td>
-				</tr>
-				<tr>
-					<td> {{ name3 }} </td>
-					<td> {{ blogname3 }} </td>
-					<td> {{ message3 }} </td>
-				</tr>
-
+				{% endfor %}
 			</table>
 		</div>	
 	</body>
-
 </html>

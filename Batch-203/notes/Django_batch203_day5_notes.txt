@@ -1,0 +1,157 @@
+
+# django 1.8 above.
+
+When we added an app
+
+# python manage.py makemigrations
+# python manage.py migrate
+
+if a app contains a model, and if you do migrate your data will be populated in this areas.
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+# prior to django 1.8
+
+# python manage.py syncdb
+# south along with syncd for django version below 1.8
+https://south.readthedocs.io/en/latest/
+
+
+# Admin
+Even admin is a app and it has models.py with all the tables and schemas associated.
+
+# GUI and commandline tools
+# sqlite - sqlitebrower - GUI
+# sqlite3 - command line CLI
+
+Installation of sqlitebroswer:
+# sudo add-apt-repository -y ppa:linuxgndu/sqlitebrowser
+# sudo apt-get update
+# sudo apt-get install sqlitebrowser
+
+# sqlite3 - command line CLI
+# sudo apt-get install sqlite3
+
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-203/src$ sqlite3 db.sqlite3 
+SQLite version 3.14.1 2016-08-11 18:53:32
+Enter ".help" for usage hints.
+sqlite> .help
+
+sqlite> .tables
+auth_group                  auth_user_user_permissions
+auth_group_permissions      django_admin_log          
+auth_permission             django_content_type       
+auth_user                   django_migrations         
+auth_user_groups            django_session            
+sqlite> 
+
+sqlite> .tables auth_user
+auth_user
+sqlite> select * from auth_user;
+1|pbkdf2_sha256$20000$XrOrz28Gh0GP$Tg/d6pT86wBOzJOF33Nh6EXuiGTbSIW/XK7dlHw4gpI=|1|admin|||admin@gmail.com|1|1|2017-07-13 02:03:07.418558|2017-07-18 01:50:39.446695
+2|pbkdf2_sha256$20000$SElIUk5eGT9u$eFK6Zksu6eqjL3y3TwlwQTl3HkK94+S2QGz0op9XHXE=|1|arjouth||||1|1|2017-07-18 01:57:17|
+sqlite> .quit
+
+
+
+###
+# creation of our first model - blog/models.py
+####
+## every table that your create should have a primary key, provided it doesnt have a primary key
+## the primary key with the field "ID" get created - 0001_initial.py
+
+
+from django.db import models
+from django.utils import timezone
+
+# Create your models here.
+
+class Post(models.Model):
+	author = models.ForeignKey('auth.user')
+	title = models.CharField(max_length=200)
+	text = models.TextField()
+	created_date = models.DateTimeField(default=timezone.now)
+	#published_date = models.DateTimeField(blank=True,null=True) # blank=True - Form,null=True - database
+
+	# def publish(self):
+	# 	self.published_date = timezone.now()
+	# 	self.save()
+
+	def __str__(self):    # __str__ or __unicode__
+		return self.title
+
+
+## since we have written a model lets try to make sure its in database.
+##
+
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-203/src$ python manage.py makemigrations blog
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src
+Migrations for 'blog':
+  0001_initial.py:
+    - Create model Post
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-203/src$ python manage.py migrate blog
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src
+Operations to perform:
+  Apply all migrations: blog
+Running migrations:
+  Rendering model states... DONE
+  Applying blog.0001_initial... OK
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-203/src$ 
+
+
+###
+# Lets integrate our model to django admin
+# https://docs.djangoproject.com/en/1.11/ref/contrib/admin/
+###
+
++ blog/admin.py
+
+from django.contrib import admin
+from .models import Post
+
+# Register your models here.
+
+admin.site.register(Post)
+
+
+## so lets say i want to write another field published_date/
+we are tyring to add the published_data to the existing models.py Post schema.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-203/src$ python manage.py makemigrations blog
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src
+You are trying to add a non-nullable field 'published_date' to post without a default; we can't do that (the database needs something to populate existing rows).
+Please select a fix:
+ 1) Provide a one-off default now (will be set on all existing rows)
+ 2) Quit, and let me add a default in models.py
+Select an option: 2   
+
+###
+##
+
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-203/src$ python manage.py makemigrations blog
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src
+Migrations for 'blog':
+  0002_post_published_date.py:
+    - Add field published_date to post
+(myenv) khyaathi@khyaathi-Technologies:~/Desktop/Batch-203/src$ python manage.py migrate blog
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src
+Operations to perform:
+  Apply all migrations: blog
+Running migrations:
+  Rendering model states... DONE
+  Applying blog.0002_post_published_date... OK
+
+
+
+References:
+https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+https://docs.djangoproject.com/en/1.11/topics/db/models/
+https://docs.djangoproject.com/en/1.11/topics/db/models/#fields
+https://docs.djangoproject.com/en/1.11/ref/models/fields/#model-field-types
+https://docs.djangoproject.com/en/1.11/topics/db/models/#meta-options

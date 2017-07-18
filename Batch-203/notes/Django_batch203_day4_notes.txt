@@ -1,0 +1,202 @@
+###
+# tags
+###
+
+tags:https://docs.djangoproject.com/en/1.11/ref/templates/language/#tags
+    :https://docs.djangoproject.com/en/1.11/ref/templates/builtins/#built-in-tag-reference
+
+
+Update the views.py 
+------------------------
+
++ blog/views.py
+
+# Example 4 - Django_batch203_day4_notes.txt
+def testdata(request):
+	context = { 'namesdb': [{'name':'arjouth','blogname':'arjouth first blog','message':'Today is friday.'},
+				{'name':'deepthi','blogname':'deepthi first blog','message':'Today is friday.'},
+				{'name':'govardan','blogname':'govardhan first blog','message':'Today is friday.'},
+				{'name':'ramanji','blogname':'','message':'Today is friday.'}
+				]}
+	return render(request,'testdata.html',context)	
+
++ blog/templates/testdata.html
+
+<html>
+	<head>
+		<title> Data for the blog </title>
+	</head>
+	<h1>  Welcome to my blog </h1>
+	<body>
+		<div class="blog">
+			<table>
+				{%  for key in namesdb %}
+				<tr>
+					<td> {{ key.name }} </td>
+					<td> {{ key.blogname }} </td>
+					<td> {{ key.message }} </td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>	
+	</body>
+</html>
+
+How it works in backend.
+
+In [2]: namesdb=[{'name':'arjouth-a','blogname':'arjouth first blog','message':'Today is friday.'},
+   ...:    ...:                                 {'name':'deepthi-a','blogname':'deepthi first blog','message':'Today is friday.'},
+   ...:    ...:                                 {'name':'govardan-a','blogname':'govardhan first blog','message':'Today is friday.'}]
+
+In [3]: print namesdb
+[{'message': 'Today is friday.', 'name': 'arjouth-a', 'blogname': 'arjouth first blog'}, {'message': 'Today is friday.', 'name': 'deepthi-a', 'blogname': 'deepthi first blog'}, {'message': 'Today is friday.', 'name': 'govardan-a', 'blogname': 'govardhan first blog'}]
+
+In [4]: for value in namesdb:
+   ...:     print value['message'],value['name'],value['blogname']
+   ...:     
+Today is friday. arjouth-a arjouth first blog
+Today is friday. deepthi-a deepthi first blog
+Today is friday. govardan-a govardhan first blog
+
+In [5]: 
+
+###
+# Please run your server on port 8000.
+###
+
+ python manage.py runserver
+
+
+###
+# Filters
+###
+
+filters:https://docs.djangoproject.com/en/1.11/ref/templates/builtins/#built-in-filter-reference
+
++ blog/views.py
+
+def testdata(request):
+	context = { 'namesdb': [{'name':'arjouth','blogname':'arjouth first blog','message':'Today is friday.'},
+				{'name':'deepthi','blogname':'deepthi first blog','message':'Today is friday.'},
+				{'name':'govardan','blogname':'govardhan first blog','message':'Today is friday.'},
+				{'name':'ramanji','blogname':'','message':'Today is friday.'}
+				]}
+	return render(request,'testdata.html',context)
+
+
++ blog/templates/testdata.html
+
+<html>
+	<head>
+		<title> Data for the blog </title>
+	</head>
+	<h1>  Welcome to my blog </h1>
+	<body>
+		<div class="blog">
+			<table>
+				{%  for key in namesdb %}
+				<tr>
+					<td> {{ key.name|capfirst }} </td>
+					<td> {{ key.blogname|default:"My first blog." }} </td>
+					<td> {{ key.message|upper }} </td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>	
+	</body>
+</html>
+
+
+###
+# Please run your server on port 8000.
+###
+
+ python manage.py runserver
+
+
+###
+#  Deploy your code in github
+###
+
+a) please create a default github account  - username/password.
+b) sudo apt-get install git
+c) now go one level above the folder you want to upload to the git.
+
+ex: 
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203$ ls
+myenv  notes  src
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203$ pwd
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203$ 
+
+d) This is for creation of your git locations.
+# git init
+# git config --global user.name "your name"
+ex: tuxfux-hlp-notes
+# git config --global user.email "your@gmail.com"
+ex: tuxfux.hlp.notes@gmail.com
+
+e) create a .gitignore
+ex: https://github.com/tuxfux-hlp-notes/Django-notes/blob/master/.gitignore
+
+f) git status
+
+It will tell you what are the files to be added and what are to be ignored.
+
+g) To add all the files which are modified.
+# git add --all .
+
+h) git commit -m "My changes to the code"
+i) git push origin master
+
+
+###
+# Refining your URLS
+###
+
+What does  url(r'^admin/', include(admin.site.urls)), mean?
+https://stackoverflow.com/questions/19919547/where-can-i-find-the-source-file-of-admin-site-urls
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/myenv/lib/python2.7/site-packages/django/contrib/admin$ pwd
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/myenv/lib/python2.7/site-packages/django/contrib/admin
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/myenv/lib/python2.7/site-packages/django/contrib/admin$ ls -l sites.py
+-rw-r--r-- 1 khyaathi khyaathi 22052 Jul 12 07:45 sites.py
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/myenv/lib/python2.7/site-packages/django/contrib/admin$ 
+
+
+Lets refine our urls:
+
+a) create a urls.py under the blog/urls.py
+
+from django.conf.urls import include, url
+from .views import hello_world,test_hello,testdata
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^$', hello_world, name='home'),
+    url(r'^test/', test_hello, name='testhome'),
+    url(r'^testdata/', testdata, name='testdata'),
+]
+
+b) Make some minor modification to the mysite/urls.py so that its pointed to the blog/urls.py
+
+from django.conf.urls import include, url
+from django.contrib import admin
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^blog/',include('blog.urls')),
+    # url(r'^$', 'blog.views.hello_world', name='home'),
+    # url(r'^test/', 'blog.views.test_hello', name='testhome'),
+    # url(r'^testdata/', 'blog.views.testdata', name='testdata'),
+]
+
+c) Please run the server and test if your links are working as expected.
