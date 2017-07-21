@@ -1,5 +1,8 @@
 <html>
 	<head>
+		{% load staticfiles %}
+		<link href="{% static 'blog/styles.css' %}" rel="stylesheet" text="text/css" >
+		<link href="{% static 'base.css' %}" rel="stylesheet" text="text/css" >
 		<title> Data for the blog </title>
 	</head>
 	<h1>  Welcome to my blog </h1>
@@ -8,9 +11,9 @@
 			<table>
 				{%  for key in namesdb %}
 				<tr>
-					<td> {{ key.name|capfirst }} </td>
-					<td> {{ key.blogname|default:"My first blog." }} </td>
-					<td> {{ key.message|upper }} </td>
+					<td> {{ key.author }} </td>
+					<td> {{ key.title}} </td>
+					<td> {{ key.text }} </td>
 				</tr>
 				{% endfor %}
 			</table>

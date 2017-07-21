@@ -1,0 +1,126 @@
+### intergrating the data to the template
+
+a) How to access the data using the shell command.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ python manage.py shell
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src
+Python 2.7.12+ (default, Sep 17 2016, 12:08:02) 
+[GCC 6.2.0 20160914] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from blog.models import Post
+>>> from django.db import models
+>>> from django.utils import timezone
+>>> 
+>>> Post.objects.all()
+[<Post: arjouth My first blog  Today it raining cats and dogs in Hyderabad. Seems we are going to have a mini swimming pool in hyderabad.>, <Post: deepthi Deepthi first blog Its raining heavily today too.>, <Post: manpreeth Manpreeth first blog Seems the rain has subsided today. A very good news. I am eager to see my boss face :).>, <Post: naresh Naresh first blog Today i have to go to college to teach my students. Hopefully they listen to me.>]
+>>> 
+
+
+b) modifications done to the - blog/models.py 
+
+from django.db import models
+from django.utils import timezone
+
+# Create your models here.
+
+class Post(models.Model):
+	author = models.ForeignKey('auth.user')
+	title = models.CharField(max_length=200)
+	text = models.TextField()
+	created_date = models.DateTimeField(default=timezone.now)
+	published_date = models.DateTimeField(blank=True,null=True) # blank=True - Form,null=True - database
+
+	def publish(self):
+	 	self.published_date = timezone.now()
+	 	self.save()
+
+	def __str__(self):    # __str__ or __unicode__
+		return "{} {} {}".format(self.author,self.title,self.text)
+
+c) no modificaitons done to the blog/urls.py
+d) modification done to the blog/views.py
+
+from .models import Post
+# example 4 - Django_batch203_day6_notes.txt
+def testdata(request):
+	values = Post.objects.all()
+	context = { 'namesdb':values }
+	return render(request,'testdata.html',context)	
+
+e) Made some slight modifications to our template - blog/templates/testdata.html
+
+<html>
+	<head>
+		<title> Data for the blog </title>
+	</head>
+	<h1>  Welcome to my blog </h1>
+	<body>
+		<div class="blog">
+			<table>
+				{%  for key in namesdb %}
+				<tr>
+					<td> {{ key.author }} </td>
+					<td> {{ key.title}} </td>
+					<td> {{ key.text }} </td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>	
+	</body>
+</html>
+
+f) Try populating the data using any of the methods.
+* sqlitebrowser
+* sqlite3
+* admin
+* shell
+
+h) Make sure your server is running now  - http://127.0.0.1:8000/blog/testdata/
+
+
+###
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.8/howto/static-files/
+###
+
+a) what do you mean by static files?
+ex: images,css,js files
+
+b) How to configure your static files?
+https://docs.djangoproject.com/en/1.8/howto/static-files/#configuring-static-files
+
+- please check the above link and look at the mysite/settings.py file.
+- create a static folder under blog/static and dump your styles.css page under it.
+  + blog/static/styles.css
+
+  body {
+	background-color:olive; 
+  }
+
+- try to see if you can access the styles.css page - http://localhost:8000/static/styles.css
+- Make some modificaiton to your testdata.html page - blog/templates/testdata.html
+
+<html>
+	<head>
+		{% load staticfiles %}
+		<link href="{% static 'styles.css' %}" rel="stylesheet" text="text/css" >
+		<title> Data for the blog </title>
+	</head>
+	<h1>  Welcome to my blog </h1>
+	<body>
+		<div class="blog">
+			<table>
+				{%  for key in namesdb %}
+				<tr>
+					<td> {{ key.author }} </td>
+					<td> {{ key.title}} </td>
+					<td> {{ key.text }} </td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>	
+	</body>
+</html>
+
+- Make sure your server is running fine and if your hit on the page it should give your a page with olive colour.

@@ -15,4 +15,4 @@ class Post(models.Model):
 	 	self.save()
 
 	def __str__(self):    # __str__ or __unicode__
-		return self.title
+		return "{} {} {}".format(self.author,self.title,self.text)

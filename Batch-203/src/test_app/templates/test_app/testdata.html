@@ -1,0 +1,25 @@
+<html>
+	<head>
+		{% load staticfiles %}
+		<link href="{% static 'test_app/styles.css' %}" rel="stylesheet" text="text/css" >
+		<link href="{% static 'base.css' %}" rel="stylesheet" text="text/css" >
+		<title> Data for the blog </title>
+	</head>
+	<h1>  Welcome to my test data </h1>
+	<body>
+		<div class="blog">
+			<table>
+				{%  for key in newdb %}
+				<tr>
+					<td> {{ key.name }} </td>
+					<td> {{ key.blogname}} </td>
+					<td> {{ key.message }} </td>
+				</tr>
+				{% endfor %}
+			</table>
+<!-- 			<p>
+				we are trying to understand the static files - test_app.
+			</p> -->
+		</div>	
+	</body>
+</html>

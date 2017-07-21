@@ -1,0 +1,114 @@
+# references
+https://docs.djangoproject.com/en/1.8/howto/static-files/#deployment
+
+
+a) update the STATIC_ROOT under the location mysite/settings.py file.
+
+## All the static files from all apps and projects
+STATIC_ROOT = os.path.join(BASE_DIR, "project_public")
+
+django.contrib.staticfiles provides a convenience management command for gathering static files in a single directory so you can serve them easily
+
+b) Run the collectstatic command.
+# python manage.py collectstatic
+
+###
+# Forms
+###
+
+References: https://docs.djangoproject.com/en/1.8/ref/forms/
+			https://docs.djangoproject.com/en/1.8/topics/forms/
+			https://docs.djangoproject.com/en/1.8/ref/forms/fields/
+			https://docs.djangoproject.com/en/1.8/ref/forms/widgets/
+			https://www.w3schools.com/html/html_forms.asp
+			https://docs.djangoproject.com/en/1.8/topics/forms/#form-rendering-options
+			https://docs.djangoproject.com/en/1.11/ref/csrf/
+			https://docs.djangoproject.com/en/1.8/ref/forms/validation/
+			
+
+
+a) create a form.py under your app - src/blog/forms.py
+
+from django import forms
+
+class ContactForm(forms.Form):
+	contact_name = forms.CharField(required=True)
+	contact_email = forms.EmailField(required=True)
+	content = forms.CharField(
+			required=True,
+			widget = forms.Textarea
+		)
+
+b) create a url for the the contact content page - src/blog/urls.py
+
+from django.conf.urls import include, url
+from .views import hello_world,test_hello,testdata,contact
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^$', hello_world, name='home'),
+    url(r'^test/', test_hello, name='testhome'),
+    url(r'^testdata/', testdata, name='testdata'),
+    url(r'^contact/',contact,name='contact'),
+]
+
+c) Create a view contact for our contact page - src/blog/views.py
+
+
+def contact(request):
+	form_class = ContactForm
+	context = {'form':form_class}
+	return render(request,'blog/contact.html',context)
+
+d) Now create the template under the src/blog/templates/blog/contact.html
+
+<html>
+<head>
+ <title> Contact Form for our site </title>
+</head>
+<body>
+	<form action="" method="post">
+	{{ form.as_p }}
+	<button type="submit">Submit</button>
+	</form>
+</body>
+</html>
+
+e) Please run your server 
+
+# python manage.py runserver
+
+f) open the page - hit on the submit button. You should get the following below error.
+
+
+Forbidden (403)
+CSRF verification failed. Request aborted.
+Help
+Reason given for failure:
+    CSRF token missing or incorrect.
+    
+In general, this can occur when there is a genuine Cross Site Request Forgery, or when Django's CSRF mechanism has not been used correctly. For POST forms, you need to ensure:
+Your browser is accepting cookies.
+The view function passes a request to the template's render method.
+In the template, there is a {% csrf_token %} template tag inside each POST form that targets an internal URL.
+If you are not using CsrfViewMiddleware, then you must use csrf_protect on any views that use the csrf_token template tag, as well as those that accept the POST data.
+You're seeing the help section of this page because you have DEBUG = True in your Django settings file. Change that to False, and only the initial error message will be displayed.
+You can customize this page using the CSRF_FAILURE_VIEW setting.
+
+g) To avoid this error we need to put the {% csrf_token %} tag in our src/blog/templates/blog/contact.html page.
+
+<html>
+<head>
+ <title> Contact Form for our site </title>
+</head>
+<body>
+	<form action="" method="post">{% csrf_token %}
+	{{ form.as_p }}
+	<button type="submit">Submit</button>
+	</form>
+</body>
+
+</html>

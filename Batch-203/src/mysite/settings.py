@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
+    'test_app',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -102,3 +103,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+## All the static files common to both the apps.
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "project_static"),
+)
+
+## All the static files from all apps and projects
+STATIC_ROOT = os.path.join(BASE_DIR, "project_public")

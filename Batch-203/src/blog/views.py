@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Post
+from .forms import ContactForm
 
 # Create your views here.
 
@@ -26,10 +28,21 @@ def test_hello(request):
 # 	return render(request,'testdata.html',context)	
 
 # Example 4 - Django_batch203_day4_notes.txt
+# def testdata(request):
+# 	context = { 'namesdb': [{'name':'arjouth','blogname':'arjouth first blog','message':'Today is friday.'},
+# 				{'name':'deepthi','blogname':'deepthi first blog','message':'Today is friday.'},
+# 				{'name':'govardan','blogname':'govardhan first blog','message':'Today is friday.'},
+# 				{'name':'ramanji','blogname':'','message':'Today is friday.'}
+# 				]}
+# 	return render(request,'testdata.html',context)	
+
+# example 4 - Django_batch203_day6_notes.txt
 def testdata(request):
-	context = { 'namesdb': [{'name':'arjouth','blogname':'arjouth first blog','message':'Today is friday.'},
-				{'name':'deepthi','blogname':'deepthi first blog','message':'Today is friday.'},
-				{'name':'govardan','blogname':'govardhan first blog','message':'Today is friday.'},
-				{'name':'ramanji','blogname':'','message':'Today is friday.'}
-				]}
+	values = Post.objects.all()
+	context = { 'namesdb':values }
 	return render(request,'testdata.html',context)	
+
+def contact(request):
+	form_class = ContactForm
+	context = {'form':form_class}
+	return render(request,'blog/contact.html',context)
