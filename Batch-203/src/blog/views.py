@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from .models import Post
 from .forms import ContactForm
+from django.core.mail import EmailMessage
 
 # Create your views here.
 
@@ -42,7 +43,28 @@ def testdata(request):
 	context = { 'namesdb':values }
 	return render(request,'testdata.html',context)	
 
+def thanks(request):
+	return HttpResponse("Thank you and we will get back to you soon. Please go back to the home page.")
+
+### Django_batch203_day8_notes.txt
 def contact(request):
 	form_class = ContactForm
 	context = {'form':form_class}
+	### Django_batch203_day9_notes.txt
+	print request.method
+    # POST
+	if request.method == 'POST':
+		form = ContactForm(request.POST)
+		#print dir(form)
+		#print form.is_valid()
+		if form.is_valid():
+			contact_name = form.cleaned_data['contact_name']
+			contact_email = form.cleaned_data['contact_email']
+			subject = "A new Contact/Lead for Khyaathi - {}".format(contact_name)
+			content = form.cleaned_data['content']
+			#print contact_name,contact_email,subject,content
+			email = EmailMessage(subject,contact_name + '-' + contact_email + '\n' + content , to=['tuxfux.hlp@gmail.com'])
+			email.send()
+			return HttpResponseRedirect('/blog/thanks/')
+	# GET
 	return render(request,'blog/contact.html',context)
