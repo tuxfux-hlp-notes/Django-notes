@@ -1,50 +1,6 @@
-from django.shortcuts import render
-from django.http import HttpResponse,HttpResponseRedirect
-from .models import Post
-from .forms import ContactForm,BlogForm
-from django.core.mail import EmailMessage
+## how to show the errors popping out of form.
 
-# Create your views here.
-
-def hello_world(request):
-	return HttpResponse("Hello!! world \n")
-
-# example 1:
-# def test_hello(request):
-# 	f = open('/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src/blog/templates/test.html')
-# 	content = f.read()
-# 	return HttpResponse(content)
-
-
-# example 2
-def test_hello(request):
-	context = {}
-	return render(request,'test.html',context)
-
-# example 3 - Django_batch203_day3_notes.txt
-# def testdata(request):
-# 	context = {'name1':'arjouth-a','blogname1':'arjouth first blog','message1':'Today is friday.'
-# 				,'name2':'deepthi-a','blogname2':'deepthi first blog','message2':'Today is friday.'
-# 				,'name3':'govardan-a','blogname3':'govardhan first blog','message3':'Today is friday.'}
-# 	return render(request,'testdata.html',context)	
-
-# Example 4 - Django_batch203_day4_notes.txt
-# def testdata(request):
-# 	context = { 'namesdb': [{'name':'arjouth','blogname':'arjouth first blog','message':'Today is friday.'},
-# 				{'name':'deepthi','blogname':'deepthi first blog','message':'Today is friday.'},
-# 				{'name':'govardan','blogname':'govardhan first blog','message':'Today is friday.'},
-# 				{'name':'ramanji','blogname':'','message':'Today is friday.'}
-# 				]}
-# 	return render(request,'testdata.html',context)	
-
-# example 4 - Django_batch203_day6_notes.txt
-def testdata(request):
-	values = Post.objects.all()
-	context = { 'namesdb':values }
-	return render(request,'testdata.html',context)	
-
-def thanks(request):
-	return HttpResponse("Thank you and we will get back to you soon. Please go back to the home page.")
+Just to make sure we get some errors where we are creating the post.
 
 ### Django_batch203_day8_notes.txt
 def contact(request):
@@ -76,6 +32,21 @@ def contact(request):
 	# GET
 	return render(request,'blog/contact.html',context)
 
+
+## modular forms
+
+a) create a form for the Post in src/blog/forms.py
+
+# Model form
+
+from .models import Post
+class BlogForm(forms.ModelForm):
+	class Meta:
+		model = Post
+		fields = ['author','title','text','created_date','published_date']
+
+b) create a view for the model forms - src/blog/views.py
+
 # Model form
 ### Django_batch203_day10_notes.txt
 def Bloginsert(request):
@@ -105,5 +76,38 @@ def Bloginsert(request):
 			print form
 			return render(request,'blog/post.html',context)
 
+c) create a url for the post. - src/blog/urls.py
+
+from django.conf.urls import include, url
+from .views import hello_world,test_hello,testdata,contact,thanks,Bloginsert
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^$', hello_world, name='home'),
+    url(r'^test/', test_hello, name='testhome'),
+    url(r'^testdata/', testdata, name='testdata'),
+    url(r'^contact/',contact,name='contact'),  # form
+    url(r'^post/',Bloginsert,name='blog'),     # form
+    url(r'^thanks/',thanks,name='thanks'),     # thank you redirect
+]
+
+d) create a template for post.html - src/blog/templates/blog/post.html
+
+<html>
+<head>
+ <title> Post Form for our site </title>
+</head>
+<body>
+	<form action="" method="post">{% csrf_token %}
+	{{ form.as_p }}
+	<button type="submit">Submit</button>
+	</form>
+</body>
+</html>
 
 
+# reference:
+https://docs.djangoproject.com/en/1.8/topics/forms/modelforms/

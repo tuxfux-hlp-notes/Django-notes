@@ -1,4 +1,5 @@
 from django import forms
+from .models import Post
 
 # static forms
 class ContactForm(forms.Form):
@@ -8,3 +9,9 @@ class ContactForm(forms.Form):
 			required=True,
 			widget = forms.Textarea
 		)
+
+# Model form
+class BlogForm(forms.ModelForm):
+	class Meta:
+		model = Post
+		fields = ['author','title','text','created_date','published_date']
