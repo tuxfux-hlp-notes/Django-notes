@@ -1,5 +1,5 @@
 from django.conf.urls import include, url
-from .views import hello_world,test_hello,testdata,contact
+from .views import hello_world,test_hello,blogdata,contact,thanks,Bloginsert
 
 urlpatterns = [
     # Examples:
@@ -8,6 +8,8 @@ urlpatterns = [
 
     url(r'^$', hello_world, name='home'),
     url(r'^test/', test_hello, name='testhome'),
-    url(r'^testdata/', testdata, name='testdata'),
-    url(r'^contact/',contact,name='contact'),
+    url(r'^blogdata/', blogdata, name='blogdata'), # changed the name from testdata to blogdata
+    url(r'^contact/',contact,name='contact'),  # form
+    url(r'^post/',Bloginsert,name='blog'),     # form
+    url(r'^thanks/',thanks,name='thanks'),     # thank you redirect
 ]

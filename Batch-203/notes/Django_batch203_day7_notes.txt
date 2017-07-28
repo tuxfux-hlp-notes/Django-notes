@@ -1,0 +1,205 @@
+## STATIC FILES
+
+To host the static files ( ex:images,java script and css files ) we need to set up the static
+
+a)In your settings.py file create the static variables.
+
+
+STATIC_URL = '/static/'
+
+b) create a static folder in the src/blog/static location.
+
+
+c) Lets now try to create a "styles.css" under the static location.
+
+src/blog/static/styles.css
+
+body {
+	background-color:olive;
+}
+
+d) Also create a html page under the templates locations.
+
+- src/templates/testdata.html
+
+<html>
+	<head>
+		{% load staticfiles %}
+		<link href="{% static 'styles.css' %}" rel="stylesheet" text="text/css" >
+		<title> Data for the blog </title>
+	</head>
+	<h1>  Welcome to my blog </h1>
+	<body>
+		<div class="blog">
+			<table>
+				{%  for key in namesdb %}
+				<tr>
+					<td> {{ key.author }} </td>
+					<td> {{ key.title}} </td>
+					<td> {{ key.text }} </td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>	
+	</body>
+</html>
+
+e) when you run the server and verify the link you should be able to see olive color for your page.
+
+####
+# how STATIC behaves if we have two apps.
+####
+
+
+a) create one more app called test_app
+# python manage.py startapp test_app
+
+b) now create a static folder in the location with styles.css
+body {
+	background-color:orange;
+}
+
+c) Also create a template under the location src/test_app/templates/test_app/testdata.html
+
+<html>
+	<head>
+		{% load staticfiles %}
+		<link href="{% static 'styles.css' %}" rel="stylesheet" text="text/css" >
+		<title> Data for the blog </title>
+	</head>
+	<h1>  Welcome to my test data </h1>
+	<body>
+		<div class="blog">
+			<table>
+				{%  for key in newdb %}
+				<tr>
+					<td> {{ key.name }} </td>
+					<td> {{ key.blogname}} </td>
+					<td> {{ key.message }} </td>
+				</tr>
+				{% endfor %}
+			</table>
+<!-- 			<p>
+				we are trying to understand the static files - test_app.
+			</p> -->
+		</div>	
+	</body>
+</html>
+
+d) Now please populate the INSTALLED_APPS location in the settings.py file.
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'blog',
+    'test_app',
+)
+
+Now depending on the location of the app at the top. you will get either a olive colour if blog app is at top of 
+test_app or you will get orange color if the test_app is on top of the blog app.
+
+e) so to avoid this kinda issues you can put the templates or static files in following order.
+
+src
+- blog
+- templates
+ + blog
+    + testdata.html
+- static
+  + blog
+    + styles.css
+
+
+src
+- test_app
+- templates
+ + test_app
+     + testdata.html
+- static
+  + test_app
+    + styles.css
+
+
+
+## STATICFILES_DIRS
+
+For setting up the static dirs you need to do the following.
+
+a) First create a folder project_static under the location src/project_static
+b) Also in the src/mysite/settings.py file set the followoing
+
+## All the static files common to both the apps.
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "project_static"),
+)
+
+c) So if you put any css,java or img file in the above location it should be available to all apps.
+d) created a base.css under the location src/project_static
+
+h1
+{
+
+	font-style: italic;
+}
+
+e) check the templates under the following locations where we have included this base.css files.
+
+i) src/blog/templates/testdata.html
+
+<html>
+	<head>
+		{% load staticfiles %}
+		<link href="{% static 'blog/styles.css' %}" rel="stylesheet" text="text/css" >
+		<link href="{% static 'base.css' %}" rel="stylesheet" text="text/css" >
+		<title> Data for the blog </title>
+	</head>
+	<h1>  Welcome to my blog </h1>
+	<body>
+		<div class="blog">
+			<table>
+				{%  for key in namesdb %}
+				<tr>
+					<td> {{ key.author }} </td>
+					<td> {{ key.title}} </td>
+					<td> {{ key.text }} </td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>	
+	</body>
+</html>
+
+ii) src/test_app/templates/test_app/testdata.html
+
+<html>
+	<head>
+		{% load staticfiles %}
+		<link href="{% static 'test_app/styles.css' %}" rel="stylesheet" text="text/css" >
+		<link href="{% static 'base.css' %}" rel="stylesheet" text="text/css" >
+		<title> Data for the blog </title>
+	</head>
+	<h1>  Welcome to my test data </h1>
+	<body>
+		<div class="blog">
+			<table>
+				{%  for key in newdb %}
+				<tr>
+					<td> {{ key.name }} </td>
+					<td> {{ key.blogname}} </td>
+					<td> {{ key.message }} </td>
+				</tr>
+				{% endfor %}
+			</table>
+<!-- 			<p>
+				we are trying to understand the static files - test_app.
+			</p> -->
+		</div>	
+	</body>
+</html>
+
+f) you can see the contents should show as italic for headers for both the pages.
+h) Please check the other locations liker urls.py/views.py to see how the code is written if you find any errors.

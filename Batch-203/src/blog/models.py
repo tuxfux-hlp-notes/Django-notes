@@ -9,6 +9,7 @@ class Post(models.Model):
 	text = models.TextField()
 	created_date = models.DateTimeField(default=timezone.now)
 	published_date = models.DateTimeField(blank=True,null=True) # blank=True - Form,null=True - database
+	email = models.EmailField(max_length=30,blank=True,null=True)
 
 	def publish(self):
 	 	self.published_date = timezone.now()

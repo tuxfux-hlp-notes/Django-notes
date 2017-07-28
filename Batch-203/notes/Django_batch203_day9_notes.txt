@@ -1,0 +1,61 @@
+## sending mails using forms
+
+a) Make the modification in the src/mysite/settings.py file.
+
+## Email settings
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'tuxfux.django@gmail.com'
+EMAIL_HOST_PASSWORD = 'tuxfux.django123'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+b) create a view such that you can send a mail. - src/blog/views.py
+
+from django.core.mail import EmailMessage
+from django.http import HttpResponse,HttpResponseRedirect
+
+### Django_batch203_day8_notes.txt
+def contact(request):
+	form_class = ContactForm
+	context = {'form':form_class}
+	### Django_batch203_day9_notes.txt
+	print request.method
+    # POST
+	if request.method == 'POST':
+		form = ContactForm(request.POST)
+		#print dir(form)
+		#print form.is_valid()
+		if form.is_valid():
+			contact_name = form.cleaned_data['contact_name']
+			contact_email = form.cleaned_data['contact_email']
+			subject = "A new Contact/Lead for Khyaathi - {}".format(contact_name)
+			content = form.cleaned_data['content']
+			#print contact_name,contact_email,subject,content
+			email = EmailMessage(subject,contact_name + '-' + contact_email + '\n' + content , to=['tuxfux.hlp@gmail.com'])
+			email.send()
+			return HttpResponseRedirect('/blog/thanks/')
+	# GET
+	return render(request,'blog/contact.html',context)
+
+c) Set the /thanks/ url working. - src/blog/urls.py
+
+from django.conf.urls import include, url
+from .views import hello_world,test_hello,testdata,contact,thanks
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^$', hello_world, name='home'),
+    url(r'^test/', test_hello, name='testhome'),
+    url(r'^testdata/', testdata, name='testdata'),
+    url(r'^contact/',contact,name='contact'),
+    url(r'^thanks/',thanks,name='thanks'),
+]
+
+## reference:
+https://docs.djangoproject.com/en/1.8/topics/forms/#the-view
+https://docs.djangoproject.com/en/1.8/topics/email/
+https://docs.djangoproject.com/en/1.11/topics/auth/passwords/

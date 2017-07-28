@@ -1,0 +1,100 @@
+Form validations
+
+## Add a new field (email) to the models.py .
+
+a) made a new field in models.py - blog/models.py
+
+from django.db import models
+from django.utils import timezone
+
+# Create your models here.
+
+class Post(models.Model):
+	author = models.ForeignKey('auth.user')
+	title = models.CharField(max_length=200)
+	text = models.TextField()
+	created_date = models.DateTimeField(default=timezone.now)
+	published_date = models.DateTimeField(blank=True,null=True) # blank=True - Form,null=True - database
+	email = models.EmailField(max_length=30,blank=True,null=True)
+
+	def publish(self):
+	 	self.published_date = timezone.now()
+	 	self.save()
+
+	def __str__(self):    # __str__ or __unicode__
+		return "{} {} {}".format(self.author,self.title,self.text)
+
+b) How to apply the migrations.
+
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ python manage.py migrate blog
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src
+Operations to perform:
+  Apply all migrations: blog
+Running migrations:
+  No migrations to apply.
+  Your models have changes that are not yet reflected in a migration, and so won't be applied.
+  Run 'manage.py makemigrations' to make new migrations, and then re-run 'manage.py migrate' to apply them.
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ python manage.py makemigrations blog
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src
+Migrations for 'blog':
+  0003_post_email.py:
+    - Add field email to post
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ python manage.py migrate blog
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src
+Operations to perform:
+  Apply all migrations: blog
+Running migrations:
+  Rendering model states... DONE
+  Applying blog.0003_post_email... OK
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ 
+
+c) we have to do some modification in the views.py - src/blog/views.py - Bloginsert
+
+added the email=email field to the post.objects.create.
+
+email = form.cleaned_data['email']
+Post.objects.create(author=author,title=title,text=text,created_date=created_date,published_date=published_date,email=email)
+
+d) please run the server and try to fill the data to see the email adddress is being taken care.
+
+http://127.0.0.1:8000/blog/post/ - fill the data.
+http://127.0.0.1:8000/blog/blogdata/ - verify the data is getting populated.
+
+
+## 
+# Form validation on email field.
+##
+
+a) write a validation under the forms.py - src/blog/forms.py
+
+# Model form
+class BlogForm(forms.ModelForm):
+	class Meta:
+		model = Post
+		fields = ['author','email','title','text','created_date','published_date']
+
+	# form validations
+	def clean_email(self):
+		email = self.cleaned_data.get('email')
+		print email,type(email)
+
+		if email:
+			(ename,edomain) = email.split('@')  # deepthi@khyaathi.com
+			if edomain != 'khyaathi.com':
+				raise forms.ValidationError("Please try to enter a valid khyaathi email address.")
+		return email
+
+b) please run the server and try to fill the data to see the email adddress is being taken care.
+
+http://127.0.0.1:8000/blog/post/ - fill the data.
+
+if you are not using khyaathi.com for your email address it populates asking for a valid email address.
+if you give valid khyaathi.com email addresss you should get a right entry done.
+
+http://127.0.0.1:8000/blog/blogdata/ - verify the data is getting populated.
+
+
+##
+# Reference : https://docs.djangoproject.com/en/1.11/ref/forms/validation/
+##

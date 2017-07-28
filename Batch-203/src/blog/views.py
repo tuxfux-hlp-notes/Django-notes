@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from .models import Post
-from .forms import ContactForm
+from .forms import ContactForm,BlogForm
+from django.core.mail import EmailMessage
 
 # Create your views here.
 
@@ -37,12 +38,74 @@ def test_hello(request):
 # 	return render(request,'testdata.html',context)	
 
 # example 4 - Django_batch203_day6_notes.txt
-def testdata(request):
+# changed the name testdata to blogdata.
+def blogdata(request):
 	values = Post.objects.all()
 	context = { 'namesdb':values }
 	return render(request,'testdata.html',context)	
 
+def thanks(request):
+	return HttpResponse("Thank you and we will get back to you soon. Please go back to the home page.")
+
+### Django_batch203_day8_notes.txt
 def contact(request):
-	form_class = ContactForm
-	context = {'form':form_class}
+	form = ContactForm
+	context = {'form':form}
+	### Django_batch203_day9_notes.txt
+	print request.method
+    
+    # POST
+	if request.method == 'POST':
+		form = ContactForm(request.POST)
+		#print dir(form)
+		#print form.is_valid()
+		# Go into the block if the form is valid.
+		if form.is_valid():
+			contact_name = form.cleaned_data['contact_name']
+			contact_email = form.cleaned_data['contact_email']
+			subject = "A new Contact/Lead for Khyaathi - {}".format(contact_name)
+			content = form.cleaned_data['content']
+			#print contact_name,contact_email,subject,content
+			email = EmailMessage(subject,contact_name + '-' + contact_email + '\n' + content , to=['tuxfux.hlp@gmail.com'])
+			email.send()
+			return HttpResponseRedirect('/blog/thanks/')
+		# what if the form is not valid.
+		else:
+			context = {'form':form}
+			return render(request,'blog/contact.html',context)
+
+	# GET
 	return render(request,'blog/contact.html',context)
+
+# Model form
+### Django_batch203_day10_notes.txt
+def Bloginsert(request):
+	print request.method
+	# POST
+	if request.method == 'POST':
+		form = BlogForm(request.POST)
+		# if form is valid
+		print form.is_valid()
+		if form.is_valid():
+			author = form.cleaned_data['author']
+			title = form.cleaned_data['title']
+			text = form.cleaned_data['text']
+			created_date = form.cleaned_data['created_date']
+			published_date = form.cleaned_data['published_date']
+			email = form.cleaned_data['email']
+			print author,title,text,created_date,published_date
+			Post.objects.create(author=author,title=title,text=text,created_date=created_date,published_date=published_date,email=email)
+			return HttpResponseRedirect('/blog/thanks/')
+		# what if the form is not valid.
+		else:
+			context = {'form':form}
+			return render(request,'blog/post.html',context)
+	#GET
+	else:
+			form = BlogForm
+			context = {'form':form}
+			print form
+			return render(request,'blog/post.html',context)
+
+
+

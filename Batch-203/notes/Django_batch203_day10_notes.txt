@@ -1,0 +1,113 @@
+## how to show the errors popping out of form.
+
+Just to make sure we get some errors where we are creating the post.
+
+### Django_batch203_day8_notes.txt
+def contact(request):
+	form = ContactForm
+	context = {'form':form}
+	### Django_batch203_day9_notes.txt
+	print request.method
+    
+    # POST
+	if request.method == 'POST':
+		form = ContactForm(request.POST)
+		#print dir(form)
+		#print form.is_valid()
+		# Go into the block if the form is valid.
+		if form.is_valid():
+			contact_name = form.cleaned_data['contact_name']
+			contact_email = form.cleaned_data['contact_email']
+			subject = "A new Contact/Lead for Khyaathi - {}".format(contact_name)
+			content = form.cleaned_data['content']
+			#print contact_name,contact_email,subject,content
+			email = EmailMessage(subject,contact_name + '-' + contact_email + '\n' + content , to=['tuxfux.hlp@gmail.com'])
+			email.send()
+			return HttpResponseRedirect('/blog/thanks/')
+		# what if the form is not valid.
+		else:
+			context = {'form':form}
+			return render(request,'blog/contact.html',context)
+
+	# GET
+	return render(request,'blog/contact.html',context)
+
+
+## modular forms
+
+a) create a form for the Post in src/blog/forms.py
+
+# Model form
+
+from .models import Post
+class BlogForm(forms.ModelForm):
+	class Meta:
+		model = Post
+		fields = ['author','title','text','created_date','published_date']
+
+b) create a view for the model forms - src/blog/views.py
+
+# Model form
+### Django_batch203_day10_notes.txt
+def Bloginsert(request):
+	print request.method
+	# POST
+	if request.method == 'POST':
+		form = BlogForm(request.POST)
+		# if form is valid
+		print form.is_valid()
+		if form.is_valid():
+			author = form.cleaned_data['author']
+			title = form.cleaned_data['title']
+			text = form.cleaned_data['text']
+			created_date = form.cleaned_data['created_date']
+			published_date = form.cleaned_data['published_date']
+			print author,title,text,created_date,published_date
+			Post.objects.create(author=author,title=title,text=text,created_date=created_date,published_date=published_date)
+			return HttpResponseRedirect('/blog/thanks/')
+		# what if the form is not valid.
+		else:
+			context = {'form':form}
+			return render(request,'blog/post.html',context)
+	#GET
+	else:
+			form = BlogForm
+			context = {'form':form}
+			print form
+			return render(request,'blog/post.html',context)
+
+c) create a url for the post. - src/blog/urls.py
+
+from django.conf.urls import include, url
+from .views import hello_world,test_hello,testdata,contact,thanks,Bloginsert
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^$', hello_world, name='home'),
+    url(r'^test/', test_hello, name='testhome'),
+    url(r'^testdata/', testdata, name='testdata'),
+    url(r'^contact/',contact,name='contact'),  # form
+    url(r'^post/',Bloginsert,name='blog'),     # form
+    url(r'^thanks/',thanks,name='thanks'),     # thank you redirect
+]
+
+d) create a template for post.html - src/blog/templates/blog/post.html
+
+<html>
+<head>
+ <title> Post Form for our site </title>
+</head>
+<body>
+	<form action="" method="post">{% csrf_token %}
+	{{ form.as_p }}
+	<button type="submit">Submit</button>
+	</form>
+</body>
+</html>
+
+
+# reference:
+https://docs.djangoproject.com/en/1.8/topics/forms/modelforms/
