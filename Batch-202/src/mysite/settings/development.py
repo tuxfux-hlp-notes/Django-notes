@@ -24,7 +24,7 @@ print BASE_DIR
 SECRET_KEY = '98wz)m$mla=vfcckqpu_-4+cvg-6@%tk_zi^x12a$b=%^v!y+x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False  # for django-toolbar to work this should be set to true.
+DEBUG = True  # for django-toolbar to work this should be set to true.
 
 ALLOWED_HOSTS = ['127.0.0.1','localhost'] # django proudction implementation
 INTERNAL_IPS = ('127.0.0.1')   # django-debug-toolbar
@@ -236,3 +236,6 @@ LOGGING = {
 
 }
 }
+
+# FIXTURES
+FIXTURE_DIRS = "fixtures/"

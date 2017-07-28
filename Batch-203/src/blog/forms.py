@@ -14,6 +14,7 @@ class ContactForm(forms.Form):
 class BlogForm(forms.ModelForm):
 	class Meta:
 		model = Post
+<<<<<<< HEAD
 		fields = ['author','email','title','text','created_date','published_date']
 
 	# form validations
@@ -26,3 +27,6 @@ class BlogForm(forms.ModelForm):
 			if edomain != 'khyaathi.com':
 				raise forms.ValidationError("Please try to enter a valid khyaathi email address.")
 		return email
+=======
+		fields = ['author','title','text','created_date','published_date']
+>>>>>>> ac0f006f4559b51ce969a472938dff242797d9c6

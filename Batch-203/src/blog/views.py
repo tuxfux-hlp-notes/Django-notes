@@ -92,9 +92,14 @@ def Bloginsert(request):
 			text = form.cleaned_data['text']
 			created_date = form.cleaned_data['created_date']
 			published_date = form.cleaned_data['published_date']
+<<<<<<< HEAD
 			email = form.cleaned_data['email']
 			print author,title,text,created_date,published_date
 			Post.objects.create(author=author,title=title,text=text,created_date=created_date,published_date=published_date,email=email)
+=======
+			print author,title,text,created_date,published_date
+			Post.objects.create(author=author,title=title,text=text,created_date=created_date,published_date=published_date)
+>>>>>>> ac0f006f4559b51ce969a472938dff242797d9c6
 			return HttpResponseRedirect('/blog/thanks/')
 		# what if the form is not valid.
 		else:

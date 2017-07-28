@@ -8,7 +8,9 @@ urlpatterns = [
     # url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
+
     url(r'^admin/', include(admin.site.urls)),   # django admin app.
+    url(r'^$','blog.views.home',name='home'),
     url(r'^blog/',include('blog.urls')),         # blog app
     url(r'^address/',include('address.urls')),         # address app
     url(r'^accounts/', include('registration.backends.default.urls')), # django registartion redux
