@@ -38,8 +38,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # own apps
     'blog',
     'test_app',
+    # third party apps
+    'crispy_forms',
+    'registration',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -119,3 +123,8 @@ EMAIL_HOST_USER = 'tuxfux.django@gmail.com'
 EMAIL_HOST_PASSWORD = 'tuxfux.django123'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+### Registration redux settings.
+ACCOUNT_ACTIVATION_DAYS = 7 
+LOGIN_REDIRECT_URL = '/'  # on a user logging in which page should he see.
+

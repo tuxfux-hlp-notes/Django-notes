@@ -1,0 +1,6 @@
+# Bootstrap our project
+
+
+reference:
+http://getbootstrap.com/
+https://docs.djangoproject.com/en/1.7/topics/templates/#template-inheritance

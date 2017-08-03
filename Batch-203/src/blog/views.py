@@ -9,6 +9,11 @@ from django.core.mail import EmailMessage
 def hello_world(request):
 	return HttpResponse("Hello!! world \n")
 
+def home(request):
+	values = Post.objects.all()
+	context = { 'namesdb':values }
+	return render(request,'blog/home.html',context)
+
 # example 1:
 # def test_hello(request):
 # 	f = open('/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src/blog/templates/test.html')
@@ -44,6 +49,8 @@ def blogdata(request):
 	context = { 'namesdb':values }
 	return render(request,'testdata.html',context)	
 
+#TODO
+# covert the repose to a html page for better editing.
 def thanks(request):
 	return HttpResponse("Thank you and we will get back to you soon. Please go back to the home page.")
 

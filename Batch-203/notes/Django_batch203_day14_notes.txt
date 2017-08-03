@@ -1,0 +1,74 @@
+Django Registration Redux
+------------------------------
+
+* sso - single sign on.
+* LDAP - Integration with Active directory.
+
+a) Install the django registration redux.
+# pip install django-registration-redux
+
+b) Add the registration to your INSTALLED_APPS  in the mysite/setting.py file.
+c) Please run the migrate and make migrations.
+# python manage.py makemigrations
+# python manage.py migrate
+
+c) Also set the following for the settings.py files.
+ACCOUNT_ACTIVATION_DAYS = 7 
+
+d) Include the urls for your django registration redux in - src/mysite/urls.py
+url(r'^accounts/', include('registration.backends.default.urls')),
+
+e) download the link using the git command line.
+
+https://github.com/macdhuibh/django-registration-templates
+
+# cd /tmp
+# git clone https://github.com/macdhuibh/django-registration-templates.git
+#(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src/templates$ pwd
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src/templates
+#(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src/templates$ cp -r /tmp/django-registration-templates/registration .
+#(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src/templates$ 
+
+f) you can notice that the above commands create a folder called as registration under the templates locations.
+g) since for our project i have put the base.html under templates/common folder. I have to update the same for 
+all the templates under the registration. ( hard way)
+
+or 
+
+you can move the base.html outside the tempaltes/common and modify the rest all templates on which we have worked on till date. ( recommended)
+
+i) i moved out the base.html from templates/common/base.html to templates/common/ locations.
+ii) i made slight modifications to blog/home.html , blog/templates/post.html and blog/templates/contact.html
+
+modified
+
+{% extends 'common/base.html' %}
+
+to 
+
+{% extends 'base.html' %}
+
+h) Now we want the login and register button to function in our navbar.html file.
++ templates/common/navbar.html
+
+i) After making necessary changes to the navbar.html. you open the login page and login as user.
+But you get popped up wiht following errors - http://127.0.0.1:8000/accounts/profile/
+
+Page not found (404)
+Request Method:	GET
+Request URL:	http://127.0.0.1:8000/accounts/profile/
+
+j) set the following entry in the "settings.py" file.
+
++ mysite/settings.py file.
+
+LOGIN_REDIRECT_URL = '/' 
+
+h) how to add the {{ register.user }} to the link to show the user details. - TODO
+i) how to add the login form for your site. - TODO tomorrow
+
+Reference:
+http://django-registration-redux.readthedocs.io/en/latest/quickstart.html
+https://github.com/macropin/django-registration
+http://getbootstrap.com/components/#navbar-component-alignment
+https://docs.djangoproject.com/en/1.11/topics/auth/default/#authentication-in-web-requests

@@ -1,0 +1,9 @@
+1) integrating of the post.html to our main page.
+2) intergrating of the contact.html to our main page.
+3) Inserting the urls inside the navbar.html areas.
+4) Now lets add crispy forms to our forms. 
+
+
+Reference:
+https://thinkster.io/django-angularjs-tutorial
+http://django-crispy-forms.readthedocs.io/en/latest/
