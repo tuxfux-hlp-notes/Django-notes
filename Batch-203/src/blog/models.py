@@ -3,6 +3,9 @@ from django.utils import timezone
 
 # Create your models here.
 
+#  auth.user has multiple authors.
+#  blog.post will have one author.
+#  Many to one relationship
 class Post(models.Model):
 	author = models.ForeignKey('auth.user')
 	title = models.CharField(max_length=200)

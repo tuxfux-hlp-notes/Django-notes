@@ -1,0 +1,102 @@
+1) creating a login form for our site.
+
+please go to the navbar.html uner the location templates/common/navbar.html
+
+          {% if request.user.is_authenticated %} 
+          <a class="blog-nav-item navbar-right" href="{% url 'auth_logout' %}">{{ request.user }} | Logout</a>
+          {% endif %}
+
+          {% if not request.user.is_authenticated  and not "/accounts/login" in request.get_full_path %}
+          <a class="blog-nav-item navbar-right" href="{% url 'registration_register' %}">Register</a>       
+          <!-- <a class="blog-nav-item navbar-right" href="{% url 'auth_login' %}">Login</a> -->
+          <form class="blog-nav-item navbar-right form-inline" action="{% url 'auth_login' %}" method="POST">{% csrf_token %}
+            <div class="form-group">
+              <input type="text" class="form-control" name="username" placeholder="username" />
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control" name="password" placeholder="password" />
+            </div>
+            <button type="submit" class="btn btn-default">Login</button>
+          </form>
+          {% endif %}
+
+
+
+
+# DATABASES
+-------------
+
+* every table has a primary key. if not defined, it creates an id field.
+* Foreingkey is also a unique key, but it needs reference from another table.
+* UNIQUE keys - primary key,foreign key
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ sqlite3 db.sqlite3 
+SQLite version 3.14.1 2016-08-11 18:53:32
+Enter ".help" for usage hints.
+sqlite> .help
+<...truncated...>
+
+
+sqlite> .tables
+auth_group                                
+auth_group_permissions                    
+auth_permission                           
+auth_user                                 
+auth_user_groups                          
+auth_user_user_permissions                
+blog_post                                 
+django_admin_log                          
+django_content_type                       
+django_migrations                         
+django_session                            
+registration_registrationprofile          
+registration_supervisedregistrationprofile
+
+
+
+sqlite> .headers on
+sqlite> 
+sqlite> 
+sqlite> select * from blog_post;
+id|title|text|created_date|author_id|published_date|email
+2|My first blog |Today it raining cats and dogs in Hyderabad. Seems we are going to have a mini swimming pool in hyderabad.|2017-07-18 02:24:42|2||
+3|Deepthi first blog|Its raining heavily today too.|2017-07-18 02:34:06|3||
+4|Manpreeth first blog|Seems the rain has subsided today. A very good news. I am eager to see my boss face :).|2017-07-19 01:53:54|4||
+5|Naresh first blog|Today i have to go to college to teach my students. Hopefully they listen to me.|2017-07-19 01:54:55|5||
+6|sivarams first blog|Seems we have a cool climate the rest of the day. I want to relax a bit without any traffic.|2017-07-19 02:02:33|6||
+7|My first blog - govardan|hey there this is my first post.|2017-07-25 02:22:03|7||
+8|This is my second post|Hey there i am going over my second post.|2017-07-28 01:53:09|2||arjouth@gmail.com
+9|This is my second post|Hey there i am going over my second post.|2017-07-28 01:59:29|3||deepthi@gmail.com
+10|this is my first post|i am trying to add a entry to the blog.|2017-07-28 02:10:46|8||ramanji@khyaathi.com
+11|this is my third post|hey there this is my third post.|2017-07-28 02:13:50|3||deepthi@khyaathi.com
+12|Third blog |This is my third blog.|2017-08-01 02:07:45|8||ramanji@khyaathi.com
+
+
+sqlite> select * from auth_user;
+id|password|is_superuser|username|first_name|last_name|email|is_staff|is_active|date_joined|last_login
+1|pbkdf2_sha256$20000$XrOrz28Gh0GP$Tg/d6pT86wBOzJOF33Nh6EXuiGTbSIW/XK7dlHw4gpI=|1|admin|||admin@gmail.com|1|1|2017-07-13 02:03:07.418558|2017-07-19 01:51:24.162068
+2|pbkdf2_sha256$20000$SElIUk5eGT9u$eFK6Zksu6eqjL3y3TwlwQTl3HkK94+S2QGz0op9XHXE=|1|arjouth||||1|1|2017-07-18 01:57:17|2017-08-07 02:05:12.883850
+3|pbkdf2_sha256$20000$4zyBBcbOdEoq$Yjwou5b5dT/QvG1yzfph9+Lf9Y8dJsPWcq0PAofW/iI=|1|deepthi|||deepthi@gmail.com|1|1|2017-07-18 02:33:32|
+4|pbkdf2_sha256$20000$BY1tDskzSfBt$UzwjG+pDjxW03WzTdGXv4KRpKdxYi0vrFvhttY4tDHI=|0|manpreeth||||0|1|2017-07-19 01:53:00.269986|
+5|pbkdf2_sha256$20000$LRs1kcRyw7T2$khqfkfKwFoY13dmmAQAIqz89Tjl5VZYLgJm1v/J7CWg=|0|naresh||||0|1|2017-07-19 01:53:23.563210|
+6|pbkdf2_sha256$20000$mjfxeOfEMpeb$sbCx1Of2+HkX6k5LBB3aHyv3BfFkI/OhUQR2pLKFQWs=|0|sivaram||||0|1|2017-07-19 02:02:19|
+7|pbkdf2_sha256$20000$Gggh2BsdVNf4$R/FLei9D3H7kdLeysBO5HQ/6CwXv7d/zyg86j+6HPIY=|1|govardhan||||0|1|2017-07-25 02:18:16|
+8|pbkdf2_sha256$20000$Ks2x3Utlvvci$i0VY89tKZmVMynfxk/hFwNVqyTORWoRjFtEnvjTsN8o=|0|ramanji||||0|1|2017-07-28 02:10:34.721453|
+9|pbkdf2_sha256$20000$kWNufiqcbDsF$ksnpz6m5jPTrsO9+vle6+tlm1GVcXArkYWx9RbNb38A=|0|kumar|||tuxfux.hlp@gmail.com|0|1|2017-08-03 02:30:53.902518|2017-08-03 02:39:47.269684
+
+
+
+
+references:
+http://getbootstrap.com/css/#forms
+http://getbootstrap.com/css/#forms-inline
+
+database:
+https://docs.djangoproject.com/en/1.8/ref/settings/#engine
+https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+https://docs.djangoproject.com/en/1.11/topics/db/models/
+https://docs.djangoproject.com/en/1.11/topics/db/models/#relationships
+
+# many to one relationships
+https://docs.djangoproject.com/en/1.11/topics/db/models/#relationships
+https://docs.djangoproject.com/en/1.11/ref/models/fields/#foreign-key-arguments

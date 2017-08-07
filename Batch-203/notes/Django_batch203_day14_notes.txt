@@ -64,8 +64,8 @@ j) set the following entry in the "settings.py" file.
 
 LOGIN_REDIRECT_URL = '/' 
 
-h) how to add the {{ register.user }} to the link to show the user details. - TODO
-i) how to add the login form for your site. - TODO tomorrow
+h) how to add the {{ register.user }} to the link to show the user details. - continuation in day 15.txt
+i) how to add the login form for your site. - continuation in day 15.txt
 
 Reference:
 http://django-registration-redux.readthedocs.io/en/latest/quickstart.html
