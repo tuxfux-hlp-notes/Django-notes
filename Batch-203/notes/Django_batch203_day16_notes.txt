@@ -1,0 +1,29 @@
+
+# many to one relationship
+
+1) created a model related to many_to_one in the test_app/models.py.
+2) add the models to the admin.py under test_app/models.py
+3) run the migrate commands.
+# python manage.py makemigrations
+# python manage.py migrate
+
+# many to many relationship
+1) create your models for Publication and article in src/test_app/models.py
+2) register the apps in admin.py to easily enter the data.
+3) run the migrate commands.
+# python manage.py makemigrations
+# python manage.py migrate
+
+# one to one relationship
+1) create your models for Place,Resturant and Waiter in src/test_app/models.py
+2) register the apps in admin.py to easily enter the data.
+3) run the migrate commands.
+# python manage.py makemigrations
+# python manage.py migrate 
+
+Reference:
+https://docs.djangoproject.com/en/1.11/topics/db/examples/many_to_one/
+META: https://docs.djangoproject.com/en/1.11/ref/models/options/
+https://docs.djangoproject.com/en/1.11/topics/db/models/#many-to-many-relationships
+https://docs.djangoproject.com/en/1.11/topics/db/examples/many_to_many/
+https://docs.djangoproject.com/en/1.11/topics/db/models/#one-to-one-relationships
