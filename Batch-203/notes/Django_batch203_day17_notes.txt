@@ -1,0 +1,241 @@
+####
+# How to migrate your data from sqlite3 to mysql
+####
+
+1) install the mysql server
+# sudo apt-get install mysql-server
+
+2) Login to mysql database and try to create a blog database.
+
+mysql> create database blog;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| blog               |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> 
+
+3) create a user.
+
+mysql> create user batch203;
+Query OK, 0 rows affected (0.15 sec)
+
+4) provide the grant priviliges to the user.
+
+mysql> create user batch203;
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> grant all on blog.* to 'batch203'@'localhost' identified by 'batch203';
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+
+mysql> show warnings;
++---------+------+------------------------------------------------------------------------------------------------------------------------------------+
+| Level   | Code | Message                                                                                                                            |
++---------+------+------------------------------------------------------------------------------------------------------------------------------------+
+| Warning | 1287 | Using GRANT for creating new user is deprecated and will be removed in future release. Create new user with CREATE USER statement. |
++---------+------+------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+
+5) Integreate the django and mysql
+
+https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-DATABASE-ENGINE
+https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+
+Lets now make necessary modifications to our blog now.
+
+Made these modification in mysite/settings.py file under DATABASE Sections.
+
+
+DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
+
+    # modification made for mysql 
+    'default': {
+        'ENGINE' : 'django.db.backends.mysql',
+        'NAME' : 'blog',  # Note this needs to be created manually.
+        'USER': 'batch203',
+        'PASSWORD': 'batch203',
+        'HOST':'localhost',
+        'PORT':'',
+    }
+}
+
+
+6) we need to install the necessary packages to get the integration working great.
+# sudo apt-get install python-dev libmysqlclient-dev
+in your virtual env.
+# pip install MYSQL-python
+# pip install pymysql
+# pip install mysqlclient
+
+7) Dont forget to run the makemigrations and migrate command.
+# python manage.py makemigrations
+# python manage.py migrate
+
+8) in the mysql you can see the table being populated.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| blog               |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+
+mysql> use blog;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+
+mysql> show tables;
++--------------------------------------------+
+| Tables_in_blog                             |
++--------------------------------------------+
+| auth_group                                 |
+| auth_group_permissions                     |
+| auth_permission                            |
+| auth_user                                  |
+| auth_user_groups                           |
+| auth_user_user_permissions                 |
+| blog_post                                  |
+| django_admin_log                           |
+| django_content_type                        |
+| django_migrations                          |
+| django_session                             |
+| registration_registrationprofile           |
+| registration_supervisedregistrationprofile |
+| test_app_article                           |
+| test_app_articles                          |
+| test_app_articles_publications             |
+| test_app_group                             |
+| test_app_membership                        |
+| test_app_person                            |
+| test_app_place                             |
+| test_app_publication                       |
+| test_app_reporter                          |
+| test_app_restaurant                        |
+| test_app_waiter                            |
++--------------------------------------------+
+24 rows in set (0.00 sec)
+
+9) please create a admin user.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ python manage.py createsuperuser
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src
+Username (leave blank to use 'khyaathi'): admin
+Email address: admin@gmail.com
+Password: 
+Password (again): 
+Superuser created successfully.
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ 
+
+
+###
+# Acheving the data pumping capabilites.
+###
+
+## Django Extensions
+https://django-extensions.readthedocs.io/en/latest/
+
+1) Install the django extensions.
+# pip install django-extensions
+
+2) Make the necessary modification in the settings.py file for INSTALLED_APPS.
+
+add -  'django_extensions', to your INSTALLED_APPS.
+
+3) please run the makemigration and migrate command.
+4) before we do data migration i want to revert back to - db.sqlite3 database.
+   So your database should looks similar to this.
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+
+    # modification made for mysql 
+    # 'default': {
+    #     'ENGINE' : 'django.db.backends.mysql',
+    #     'NAME' : 'blog',  # Note this needs to be created manually.
+    #     'USER': 'batch203',
+    #     'PASSWORD': 'batch203',
+    #     'HOST':'localhost',
+    #     'PORT':'',
+    # }
+}
+
+5) Lets concentrate on tools for data migrations.
+
+https://django-extensions.readthedocs.io/en/latest/dumpscript.html
+https://django-extensions.readthedocs.io/en/latest/runscript.html
+
+* create a scripts folder under your src or project locations.
+* create a __init__.py file under your scripts folder. so that it works as project.
+
+6a) Lets take a backup of our data in blog app.
+
+#  python manage.py dumpscript blog > scripts/blog_data.py
+Processing model: blog.models.Post
+# python manage.py dumpscript auth.user > scripts/auth_user_data.py
+Processing model: django.contrib.auth.models.User
+Re-processing model: django.contrib.auth.models.User
+
+6b) you can comment out the admin entry if you have created the superuser - admin already.
+
+7) lets switch back to the new database.
+
+in your src/mysite/setting.py file make sure your DATABASE entries as follows.
+
+DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
+
+    # modification made for mysql 
+    'default': {
+        'ENGINE' : 'django.db.backends.mysql',
+        'NAME' : 'blog',  # Note this needs to be created manually.
+        'USER': 'batch203',
+        'PASSWORD': 'batch203',
+        'HOST':'localhost',
+        'PORT':'',
+    }
+}
+
+8a) now we have to run the runscript to get the data populated in our mysql database.
+
+# python manage.py runscript auth_user_data
+# python manage.py runscript blog_data
+
+b) when running the script found out the following error.
+
+1) needed to put right value to tzinfo
+tzinfo=<UTC> needs to be modified to tzinfo=timezone.get_default_timezone()
+
+2) needed to install python-dateutil
+# pip install python-dateutil
+
+3) need to import the timezone module.
+# from django.utils import timezone
+

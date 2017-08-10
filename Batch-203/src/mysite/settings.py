@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     # third party apps
     'crispy_forms',
     'registration',
+     'django_extensions',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -82,9 +83,19 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
+
+    # modification made for mysql 
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE' : 'django.db.backends.mysql',
+        'NAME' : 'blog',  # Note this needs to be created manually.
+        'USER': 'batch203',
+        'PASSWORD': 'batch203',
+        'HOST':'localhost',
+        'PORT':'',
     }
 }
 

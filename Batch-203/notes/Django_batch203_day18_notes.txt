@@ -1,0 +1,51 @@
+# django extensions continuity.
+
+1) when we use python manage.py to run a shell command.
+a) we have to import all the models if we need to work with models in our shell.
+
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ python manage.py shell
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src
+Python 2.7.12+ (default, Sep 17 2016, 12:08:02) 
+[GCC 6.2.0 20160914] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from django.db import models
+>>> from django.utils import timezone
+>>> from blog.models import Post
+>>> 
+>>> Post.object.all()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: type object 'Post' has no attribute 'object'
+>>> Post.objects.all()
+[<Post: arjouth My first blog  Today it raining cats and dogs in Hyderabad. Seems we are going to have a mini swimming pool in hyderabad.>, <Post: deepthi Deepthi first blog Its raining heavily today too.>, <Post: manpreeth Manpreeth first blog Seems the rain has subsided today. A very good news. I am eager to see my boss face :).>, <Post: naresh Naresh first blog Today i have to go to college to teach my students. Hopefully they listen to me.>, <Post: sivaram sivarams first blog Seems we have a cool climate the rest of the day. I want to relax a bit without any traffic.>, <Post: govardhan My first blog - govardan hey there this is my first post.>, <Post: arjouth This is my second post Hey there i am going over my second post.>, <Post: deepthi This is my second post Hey there i am going over my second post.>, <Post: ramanji this is my first post i am trying to add a entry to the blog.>, <Post: deepthi this is my third post hey there this is my third post.>, <Post: ramanji Third blog  This is my third blog.>]
+>>> 
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src$ python manage.py shell_plus
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203/src
+# Shell Plus Model Imports
+from blog.models import Post
+from django.contrib.admin.models import LogEntry
+from django.contrib.auth.models import Group, Permission, User
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.sessions.models import Session
+from registration.models import RegistrationProfile, SupervisedRegistrationProfile
+from test_app.models import Article, Group, Membership, Person, Place, Publication, Reporter, Restaurant, Waiter, articles
+# Shell Plus Django Imports
+from django.utils import timezone
+from django.conf import settings
+from django.core.cache import cache
+from django.contrib.auth import get_user_model
+from django.db.models import Avg, Case, Count, F, Max, Min, Prefetch, Q, Sum, When
+from django.db import transaction
+from django.core.urlresolvers import reverse
+Python 2.7.12+ (default, Sep 17 2016, 12:08:02) 
+[GCC 6.2.0 20160914] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> 
+
+>>> Post.objects.all()
+[<Post: arjouth My first blog  Today it raining cats and dogs in Hyderabad. Seems we are going to have a mini swimming pool in hyderabad.>, <Post: deepthi Deepthi first blog Its raining heavily today too.>, <Post: manpreeth Manpreeth first blog Seems the rain has subsided today. A very good news. I am eager to see my boss face :).>, <Post: naresh Naresh first blog Today i have to go to college to teach my students. Hopefully they listen to me.>, <Post: sivaram sivarams first blog Seems we have a cool climate the rest of the day. I want to relax a bit without any traffic.>, <Post: govardhan My first blog - govardan hey there this is my first post.>, <Post: arjouth This is my second post Hey there i am going over my second post.>, <Post: deepthi This is my second post Hey there i am going over my second post.>, <Post: ramanji this is my first post i am trying to add a entry to the blog.>, <Post: deepthi this is my third post hey there this is my third post.>, <Post: ramanji Third blog  This is my third blog.>]
+>>> 
