@@ -1,0 +1,161 @@
+# deployment
+
+1) making some changes in your settings. 
+a) we need to have different settings for production.
+b) we need to have different setting  for development.
+
+2)
+
+i) create a settings folder in side our mysite project.
+ii) create a __init__.py file under your setting.py folder.
+iii) copy the setting.py file to base.py file to mark it as default setting file.
+iv) rename the setting.py to sv.setting.py ( we can delete it but just in case.)
+v) make sure you populate the base.py,dev.py and prod.py and make necessary modificaiton
+vi) make sure you populate the __init__.py under the settings with the right values.
+
+from .base import *
+
+# comment it in the production servers.
+try:
+	from .dev import *
+except:
+	pass
+
+# we will uncomment it in production server just to make sure this get activated in production.
+# try:
+# 	from .prod import *
+# except:
+# 	pass
+
+modification:
+
+
+1) in -- dev.py -- make the following changes.
+
+a) make sure your BASE_DIR is pointing to the right location.
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+print BASE_DIR
+
+b) set the DEBUG and ALLOWED_HOSTS  parameters.
+
+DEBUG = True
+
+ALLOWED_HOSTS = ['localhost','127.0.0.1']
+
+c) make your default database as sqlite3
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+
+3) in -- prod.py -- make the following changes.
+
+a) make sure your BASE_DIR is pointing to the right location.
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+print BASE_DIR
+
+b) set the DEBUG and ALLOWED_HOSTS  parameters.
+
+DEBUG = False
+
+ALLOWED_HOSTS = ['tuxfux.pythonanywhere.com']
+
+c) make your default database as mysql. ( provided i am using mysql server.)
+set the prod.py database values according to tuxfux.pythonanywhere.com site.
+
+DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
+
+    # modification made for mysql - pythonanywheresite. 
+    'default': {
+        'ENGINE' : 'django.db.backends.mysql',
+        'NAME' : 'tuxfux$myblog',  # Note this needs to be created manually.
+        'USER': 'tuxfux',
+        'PASSWORD': 'batch203',
+        'HOST':'tuxfux.mysql.pythonanywhere-services.com',
+        'PORT':'',
+    }
+}
+
+
+
+3) creating the 404.html and 505.html pages.
+4) run the collect static to get access to all the files - images.
+# python manage.py collectstatic
+5) setting up your virtualenv in production , take a snap of your virtualenv.
+#  pip freeze > requirement.txt
+run the above command from your django virtualenv.
+6) take an archive of your whole project from the base directory.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203$ pwd
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-203
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-203$ tar -cvf src.tar src
+
+
+4) creating the setup for pythonanywhere site.
+a) go to the files location and upload the requirements.txt and src.tar file.
+b) open an console in the console section.
+i) create the virtual env.
+# virtualenv myenv
+# source myenv/bin/activate
+# pip install -r requirements.txt
+
+ii) untar src.tar file.
+
+a) # tar -xvf src.tar
+b) Make some minor modification to __init__.py under the settings folder in pythonanywhere site.
+
+iii) go to the web location to make some minor modifications.
+a) click on add a new webapp,click next
+b) select manual configuration,click next
+c) select python 2.7,click next
+d) in the new file created - set following variables.
+- Source Code - /home/tuxfux/src
+- virtual env - /home/tuxfux/myenv
+- static files- 
+	URL - /static/ , Directory - /home/tuxfux/src/project_public
+
+e) make some modification to the wsgi file under - /var/www/tuxfux_pythonanywhere_com_wsgi.py
+
+modification 1:
+ comment our lines from 19 to 49 line just to make sure that default page dont pop up.
+
+
+modificaiton 2:
+---------------
+
+# +++++++++++ DJANGO +++++++++++
+# To use your own django app use code like this:
+import os
+import sys
+#
+## assuming your django settings file is at '/home/tuxfux/mysite/mysite/settings.py'
+## and your manage.py is is at '/home/tuxfux/mysite/manage.py'
+path = '/home/tuxfux/src'
+if path not in sys.path:
+    sys.path.append(path)
+#
+os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings'
+#
+## then, for django >=1.5:
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()  
+
+
+f) reload your tuxfux-python-anywhere.com button at top of page.
+g) Populate the data.
+
+# python manage.py runscript auth_user_data
+# python manage.py runscript blog_data
+
+
+
+
