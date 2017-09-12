@@ -1,0 +1,237 @@
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204$ ls
+myenv  notes
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204$ source myenv/bin/activate
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204$ pip freeze
+Django==1.8
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204$ django-admin.py startproject mysite
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204$ ls mysite
+manage.py  mysite
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204$ ls
+myenv  mysite  notes
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204$ ls
+myenv  mysite.sublime-project  mysite.sublime-workspace  notes  src
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204$ 
+
+# sublime text settings
+
+-> preference -> colour schema -> Mac Classic
+-> project -> save project as -> mysite.sublime.project
+-> project -> Add folder to project -> Add the folders to the project.
+-> view -> side bar -> show side bar
+-> right click on mysite and rename it to src.(readability)
+
+
+myenv  mysite.sublime-project  mysite.sublime-workspace  notes  src
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204$ ls
+myenv  mysite.sublime-project  mysite.sublime-workspace  notes  src
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204$ cd src
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ ls
+manage.py  mysite
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ pwd
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ ls
+manage.py  mysite
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py runserver
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have unapplied migrations; your app may not work properly until they are applied.
+Run 'python manage.py migrate' to apply them.
+
+September 12, 2017 - 01:45:28
+Django version 1.8, using settings 'mysite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+
+###
+# How to resolve the error for unapplied migrations
+###
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py migrate
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages
+  Apply all migrations: admin, contenttypes, auth, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  Rendering model states... DONE
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying sessions.0001_initial... OK
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ 
+
+###
+# Django user creation
+###
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py createsuperuser
+Username (leave blank to use 'khyaathi'): admin
+Email address: admin@gmail.com
+Password: 
+Password (again): 
+Error: Your passwords didn't match.
+Password: 
+Password (again): 
+Superuser created successfully.
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ 
+
+
+# this feature of migrate and createsuper > 1.8
+
+# < 1.7
+# syncdb - it will create the database/schemas file for your django project
+# Also it will ask for creation of a superuser
+# challenges with syncdb was with modification of schema/tables in the backend
+# south - 
+# https://south.readthedocs.io/en/latest/
+# http://south.readthedocs.io/en/latest/tutorial/part1.html
+
+##
+#  Running your server on a particular ip and a different port.
+###
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py runserver
+Performing system checks...
+
+System check identified no issues (0 silenced).
+September 12, 2017 - 02:03:20
+Django version 1.8, using settings 'mysite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+^C(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py runserver 0.0.0.0:8000
+Performing system checks...
+
+System check identified no issues (0 silenced).
+September 12, 2017 - 02:04:01
+Django version 1.8, using settings 'mysite.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+[12/Sep/2017 02:04:21]"GET / HTTP/1.1" 200 1767
+[12/Sep/2017 02:04:21]"GET /favicon.ico HTTP/1.1" 404 1939
+
+###
+# create your first app
+###
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ ls
+db.sqlite3  manage.py  mysite
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py startapp blog
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ ls
+blog  db.sqlite3  manage.py  mysite
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ 
+
+
+##
+# Create your first hello world program
+###
+
+1) create the view in the blog/views.py
+
+from django.shortcuts import render
+from django.http import HttpResponse
+
+# Create your views here.
+def Hello(request):
+	return HttpResponse("Hello!!! world \n")
+
+2) create the urls in the mysite/urls.py
+
+from django.conf.urls import include, url
+from django.contrib import admin
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^hello/', 'blog.views.Hello', name='Hello'),
+    url(r'^admin/', include(admin.site.urls)),
+]
+
+3) Make sure your server is running or run the server.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ pwd
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py runserver 0.0.0.0:8000
+Performing system checks...
+
+System check identified no issues (0 silenced).
+September 12, 2017 - 02:19:15
+Django version 1.8, using settings 'mysite.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+###
+#  Seperating the app relative urls.
+###
+
+To manage multiple urls from each app. It better to managed them seperately.
+You can link it to the main app from your project.
+
+1) Create a link to the blog app from mysite/urls.py
+
+from django.conf.urls import include, url
+from django.contrib import admin
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    # url(r'^hello/', 'blog.views.Hello', name='Hello'),   # i want all the blog urls to be managed seperately
+    url(r'^blog/', include('blog.urls')),
+    url(r'^admin/', include(admin.site.urls)),
+]
+
+2) Create the necessary blog app urls in - blog/urls.py  ( create the urls.py if it doesnt exist)
+
+from django.conf.urls import include, url
+from .views import Hello
+
+
+urlpatterns = [
+    url(r'^$', Hello, name='Hello'),
+]
+
+3) Make sure your view is present - blog/views.py
+
+from django.shortcuts import render
+from django.http import HttpResponse
+
+# Create your views here.
+def Hello(request):
+	return HttpResponse("Hello!!! world - welcome to my first blog !!\n")
+
+4) Make sure your server is running .
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ pwd
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py runserver 0.0.0.0:8000
+Performing system checks...
+
+System check identified no issues (0 silenced).
+September 12, 2017 - 02:19:15
+Django version 1.8, using settings 'mysite.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+
+5) Test your URL
+
+http://127.0.0.1:8000/
+http://<systemip>:8000/
+
+
+
+
