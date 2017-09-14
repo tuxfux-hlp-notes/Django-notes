@@ -1,0 +1,60 @@
+1) Please open your src/mysite/setting.py file and go over the DATABASES.
+2) spend some time reading the below links
+https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-DATABASE-ENGINE
+3) update the models.py under the src/blog/models.py
+
+from django.db import models
+from django.utils import timezone
+
+# Create your models here.
+
+class Post(models.Model):
+	author = models.ForeignKey('auth.User')
+	title = models.CharField(max_length=200)
+	text = models.TextField()
+	created_date = models.DateTimeField(default=timezone.now)
+	published_date = models.DateTimeField(blank=True,null=True)  # null -> databases, blank -> forms
+
+	def publish(self):
+		self.published_date = timezone.now()
+		self.save()
+
+	def __str__(self):
+		return self.article
+
+4) once you created your database entries, please run the migration commands.
+
+# python manage.py makemigrations blog
+# python manage.py migrate blog
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py makemigrations blog
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src
+Migrations for 'blog':
+  0001_initial.py:
+    - Create model Post
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py migrate blog
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src
+Operations to perform:
+  Apply all migrations: blog
+Running migrations:
+  Rendering model states... DONE
+  Applying blog.0001_initial... OK
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ 
+
+5) Try installation of sqlite brower.
+
+* if you want to install 
+# sudo add-apt-repository ppa:linuxgndu/sqlitebrowser-testing
+# sudo apt-get update && sudo apt-get install sqlitebrowser
+
+* if you want to uninstall
+# sudo apt-get remove sqlitebrowser
+
+
+Reference:
+https://docs.djangoproject.com/en/1.11/topics/db/models/
+https://docs.djangoproject.com/en/1.11/ref/models/fields/
+https://docs.djangoproject.com/en/1.11/ref/models/options/
+https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-DATABASE-ENGINE
