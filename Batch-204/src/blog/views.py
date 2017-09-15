@@ -13,5 +13,6 @@ def Hello(request):
 # 	return HttpResponse(content)
 
 def TestHello(request):
-	context = {}
+	context = {'title':'My first blog - manindra','content':'Hey there i am learning about Deploying the admin',
+				'author':'Manindra'}
 	return render(request,'test.html',context)

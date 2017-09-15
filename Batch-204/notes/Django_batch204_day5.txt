@@ -1,0 +1,116 @@
+Reference:
+https://docs.djangoproject.com/en/1.11/ref/contrib/admin/
+https://docs.djangoproject.com/en/1.11/ref/contrib/admin/actions/
+https://docs.djangoproject.com/en/1.11/ref/contrib/admin/admindocs/
+
+# Admin - django
+
+1) create the admin.py under src/blog/admin.py
+
+from django.contrib import admin
+from .models import Post
+
+# Register your models here.
+
+admin.site.register(Post)
+
+2) start your server .
+
+src> python manage.py runserver
+
+3) open the admin : http://127.0.0.1:8000/admin
+4) you should be able to see the Post entry.
+5) Fill out the relative fields and see if its reflecting.
+
+# Sqlitebroswer
+1) Please check the installation of the sqlitebroswer from day4.txt notes.
+2) broswer the blog_post table and make necessary entries.
+3) click on file -> write the changes.
+
+# sqlite3
+
+
+
+- how to install the sqlite3
+# sudo apt-get install sqlite3
+
+- how to play with sqlite3
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ sqlite3 db.sqlite3 
+SQLite version 3.14.1 2016-08-11 18:53:32
+Enter ".help" for usage hints.
+sqlite> .help
+
+sqlite> .tables
+auth_group                  blog_post                 
+auth_group_permissions      django_admin_log          
+auth_permission             django_content_type       
+auth_user                   django_migrations         
+auth_user_groups            django_session            
+auth_user_user_permissions
+sqlite> 
+sqlite> select * from auth_user;
+1|pbkdf2_sha256$20000$pH0MYd0HDYIO$Q619iGrtEe1jUF3hicNzAT21IPJdyEJOzzi3lgxwA28=|1|admin|||admin@gmail.com|1|1|2017-09-12 01:51:48.114417|2017-09-12 01:54:07.355832
+2|pbkdf2_sha256$20000$6tpslaxFDeaS$K6uhG/cLQBYHHsfNjzA02Z/KScSjNIK83cDMDdStciQ=|1|manindra||||0|1|2017-09-15 01:50:40|
+sqlite> 
+sqlite> select * from blog_post;
+1|My first blog - Mandindra|Hey there i am learning about Deploying the admin.|2017-09-14 01:51:35||2
+2|my second blog - Manindra|Hey there i am making an entry in using sqlitebrowser.|2017-09-15 01:57:17||2
+3|No bonus this year|Due to the fall in the market, we are not going for bonus this year.|2017-09-15 02:00:56|2017-09-15 02:01:45|2
+sqlite> 
+
+sqlite> insert into blog_post values (4,"my third blog","hey there this is an entry from sqlite3","2017-09-15 02:00:56","","2");
+sqlite> 
+
+###
+# Integrating the templates with data from models
+# variables,filters,tags
+# Jinja templates
+####
+
+References:
+https://docs.djangoproject.com/en/1.11/topics/templates/#variables
+https://docs.djangoproject.com/en/1.11/topics/templates/#tags
+https://docs.djangoproject.com/en/1.11/topics/templates/#filters
+https://docs.djangoproject.com/en/1.11/topics/templates/#comments
+
+1) we made some modifiation to template under src/templates/test.html
+
+<html>
+<head>  
+<title>
+This is my blog static page.
+</title> 
+</head>
+<body>
+<div class='blog'>
+<table>
+<tr>
+	<td> {{ title }} </td>
+	<td> {{ content }} </td>
+	<td> {{ author }} </td>
+</tr>
+
+<!-- <tr>
+	<td> my first blog - manindra </td>
+	<td> Hey there i am learning about Deploying the admin </td>
+	<td> Manindra</td>
+</tr>
+ <tr>
+ 	<td>my first blog - sudha</td>
+ 	<td> Hey there i am learning about db integration to templates</td>
+ 	<td> Sudha </td>
+</tr> -->
+</table>
+</div>
+</body>
+</html>
+
+2) update your views.py with the entries.
+
+def TestHello(request):
+	context = {'title':'My first blog - manindra','content':'Hey there i am learning about Deploying the admin',
+				'author':'Manindra'}
+	return render(request,'test.html',context)
+
+3) There are no modification in src/mysite/urls.py or src/blog/urls.py
+4) http://127.0.0.1:8000/blog/test
