@@ -1,0 +1,186 @@
+# static files
+
+1) Make sure that django.contrib.staticfiles is included in your INSTALLED_APPS.
+2) In your settings file, define STATIC_URL, for example:
+	STATIC_URL = '/static/'
+3) create a folder src/blog/static and dump your styles.css file.
+	body 
+	{
+		background-color: olive;
+	}
+4) you should be able to acces the files - http://127.0.0.1/static/styles.css
+5) if you want to change the static address you can do the following.
+   STATIC_URL='/new_static/'
+6) you should be able to acces the files - http://127.0.0.1/new_static/styles.css
+7) Lets integrate our styles.css to test.html under blog/templates/static_test.html
+
+-- Lets implement the styles.css to our static_test.html --
+* create  your url entry in the blog/urls.py locations
+
+from django.conf.urls import include, url
+from .views import Hello,TestHello,StaticHello
+
+
+urlpatterns = [
+    url(r'^$', Hello, name='Hello'),
+    url(r'^test/', TestHello, name='Hello'),
+     url(r'^testme/', StaticHello, name='StaticHello'),
+]
+
+
+* create your view in the blog/views.py locations
+
+def StaticHello(request):
+	context = {}
+	return render(request,'static_test.html',context)
+
+* make sure your have static_test.html under the location blog/templates/static_test.html
+
+<html>
+<head>  
+	{% load staticfiles %}
+	<link href="{% static "styles.css" %}" rel="stylesheet" text="text/css">
+<title>
+Saying hello to the world !!!
+</title> 
+</head>
+<h1> Hello World !!! - /src/blog/templates/test.html</h1>
+</html>
+
+* run your server and access the link - http://127.0.0.1:8000/blog/testme/ 
+* This should give your olive colour.
+
+
+###
+# how do static location work if i have multiple apps.
+####
+
+
+1) lets create another app called as check_app.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py startapp check_app
+
+2) make sure you add the check_app to the location INSTALLED_APPS in src/mysite/settings.py
+
+# Application definition
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'blog',
+    'check_app',
+)
+
+3) Please run the makemigrations and migrate commands to sync any models.py details.
+
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py makemigrations check_app
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src
+No changes detected in app 'check_app'
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py migrate check_app
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src
+Operations to perform:
+  Apply all migrations: (none)
+Running migrations:
+  No migrations to apply.
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ 
+
+4) create a static folder under check_app locations.
+
+5) provide a check url link to check_app.urls location.
+
+from django.conf.urls import include, url
+from django.contrib import admin
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    # url(r'^hello/', 'blog.views.Hello', name='Hello'),   # i want all the blog urls to be managed seperately
+    url(r'^blog/', include('blog.urls')),
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^check/', include('check_app.urls')),
+]
+
+6) create a urls.py under the check_app/urls.py
+
+from django.conf.urls import include, url
+from .views import StaticHello
+
+
+urlpatterns = [
+     url(r'^testme/', StaticHello, name='StaticHello'),
+]
+
+7) create a view under check_app/views.py
+
+from django.shortcuts import render
+
+# Create your views here.
+
+def StaticHello(request):
+	context = {}
+	return render(request,'static_test.html',context)
+
+8) create a styles.css under the following location - check_app/static/styles.css
+
+body 
+{
+	background-color: orange;
+}
+
+9) create your static_test.html location under src/check_app/templates/static_test.html
+
+<html>
+<head>  
+	{% load staticfiles %}
+	<link href="{% static "styles.css" %}" rel="stylesheet" text="text/css">
+<title>
+Saying hello to the world !!!
+</title> 
+</head>
+<h1> Hello World !!! - /src/check_app/templates </h1>
+</html>
+
+with this setup if your open the below links:
+* http://127.0.0.1:8000/blog/testme/
+* http://127.0.0.1:8000/check/testme/
+
+Both of them reflect the content of src/blog/templates/static_test.html and olive colour.
+
+#####
+## use case 1
+######
+
+1) what if i put check_app above the blog in INSTALLED_APPS location of - src/mysite/settings.py
+
+# Application definition
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'check_app',
+    'blog',
+)
+
+with this setup if your open the below links:
+* http://127.0.0.1:8000/blog/testme/
+* http://127.0.0.1:8000/check/testme/
+
+Both of them reflect the content of src/check_app/templates/static_test.html and orange colour.
+
+
+* templates and static are read in the  order of INSTALLED_APP locations
+
+
+Reference:
+https://docs.djangoproject.com/en/1.8/howto/static-files/

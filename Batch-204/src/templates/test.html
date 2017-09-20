@@ -6,13 +6,29 @@ This is my blog static page.
 </head>
 <body>
 <div class='blog'>
+
+
+<!-- we used the tagging -->
 <table>
+	{% for value in blogdb %}
 <tr>
+	<td> {{ value.title|title }} </td>
+	<td> {{ value.text}} </td>
+	<td> {{ value.author|capfirst }} </td>
+	<td> {{ value.created_date | date:"Y-m-d" }} </td>
+</tr>
+   {% endfor %}
+
+<!-- sending data when we have just one record. -->
+<!-- <tr>
 	<td> {{ title }} </td>
 	<td> {{ content }} </td>
 	<td> {{ author }} </td>
 </tr>
+ -->
 
+
+<!-- static page -->
 <!-- <tr>
 	<td> my first blog - manindra </td>
 	<td> Hey there i am learning about Deploying the admin </td>

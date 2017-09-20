@@ -1,0 +1,151 @@
+
+###
+# how to read the content variable in django.
+###
+
+In [11]: my_value={'blogdb':[{'title':'My first blog - manindra','content':'Hey there i am learning about Deploying the admin',
+                                'author':'Manindra'},{'title':'My first blog - anu','content':'Hey there i am tryingt to learn tags',
+                                'author':'anu'}]}
+
+In [12]: print my_value,type(my_value)
+{'blogdb': [{'content': 'Hey there i am learning about Deploying the admin', 'author': 'Manindra', 'title': 'My first blog - manindra'}, {'content': 'Hey there i am tryingt to learn tags', 'author': 'anu', 'title': 'My first blog - anu'}]} <type 'dict'>
+
+In [13]: my_value['blogdb']
+Out[13]: 
+[{'author': 'Manindra',
+  'content': 'Hey there i am learning about Deploying the admin',
+  'title': 'My first blog - manindra'},
+ {'author': 'anu',
+  'content': 'Hey there i am tryingt to learn tags',
+  'title': 'My first blog - anu'}]
+
+In [14]: print type(my_value['blogdb'])
+<type 'list'>
+
+In [15]: for value in my_value['blogdb']:
+   ....:     print value
+   ....:     
+{'content': 'Hey there i am learning about Deploying the admin', 'author': 'Manindra', 'title': 'My first blog - manindra'}
+{'content': 'Hey there i am tryingt to learn tags', 'author': 'anu', 'title': 'My first blog - anu'}
+
+In [16]: for value in my_value['blogdb']:
+    print value['content']
+   ....:     
+Hey there i am learning about Deploying the admin
+Hey there i am tryingt to learn tags
+
+In [17]: for value in my_value['blogdb']:
+    print value['author']
+   ....:     
+Manindra
+anu
+
+In [18]: for value in my_value['blogdb']:
+    print value['title']
+   ....:     
+My first blog - manindra
+My first blog - anu
+
+###
+# enable tagging in our code.
+###
+
+1) No modification done to mysite/urls.py, blog/urls.py
+2) we wanted to add some more data to the views.
+
+def TestHello(request):
+	context = {'blogdb':[{'title':'My first blog - manindra','content':'Hey there i am learning about Deploying the admin',
+				'author':'Manindra'},{'title':'My first blog - anu','content':'Hey there i am tryingt to learn tags',
+				'author':'anu'}]}
+	return render(request,'test.html',context)
+
+3) Now we will make slight modification to the src/templates/test.html.
+
+<table>
+	{% for value in blogdb %}
+<tr>
+	<td> {{ value.title }} </td>
+	<td> {{ value.content }} </td>
+	<td> {{ value.author }} </td>
+</tr>
+   {% endfor %}
+</table>
+
+Note: the below code is modified code and you need to add headed and footers to it.
+
+
+###
+# enable filters in our code.
+###
+
+1) No modification done to mysite/urls.py, blog/urls.py
+2) we wanted to add some more data to the views.
+
+def TestHello(request):
+	context = {'blogdb':[{'title':'My first blog - manindra','content':'Hey there i am learning about Deploying the admin',
+				'author':'Manindra'},{'title':'My first blog - anu','content':'Hey there i am tryingt to learn tags',
+				'author':'anu'}]}
+	return render(request,'test.html',context)
+
+3) Now we will make slight modification to the src/templates/test.html.
+
+
+<table>
+	{% for value in blogdb %}
+<tr>
+	<td> {{ value.title|title }} </td>
+	<td> {{ value.content}} </td>
+	<td> {{ value.author|capfirst }} </td>
+</tr>
+   {% endfor %}
+</table>
+
+Note: title,content,capfirst are the filters
+
+###
+# Integrating the page with the backend data.
+###
+
+1) Acess to backend data using shell from manage.py
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py shell
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src
+Python 2.7.12+ (default, Sep 17 2016, 12:08:02) 
+[GCC 6.2.0 20160914] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from blog.models import Post
+>>> Post.objects.all()
+[<Post: My first blog - Mandindra>, <Post: my second blog - Manindra>, <Post: No bonus this year>, <Post: my third blog>]
+>>> 
+
+2) No modification done to mysite/urls.py, blog/urls.py
+3) Inegreate the models.py - Post to the views.py - src/blog/views.py
+
+from .models import Post
+def TestHello(request):
+	context = {'blogdb': Post.objects.all() }    # select * from post;
+	return render(request,'test.html',context)
+4) Make modification to your src/templates/test.html
+<table>
+	{% for value in blogdb %}
+<tr>
+	<td> {{ value.title|title }} </td>
+	<td> {{ value.text}} </td>
+	<td> {{ value.author|capfirst }} </td>
+	<td> {{ value.created_date | date:"Y-m-d" }} </td>
+</tr>
+   {% endfor %}
+</table>
+
+5) make sure your server is running and check the following link - http://127.0.0.1/blog/test
+
+
+
+References:
+https://docs.djangoproject.com/en/1.11/topics/templates/#tags
+https://docs.djangoproject.com/en/1.11/ref/templates/builtins/#ref-templates-builtins-tags
+https://docs.djangoproject.com/en/1.11/howto/custom-template-tags/#simple-tags
+https://docs.djangoproject.com/en/1.11/topics/templates/#filters
+https://docs.djangoproject.com/en/1.11/ref/templates/builtins/#ref-templates-builtins-filters
+https://docs.djangoproject.com/en/1.11/howto/custom-template-tags/#howto-writing-custom-template-filters

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Post
 
 # Create your views here.
 def Hello(request):
@@ -12,7 +13,16 @@ def Hello(request):
 # 	content = f.read()
 # 	return HttpResponse(content)
 
+# def TestHello(request):
+# 	context = {'blogdb':[{'title':'My first blog - manindra','content':'Hey there i am learning about Deploying the admin',
+# 				'author':'Manindra'},{'title':'My first blog - anu','content':'Hey there i am tryingt to learn tags',
+# 				'author':'anu'}]}
+# 	return render(request,'test.html',context)
+
 def TestHello(request):
-	context = {'title':'My first blog - manindra','content':'Hey there i am learning about Deploying the admin',
-				'author':'Manindra'}
+	context = {'blogdb': Post.objects.all() }    # select * from post;
 	return render(request,'test.html',context)
+
+def StaticHello(request):
+	context = {}
+	return render(request,'static_test.html',context)

@@ -9,4 +9,5 @@ urlpatterns = [
     # url(r'^hello/', 'blog.views.Hello', name='Hello'),   # i want all the blog urls to be managed seperately
     url(r'^blog/', include('blog.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^check/', include('check_app.urls')),
 ]
