@@ -104,3 +104,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# STATIC_DIRS - common location for all apps.
+STATICFILES_DIRS = ( 
+    os.path.join(BASE_DIR, "project_local"),
+    )
+
+# STATIC_ROOT - common location for dump of all apps static files
+# deployment
+STATIC_ROOT = os.path.join(BASE_DIR, "project_public")

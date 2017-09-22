@@ -1,0 +1,138 @@
+# how to make sure that the templates and static files dont over lap each other.
+
+
+USE CASE1:
+a) if your static files names and templates names are different, there wont be any issue.
+
+USE CASE2:
+a) please create a seperate folders under your static files and dump your static files under it.
+
+- src/blog/static/blog/styles.css
+
+body 
+{
+	background-color: olive;
+}
+
+- src/blog/templates/blog/static_test.html
+
+<html>
+<head>  
+	{% load staticfiles %}
+	<link href="{% static "blog/styles.css" %}" rel="stylesheet" text="text/css">
+<title>
+Saying hello to the world !!!
+</title> 
+</head>
+<h1> Hello World !!! - /src/blog/templates/test.html</h1>
+</html>
+
+- make the following modification in the views.py file - src/blog/views.py
+
+def StaticHello(request):
+	context = {}
+	return render(request,'blog/static_test.html',context)
+
+- rest of all files - mysite/urls.py,blog/urls.py remain the same.
+
+###
+# STATICFILES_DIRS
+###
+
+static dirs is location which is common to all the apps.
+
+- modification in src/mysite/setting.py
+
+# STATIC_DIRS - common location for all apps.
+STATICFILES_DIRS = ( 
+    os.path.join(BASE_DIR, "project_local"),
+    )
+
+- create the folder project_local in your src locations - src/project_local
+- create the file base.css in the above location.
+
+- base.css
+h1
+{
+	font-style: italic;
+}
+
+- we have to integrate the base.css to our templates files - src/blog/templates/blog/static_test.html
+
+<html>
+<head>  
+	{% load staticfiles %}
+	<link href="{% static "blog/styles.css" %}" rel="stylesheet" text="text/css">
+	<link href="{% static "base.css" %}" rel="stylesheet" text="text/css">
+<title>
+Saying hello to the world !!!
+</title> 
+</head>
+<h1> Hello World !!! - /src/blog/templates/test.html</h1>
+</html>
+
+- rest of all files - mysite/urls.py,blog/urls.py,blog/views.py remain the same.
+
+
+
+###
+# STATIC_ROOT
+###
+
+During deployment all your files should be in a common location for quick deployment.
+
+- make the STATIC_ROOT location in src/mysite/settings.py file.
+
+# STATIC_ROOT - common location for dump of all apps static files
+# deployment
+STATIC_ROOT = os.path.join(BASE_DIR, "project_public")
+
+- make a folder project_public under location /src/project_public
+ex: /var/www/html/project_public
+
+- run the collectstatic to collect all our files.
+# python manage.py collectstatic
+
+###
+# FORMS
+###
+
+
+
+- when i hit the submit button - http://127.0.0.1:8000/blog/contact/
+
+Forbidden (403)
+
+CSRF verification failed. Request aborted.
+Help
+
+Reason given for failure:
+
+    CSRF token missing or incorrect.
+    
+
+In general, this can occur when there is a genuine Cross Site Request Forgery, or when Django's CSRF mechanism has not been used correctly. For POST forms, you need to ensure:
+
+    Your browser is accepting cookies.
+    The view function passes a request to the template's render method.
+    In the template, there is a {% csrf_token %} template tag inside each POST form that targets an internal URL.
+    If you are not using CsrfViewMiddleware, then you must use csrf_protect on any views that use the csrf_token template tag, as well as those that accept the POST data.
+
+You're seeing the help section of this page because you have DEBUG = True in your Django settings file. Change that to False, and only the initial error message will be displayed.
+
+You can customize this page using the CSRF_FAILURE_VIEW setting.
+
+
+
+
+
+
+
+References:
+https://docs.djangoproject.com/en/1.11/topics/forms/#building-a-form-in-django
+https://docs.djangoproject.com/en/1.11/topics/forms/
+https://docs.djangoproject.com/en/1.11/ref/forms/fields/
+https://docs.djangoproject.com/en/1.11/ref/forms/widgets/
+
+
+

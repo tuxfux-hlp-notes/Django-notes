@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Post
+from blog.forms import ContactForm
 
 # Create your views here.
 def Hello(request):
@@ -25,4 +26,10 @@ def TestHello(request):
 
 def StaticHello(request):
 	context = {}
-	return render(request,'static_test.html',context)
+	return render(request,'blog/static_test.html',context)
+
+def contact(request):
+	form_class = ContactForm  # class not a instance
+	context = {'form':form_class}
+	return render(request,'blog/contact.html',context)
+

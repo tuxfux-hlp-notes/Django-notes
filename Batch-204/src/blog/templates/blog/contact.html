@@ -1,0 +1,12 @@
+<html>
+<head>  
+<title>
+Please Join Us
+</title> 
+</head>
+<form role="form" action="" method="post">
+{% csrf_token %}
+{{ form.as_p}}
+<button type="submit">submit</button>
+</form>
+</html>
