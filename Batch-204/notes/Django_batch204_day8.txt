@@ -93,41 +93,6 @@ ex: /var/www/html/project_public
 - run the collectstatic to collect all our files.
 # python manage.py collectstatic
 
-###
-# FORMS
-###
-
-
-
-- when i hit the submit button - http://127.0.0.1:8000/blog/contact/
-
-Forbidden (403)
-
-CSRF verification failed. Request aborted.
-Help
-
-Reason given for failure:
-
-    CSRF token missing or incorrect.
-    
-
-In general, this can occur when there is a genuine Cross Site Request Forgery, or when Django's CSRF mechanism has not been used correctly. For POST forms, you need to ensure:
-
-    Your browser is accepting cookies.
-    The view function passes a request to the template's render method.
-    In the template, there is a {% csrf_token %} template tag inside each POST form that targets an internal URL.
-    If you are not using CsrfViewMiddleware, then you must use csrf_protect on any views that use the csrf_token template tag, as well as those that accept the POST data.
-
-You're seeing the help section of this page because you have DEBUG = True in your Django settings file. Change that to False, and only the initial error message will be displayed.
-
-You can customize this page using the CSRF_FAILURE_VIEW setting.
-
-
-
-
-
-
-
 References:
 https://docs.djangoproject.com/en/1.11/topics/forms/#building-a-form-in-django
 https://docs.djangoproject.com/en/1.11/topics/forms/

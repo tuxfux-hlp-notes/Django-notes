@@ -113,3 +113,11 @@ STATICFILES_DIRS = (
 # STATIC_ROOT - common location for dump of all apps static files
 # deployment
 STATIC_ROOT = os.path.join(BASE_DIR, "project_public")
+
+## email setting for sending mail from contact page.
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'tuxfux.django@gmail.com'
+EMAIL_HOST_PASSWORD = 'tuxfux.django123'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
