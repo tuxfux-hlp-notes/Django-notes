@@ -3,16 +3,11 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.core.mail import EmailMessage
 
 from .models import Post
-from blog.forms import ContactForm
+from .forms import ContactForm,PostForm
 
-# Create your views here.
-def Hello(request):
-	return HttpResponse("Hello!!! world - welcome to my first blog !!\n")
-
-# Thank you
-def Thanks(request):
-	return HttpResponse("Thank you and Have a great day!!!")
-
+# # Create your views here.
+# def Hello(request):
+# 	return HttpResponse("Hello!!! world - welcome to my first blog !!\n")
 
 # task 1
 # how to use the BASE_DIR to read your test.html without giving full path.
@@ -27,13 +22,13 @@ def Thanks(request):
 # 				'author':'anu'}]}
 # 	return render(request,'test.html',context)
 
-def TestHello(request):
-	context = {'blogdb': Post.objects.all() }    # select * from post;
-	return render(request,'test.html',context)
+# def TestHello(request):
+# 	context = {'blogdb': Post.objects.all() }    # select * from post;
+# 	return render(request,'test.html',context)
 
-def StaticHello(request):
-	context = {}
-	return render(request,'blog/static_test.html',context)
+# def StaticHello(request):
+# 	context = {}
+# 	return render(request,'blog/static_test.html',context)
 
 # https://docs.djangoproject.com/en/1.11/topics/forms/#the-view
 # https://docs.djangoproject.com/en/1.11/ref/forms/api/#django.forms.Form.cleaned_data
@@ -55,5 +50,38 @@ def contact(request):
 			email = EmailMessage(subject, contact_name + '\n' + contact_email + '\n' + content , to=['tuxfux.hlp@gmail.com'])
 			email.send()
 			return HttpResponseRedirect('/blog/thanks/')			
-	return render(request,'blog/contact.html',context)
+	return render(request,'blog/contact_form.html',context)
 
+def BlogInsert(request):
+	print request.method
+
+	# POST
+	if request.method == 'POST':
+		form = PostForm(request.POST)
+		print form.is_valid()
+		# when your form is valid
+		if form.is_valid():
+			author = form.cleaned_data['author']
+			title = form.cleaned_data['title']
+			text = form.cleaned_data['text']
+			Post.objects.create(author=author,title=title,text=text)
+			return HttpResponseRedirect('/blog/thanks/')
+		# when my form is not valid
+		else:
+			context = {'form':form}
+			return render(request,'blog/blog_form.html',context)
+	# GET
+	else:
+		form = PostForm
+		context={'form':form}
+		return render(request,'blog/blog_form.html',context)
+
+# blog data views
+
+def BlogData(request):
+	context = {'blogdb': Post.objects.all() }    # select * from post;
+	return render(request,'blog/blog_data.html',context)
+
+# Thank you
+def Thanks(request):
+	return HttpResponse("Thank you and Have a great day!!!")

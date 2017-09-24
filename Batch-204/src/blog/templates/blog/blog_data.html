@@ -1,0 +1,21 @@
+<html>
+<head>  
+<title>
+Welcome to our Blog.
+</title> 
+</head>
+<body>
+<div class='blog'>
+<table>
+	{% for value in blogdb %}
+<tr>
+	<td> {{ value.title|title }} </td>
+	<td> {{ value.text}} </td>
+	<td> {{ value.author|capfirst }} </td>
+	<td> {{ value.created_date | date:"Y-m-d" }} </td>
+</tr>
+   {% endfor %}
+</table>
+</div>
+</body>
+</html>
