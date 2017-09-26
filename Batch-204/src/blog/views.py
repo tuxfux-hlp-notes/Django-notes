@@ -33,6 +33,12 @@ from .forms import ContactForm,PostForm
 # https://docs.djangoproject.com/en/1.11/topics/forms/#the-view
 # https://docs.djangoproject.com/en/1.11/ref/forms/api/#django.forms.Form.cleaned_data
 # https://docs.djangoproject.com/en/1.11/topics/email/
+
+def home(request):
+	context = {}
+	return render(request,'home.html',context)
+
+
 def contact(request):
 
 	# GET REQUEST

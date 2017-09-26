@@ -1,0 +1,7 @@
+1)
+
+khyaathi@khyaathi-Technologies:~/Downloads$ cp bootstrap-4.0.0-beta-dist.zip ~khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src/project_local/
+khyaathi@khyaathi-Technologies:~/Downloads$ cd ~khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src/project_local/
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src/project_local$ 
+
+

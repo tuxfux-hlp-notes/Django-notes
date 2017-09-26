@@ -1,0 +1,144 @@
+####
+# Model Forms
+####
+
+1) we want  to create a form using the model - src/blog/models.py
+
+
+class Post(models.Model):
+	author = models.ForeignKey('auth.User')
+	title = models.CharField(max_length=200)
+	text = models.TextField()
+	created_date = models.DateTimeField(default=timezone.now)
+	published_date = models.DateTimeField(blank=True,null=True)  # null -> databases, blank -> forms
+
+	def publish(self):
+		self.published_date = timezone.now()
+		self.save()
+
+	def __str__(self):
+		return self.title
+
+2) create a form class for the above model in - src/blog/forms.py
+
+from .models import Post
+
+class PostForm(forms.ModelForm):
+	class Meta:
+		model = Post
+		fields = ('author','title','text')
+
+3) create a url for the Post - src/blog/urls.py
+
+from .views import contact,Thanks,BlogInsert,BlogData
+
+
+urlpatterns = [
+    url(r'^$', BlogData, name='blogdata'),
+    # url(r'^test/', TestHello, name='Hello'),
+    # url(r'^testme/', StaticHello, name='StaticHello'),
+    url(r'^contact/',contact,name='contact'),
+    url(r'^thanks/',Thanks,name='thanks'),
+    url(r'^post/',BlogInsert,name='blog')
+]
+
+4) we created a view called BlogInsert in the views - src/blog/views.py
+
+
+from .models import Post
+from .forms import ContactForm,PostForm
+
+def BlogInsert(request):
+	print request.method
+
+	# POST
+	if request.method == 'POST':
+		form = PostForm(request.POST)
+		print form.is_valid()
+		# when your form is valid
+		if form.is_valid():
+			author = form.cleaned_data['author']
+			title = form.cleaned_data['title']
+			text = form.cleaned_data['text']
+			Post.objects.create(author=author,title=title,text=text)
+			return HttpResponseRedirect('/blog/thanks/')
+		# when my form is not valid
+		else:
+			context = {'form':form}
+			return render(request,'blog/blog_form.html',context)
+	# GET
+	else:
+		form = PostForm
+		context={'form':form}
+		return render(request,'blog/blog_form.html',context)
+
+5) create a template called - src/blog/templates/blog/blog_form.html
+
+<html>
+<head>  
+<title>
+Please post your blog.
+</title> 
+</head>
+<form role="form" action="" method="post">
+{% csrf_token %}
+{{ form.as_p}}
+<button type="submit">submit</button>
+</form>
+</html>
+
+6) Please start your server. - http://127.0.0.1:8000/blog/post
+
+##
+# making your blog home page reflect our data.s
+##
+
+1) I created a url - src/blog/urls.py
+
+from django.conf.urls import include, url
+#from .views import Hello,TestHello,StaticHello
+from .views import contact,Thanks,BlogInsert,BlogData
+
+
+urlpatterns = [
+    url(r'^$', BlogData, name='blogdata'),
+    # url(r'^test/', TestHello, name='Hello'),
+    # url(r'^testme/', StaticHello, name='StaticHello'),
+    url(r'^contact/',contact,name='contact'),
+    url(r'^thanks/',Thanks,name='thanks'),
+    url(r'^post/',BlogInsert,name='blog')
+]
+
+2) we created a view - src/blog/views.py
+
+def BlogData(request):
+	context = {'blogdb': Post.objects.all() }    # select * from post;
+	return render(request,'blog/blog_data.html',context)
+
+3) we created a tempalate - src/blog/templates/blog/blog_data.html
+
+<html>
+<head>  
+<title>
+Welcome to our Blog.
+</title> 
+</head>
+<body>
+<div class='blog'>
+<table>
+	{% for value in blogdb %}
+<tr>
+	<td> {{ value.title|title }} </td>
+	<td> {{ value.text}} </td>
+	<td> {{ value.author|capfirst }} </td>
+	<td> {{ value.created_date | date:"Y-m-d" }} </td>
+</tr>
+   {% endfor %}
+</table>
+</div>
+</body>
+</html>
+
+Reference:
+https://docs.djangoproject.com/en/1.11/topics/forms/modelforms/
+https://docs.djangoproject.com/en/1.11/ref/models/options/
