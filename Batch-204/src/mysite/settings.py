@@ -38,8 +38,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # custome apps
     'check_app',
     'blog',
+    # third party apps
+    'crispy_forms',
 
 )
 

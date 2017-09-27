@@ -35,7 +35,7 @@ from .forms import ContactForm,PostForm
 # https://docs.djangoproject.com/en/1.11/topics/email/
 
 def home(request):
-	context = {}
+	context = {'blogdb': Post.objects.all()}
 	return render(request,'home.html',context)
 
 
@@ -88,6 +88,10 @@ def BlogData(request):
 	context = {'blogdb': Post.objects.all() }    # select * from post;
 	return render(request,'blog/blog_data.html',context)
 
+# # Thank you
+# def Thanks(request):
+# 	return HttpResponse("Thank you and Have a great day!!!")
+
 # Thank you
 def Thanks(request):
-	return HttpResponse("Thank you and Have a great day!!!")
+	return render(request,'blog/thankyou.html',context={})

@@ -1,0 +1,33 @@
+http://django-crispy-forms.readthedocs.io/en/latest/
+
+
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204$ ls
+myenv  mysite.sublime-project  mysite.sublime-workspace  notes  src
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204$ source myenv/bin/activate
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204$ pip install django-crispy-forms
+Collecting django-crispy-forms
+  Using cached django_crispy_forms-1.6.1-py2.py3-none-any.whl
+Installing collected packages: django-crispy-forms
+Successfully installed django-crispy-forms-1.6.1
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204$ pip freeze
+Django==1.8
+django-crispy-forms==1.6.1
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204$ 
+
+
+# Application definition
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # custome apps
+    'check_app',
+    'blog',
+    # third party apps
+    'crispy_forms',
+
+)
