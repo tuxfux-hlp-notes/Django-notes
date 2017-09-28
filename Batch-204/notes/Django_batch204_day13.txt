@@ -1,0 +1,17 @@
+###
+# bootstrap griding
+###
+https://getbootstrap.com/docs/3.3/css/#grid
+
+1) To understand bootstrap griding i am creating a static page.
+
+- src/blog/urls.py
+    url(r'^testme/', StaticHello, name='StaticHello'),
+
+- src/blog/views.py
+
+def StaticHello(request):
+	context = {}
+	return render(request,'blog/static_test.html',context)
+
+- 

@@ -26,9 +26,9 @@ from .forms import ContactForm,PostForm
 # 	context = {'blogdb': Post.objects.all() }    # select * from post;
 # 	return render(request,'test.html',context)
 
-# def StaticHello(request):
-# 	context = {}
-# 	return render(request,'blog/static_test.html',context)
+def StaticHello(request):
+	context = {}
+	return render(request,'blog/static_test.html',context)
 
 # https://docs.djangoproject.com/en/1.11/topics/forms/#the-view
 # https://docs.djangoproject.com/en/1.11/ref/forms/api/#django.forms.Form.cleaned_data

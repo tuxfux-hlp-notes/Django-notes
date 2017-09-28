@@ -1,7 +1,52 @@
-1)
+####
+# Template Inheritance
+####
+
+
+1) We are trying to integrate the bootstrap with our django project.
+
+Reference:
+http://getbootstrap.com/
+
+2) in the link given below hit on the download button to download the bootstrap-4.0.0-beta-dist.zip.
+3) In my case the zip got downloaded in the Downloads section.
+4) Later copy it to the src/project_local location.
 
 khyaathi@khyaathi-Technologies:~/Downloads$ cp bootstrap-4.0.0-beta-dist.zip ~khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src/project_local/
+
 khyaathi@khyaathi-Technologies:~/Downloads$ cd ~khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src/project_local/
-khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src/project_local$ 
+
+5) unzip the bootstrap-4.0.0-beta-dist.zip
+# unzip bootstrap-4.0.0-beta-dist.zip
+
+your project_local should have following directories
+
+project_locals
+- css
+- js
+base.css
+
+6) Now lets try to select a template.
+
+http://getbootstrap.com/docs/4.0/examples/
+http://getbootstrap.com/docs/4.0/examples/blog/
+
+7) right click on the blog template to get the code.
+
+So lets create some templates under our src/templates locations.
+
+* create a base.html file which will be common for all the other tempalates.
+* create a home.html and extend the base.html into the home.html pages.
+* from the base.html take out chunks of code and put them in bootstrap folder.
+* files inside your bootstrap folder - footer.html,head.html,navbar.html,sidebar.html
+* include those into the base.html
+
+8) Incorporate the base.html into the other templates also - src/blog/templates
+* the templates are blog_data.html,blog_form.html,contact_form.html,thankyou.html
+
+9) Pleae view the followign location for change in the urls and views.
+* src/blog/forms.py,src/blog/urls.py,src/blog/views.py,src/blog/
+* src/myapps/urls.py
+
 
 

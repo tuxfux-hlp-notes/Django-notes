@@ -1,11 +1,22 @@
-<html>
-<head>  
-	{% load staticfiles %}
-	<link href="{% static "blog/styles.css" %}" rel="stylesheet" text="text/css">
-	<link href="{% static "base.css" %}" rel="stylesheet" text="text/css">
-<title>
-Saying hello to the world !!!
-</title> 
-</head>
-<h1> Hello World !!! - /src/blog/templates/test.html</h1>
-</html>
+{% extends 'base.html' %}
+{% block 'content' %}
+
+
+<div class="row">
+  <div class="col-md-8 col-sm-6" style="background-color:red;">.col-md-8
+  	<div class="row">
+  		<div class="col-xs-6 col-sm-6"  style="background-color:green">.col-md-6</div>
+  		<div class="col-xs-6 col-sm-6"  style="background-color:yellow">.col-md-6</div>
+	</div>
+  </div>
+  <div class="col-md-4 col-sm-6" style="background-color:olive;">.col-md-4
+  	<div class="row">
+  		<div class="col-md-12"  style="background-color:orange">.col-md-12</div>
+	</div>
+  </div>
+</div>
+
+
+
+{% endblock %}
+
