@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
-{% block 'title' %}  <title> Please post your blog.</title> {% endblock %}
-{% block 'header' %} Please enter your blog {% endblock %}
+{% block title %}  <title> Please post your blog.</title> {% endblock %}
+{% block header %} Please enter your blog {% endblock %}
  
-{% block 'content' %} 
+{% block content %} 
 <form role="form" action="" method="post">
 {% csrf_token %}
 {{ form| crispy}}

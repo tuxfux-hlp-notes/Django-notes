@@ -4,6 +4,19 @@
           <a class="nav-link" href="{% url 'home' %}">Home</a>
           <a class="nav-link" href="{% url 'blog' %}">Blog</a>
           <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+    <ul class="navbar-nav ml-auto justify-content-between">
+    {% if request.user.is_authenticated %}
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'auth_logout' %}">Logout</a>
+      </li>
+    {% else %}
+       <li class="nav-item justify-content-between" >
+    		<a class="nav-link" href="{% url 'auth_login' %}">Login</a>
+    		<a class="nav-link" href="{% url 'registration_register' %}">Register</a>
+    	</li>
+    {% endif %}
+    </ul>
         </nav>
+       </div>
       </div>
     </div>

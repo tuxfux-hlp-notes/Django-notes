@@ -1,0 +1,144 @@
+##
+# Authentication and Autherization - Registration Redux
+###
+
+1. Install registration redux under your myenv enviornment.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204$ pip install django-registration-redux
+Collecting django-registration-redux
+  Using cached django_registration_redux-1.7-py2.py3-none-any.whl
+Installing collected packages: django-registration-redux
+Successfully installed django-registration-redux-1.7
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204$ pip freeze
+Django==1.8
+django-crispy-forms==1.6.1
+django-registration-redux==1.7
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204$ 
+
+2. Add 'registration' to INSTALLED_APPS in the src/mysite/settings.py file.
+
+# Application definition
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'registration',  # third party app.
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # custome apps
+    'check_app',
+    'blog',
+    # third party apps
+    'crispy_forms',
+
+)
+
+3. Dont forget to run the makemigration and migrate command.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py makemigrations registration
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src
+No changes detected in app 'registration'
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py migrate
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages, crispy_forms
+  Apply all migrations: sessions, admin, auth, blog, contenttypes, registration
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  Rendering model states... DONE
+  Applying registration.0001_initial... OK
+  Applying registration.0002_registrationprofile_activated... OK
+  Applying registration.0003_migrate_activatedstatus... OK
+  Applying registration.0004_supervisedregistrationprofile... OK
+
+4. Creation of the URL in the mysite/urls.py 
+
+from django.conf.urls import include, url
+from django.contrib import admin
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    # url(r'^hello/', 'blog.views.Hello', name='Hello'),   # i want all the blog urls to be managed seperately
+    #url(r'^$', 'mysite.views.home', name='home'),
+    url(r'^blog/', include('blog.urls')),
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^check/', include('check_app.urls')),
+    url(r'^accounts/', include('registration.backends.default.urls')),
+]
+
+5. setting up templates for registation redux.
+
+* go the the following github location - https://github.com/macdhuibh/django-registration-templates
+* click on clone and download and copy the link
+* Change to the tmp location - cd /tmp
+
+khyaathi@khyaathi-Technologies:/tmp$ git clone https://github.com/macdhuibh/django-registration-templates
+Cloning into 'django-registration-templates'...
+remote: Counting objects: 65, done.
+remote: Total 65 (delta 0), reused 0 (delta 0), pack-reused 65
+Unpacking objects: 100% (65/65), done.
+Checking connectivity... done.
+khyaathi@khyaathi-Technologies:/tmp$ ls -l django-registration-templates/
+total 20
+-rw-r--r-- 1 khyaathi khyaathi  865 Sep 29 07:46 base.html
+-rw-r--r-- 1 khyaathi khyaathi   89 Sep 29 07:46 index.html
+-rw-r--r-- 1 khyaathi khyaathi 1081 Sep 29 07:46 LICENSE
+-rw-r--r-- 1 khyaathi khyaathi  994 Sep 29 07:46 README.md
+drwxr-xr-x 2 khyaathi khyaathi 4096 Sep 29 07:46 registration
+khyaathi@khyaathi-Technologies:/tmp$ 
+
+* cp the registation folder under django-registration-templates/ to src/templates
+khyaathi@khyaathi-Technologies:/tmp$ cp -r /tmp/django-registration-templates/registration/ ~khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src/templates/
+khyaathi@khyaathi-Technologies:/tmp$ 
+
+6. please convert all the tags in the template areas both common and app location to following
+
+{% block 'title' %}   => {% block title %}
+{% block 'header' %}  => {% block header %} 
+{% block 'content' %} => {% block content %}
+
+7. Setting the login and the register links on the top right corner of our header files.
+
+src/templates/navbar.html
+
+    <div class="blog-masthead">
+      <div class="container">
+        <nav class="nav">
+          <a class="nav-link" href="{% url 'home' %}">Home</a>
+          <a class="nav-link" href="{% url 'blog' %}">Blog</a>
+          <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+
+          {% if request.user.is_authenticated %}
+            <a class="nav-link" href="{% url 'auth_logout' %}">Logout</a>
+          {% else %}
+          <a class="nav-link" href="{% url 'auth_login' %}">Login</a>
+          <a class="nav-link" href="{% url 'registration_register' %}">Register</a>
+          {% endif %}
+        </nav>
+       </div>
+      </div>
+    </div>
+
+ 8. once you hit on the link of login providing your username and password.
+  you should get redirected to this link - http://127.0.0.1:8000/accounts/profile/
+
+  Request URL: 	http://127.0.0.1:8000/accounts/profile/
+  error - The current URL, accounts/profile/, didn't match any of these.
+
+So lets make some modification in our mysite/settings.py file.
+
+LOGIN_REDIRECT_URL = "/blog/"
+
+
+Reference:
+http://django-registration-redux.readthedocs.io/en/latest/quickstart.html
+

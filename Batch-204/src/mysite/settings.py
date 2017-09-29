@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
     'django.contrib.admin',
+    'registration',  # third party app.
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -124,3 +125,9 @@ EMAIL_HOST_USER = 'tuxfux.django@gmail.com'
 EMAIL_HOST_PASSWORD = 'tuxfux.django123'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+# registation 
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
+REGISTRATION_AUTO_LOGIN = True # Automatically log the user in.
+
+LOGIN_REDIRECT_URL = "/blog/"

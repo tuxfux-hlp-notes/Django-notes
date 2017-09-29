@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-{% block 'title' %}  {% endblock %}
+{% block title %}  {% endblock %}
 {% include 'bootstrap/head.html' %}
 </head>
 
@@ -11,19 +11,19 @@
 
     <div class="blog-header">
       <div class="container">
-        <h1 class="blog-title">{% block 'header' %}  {% endblock %}</h1>
+        <h1 class="blog-title">{% block header %}  {% endblock %}</h1>
        </div>
     </div>
 
-    <div class="container-fluid">
+    <div class="container">
 
-      <!-- <div class="row"> -->
+      <div class="row">
 
        
-            {% block 'content' %}  {% endblock %}
+            {% block content %}  {% endblock %}
            
 
-      <!-- </div> --><!-- /.row -->
+      </div><!-- /.row -->
 
     </div><!-- /.container -->
 {% include 'bootstrap/footer.html' %}
