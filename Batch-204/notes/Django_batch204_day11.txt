@@ -7,8 +7,9 @@
 
 Reference:
 http://getbootstrap.com/
+http://getbootstrap.com/docs/3.3/
 
-2) in the link given below hit on the download button to download the bootstrap-4.0.0-beta-dist.zip.
+2) in the link given below hit on the download button to download the bootstrap-3.3.7-dist.zip.
 3) In my case the zip got downloaded in the Downloads section.
 4) Later copy it to the src/project_local location.
 
@@ -16,20 +17,30 @@ khyaathi@khyaathi-Technologies:~/Downloads$ cp bootstrap-4.0.0-beta-dist.zip ~kh
 
 khyaathi@khyaathi-Technologies:~/Downloads$ cd ~khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src/project_local/
 
-5) unzip the bootstrap-4.0.0-beta-dist.zip
-# unzip bootstrap-4.0.0-beta-dist.zip
+5) unzip the bootstrap-3.3.7-dist.zip.
+# unzip bootstrap-3.3.7-dist.zip.
 
 your project_local should have following directories
 
 project_locals
 - css
 - js
+- fonts
 base.css
+
+to get this you can move the files under bootstrap-3.3.7-dist to project_local locations.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src/project_local$ pwd
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src/project_local
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src/project_local$ cp -r bootstrap-3.3.7-dist/css/ .
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src/project_local$ cp -r bootstrap-3.3.7-dist/js/ . 
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src/project_local$ cp -r bootstrap-3.3.7-dist/fonts/ .
+
 
 6) Now lets try to select a template.
 
-http://getbootstrap.com/docs/4.0/examples/
-http://getbootstrap.com/docs/4.0/examples/blog/
+http://getbootstrap.com/docs/3.3/getting-started/#examples
+http://getbootstrap.com/docs/3.3/examples/blog/
 
 7) right click on the blog template to get the code.
 
