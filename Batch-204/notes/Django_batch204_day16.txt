@@ -1,0 +1,27 @@
+References:
+https://docs.djangoproject.com/en/1.11/topics/db/models/
+https://docs.djangoproject.com/en/1.11/topics/db/models/#relationships
+https://docs.djangoproject.com/en/1.11/topics/db/models/#many-to-one-relationships
+https://docs.djangoproject.com/en/1.11/topics/db/models/#many-to-many-relationships
+https://docs.djangoproject.com/en/1.11/topics/db/models/#one-to-one-relationships
+https://docs.djangoproject.com/en/1.11/ref/models/fields/#module-django.db.models.fields.related
+https://docs.djangoproject.com/en/1.11/ref/models/fields/#foreign-key-arguments
+https://docs.djangoproject.com/en/1.11/topics/db/examples/many_to_one/   ( example)
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py makemigrations check_app
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src
+Migrations for 'check_app':
+  0001_initial.py:
+    - Create model Article
+    - Create model Reporter
+    - Add field reporter to article
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py migrate check_app
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src
+Operations to perform:
+  Apply all migrations: check_app
+Running migrations:
+  Rendering model states... DONE
+  Applying check_app.0001_initial... OK
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ 
+
+
