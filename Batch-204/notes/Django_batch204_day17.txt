@@ -1,0 +1,86 @@
+# Many to Many relationships
+
+https://docs.djangoproject.com/en/1.11/topics/db/models/#many-to-many-relationships
+https://docs.djangoproject.com/en/1.11/topics/db/examples/many_to_many/
+
+
+# How about migrating data to a new database.
+reference: https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+
+1) Go to the setting.py in your mysite project.
+
+# Database
+# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+2. we are going to migrate the database from sqlite3 to mysql.
+Lets create a blank template for mysql before migrating to mysql.
+
+# mysql
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'myblog',
+#         'HOST': '127.0.0.1',
+#         'USER': 'root',
+#         'PASSWORD':'redhat',
+#     }
+# }
+
+3. We want to make the setup ready for data dump from sqlite3 to mysql.
+we are going to use Django extensions app.
+
+reference:
+https://django-extensions.readthedocs.io/en/latest/
+
+a) install the django-extensions app.
+# pip install django-extensions
+
+b) Add the django-extensions to your INSTALLED_APPS
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'registration',  # third party app.
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # custome apps
+    'check_app',
+    'blog',
+    # third party apps
+    'crispy_forms',
+    'django_extensions',
+
+c) Dont forget to run the migration or makemigrations command
+
+# python manage.py makemigrations
+# python manage.py migrate
+
+existing commands
+https://django-extensions.readthedocs.io/en/latest/command_extensions.html
+New commands
+https://django-extensions.readthedocs.io/en/latest/command_extension_ideas.html
+
+4. We will now work on dumping the data from our project to a script.
+
+https://django-extensions.readthedocs.io/en/latest/dumpscript.html
+https://django-extensions.readthedocs.io/en/latest/runscript.html
+
+a) Create a scripts folder inside your src tree.
+
+# mkdir src/scripts
+# touch src/scripts/__init__.py
+
+
+b) create the backup script to dump the data on migrations
+
+# python manage.py dumpscript blog > scripts/my_blog_data.py
+# python manage.py dumpscript auth.User > scripts/my_user_data.py
