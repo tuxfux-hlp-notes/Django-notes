@@ -8,6 +8,8 @@ https://docs.djangoproject.com/en/1.11/ref/models/fields/#module-django.db.model
 https://docs.djangoproject.com/en/1.11/ref/models/fields/#foreign-key-arguments
 https://docs.djangoproject.com/en/1.11/topics/db/examples/many_to_one/   ( example)
 
+# do run makemigrations and migrate everytime we create a new model inside a app.
+
 (myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py makemigrations check_app
 /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src
 Migrations for 'check_app':

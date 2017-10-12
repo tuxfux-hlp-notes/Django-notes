@@ -56,3 +56,28 @@ class Waiter(models.Model):
 
     def __str__(self):              # __unicode__ on Python 2
         return "%s the waiter at %s" % (self.name, self.restaurant)
+
+###
+# Many to Many relationships
+###
+
+from django.db import models
+
+class Publications(models.Model):
+    title = models.CharField(max_length=30)
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.title
+
+    class Meta:
+        ordering = ('title',)
+
+class Articles(models.Model):
+    headline = models.CharField(max_length=100)
+    publications = models.ManyToManyField(Publications)
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.headline
+
+    class Meta:
+        ordering = ('headline',)
