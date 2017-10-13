@@ -85,23 +85,23 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # Sqlite3
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-# mysql
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'myblog',
-#         'HOST': '127.0.0.1',
-#         'USER': 'root',
-#         'PASSWORD':'redhat',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+
+# mysql
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'myblog',
+        'HOST': '127.0.0.1',  # localhost
+        'USER': 'batch204',
+        'PASSWORD':'batch203',
+    }
+}
 
 
 # Internationalization

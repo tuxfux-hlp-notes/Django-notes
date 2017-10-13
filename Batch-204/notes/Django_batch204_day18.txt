@@ -1,0 +1,218 @@
+###
+# migrate data from sqlite3 to mysql.
+###
+
+1) install the mysql server
+# sudo apt-get install mysql-server
+
+2) Login to the user and create your database.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 20
+Server version: 5.7.18-0ubuntu0.16.10.1 (Ubuntu)
+
+Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| batch64            |
+| blog               |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.20 sec)
+
+mysql> create database myblog;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> create user batch204;
+Query OK, 0 rows affected (0.19 sec)
+
+mysql> grant all on myblog.* to 'batch204'@'localhost' identified by 'batch204';
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+mysql> show warnings;
++---------+------+------------------------------------------------------------------------------------------------------------------------------------+
+| Level   | Code | Message                                                                                                                            |
++---------+------+------------------------------------------------------------------------------------------------------------------------------------+
+| Warning | 1287 | Using GRANT for creating new user is deprecated and will be removed in future release. Create new user with CREATE USER statement. |
++---------+------+------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+
+3) Test your loging for the new user.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ mysql -u batch204 -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 21
+Server version: 5.7.18-0ubuntu0.16.10.1 (Ubuntu)
+
+Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| myblog             |
++--------------------+
+2 rows in set (0.01 sec)
+
+mysql> use myblog;
+Database changed
+mysql> show tables;
+Empty set (0.00 sec)
+
+mysql> 
+
+4) Integration of django and mysql.
+
+https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+https://docs.djangoproject.com/en/1.8/ref/settings/#engine
+
+Lets make modification to our mysite/settings.py files.
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'myblog',
+        'HOST': '127.0.0.1',  # localhost
+        'USER': 'batch204',
+        'PASSWORD':'batch203',
+    }
+}
+
+5) Now install the necessary packages to get the integration work done.
+
+# sudo apt-get install python-dev libmysqlclient-dev
+
+- In your virutal env
+# pip install MYSQL-python
+# pip install pymysql
+# pip install mysqlclient
+
+6) Lets do makemigrations and migrate on the blog app.
+
+# python manage.py makemigrations
+# python mange.py migrate
+
+7) Please do verify that the tables are populated in the databases.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ mysql -u batch204 -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 31
+Server version: 5.7.18-0ubuntu0.16.10.1 (Ubuntu)
+
+Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use myblog;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++--------------------------------------------+
+| Tables_in_myblog                           |
++--------------------------------------------+
+| auth_group                                 |
+| auth_group_permissions                     |
+| auth_permission                            |
+| auth_user                                  |
+| auth_user_groups                           |
+| auth_user_user_permissions                 |
+| blog_post                                  |
+| check_app_article                          |
+| check_app_articles                         |
+| check_app_articles_publications            |
+| check_app_place                            |
+| check_app_publications                     |
+| check_app_reporter                         |
+| check_app_restaurant                       |
+| check_app_waiter                           |
+| django_admin_log                           |
+| django_content_type                        |
+| django_migrations                          |
+| django_session                             |
+| registration_registrationprofile           |
+| registration_supervisedregistrationprofile |
++--------------------------------------------+
+21 rows in set (0.00 sec)
+
+8) Migration of the data.
+
+a) trying to migrate the my_user_data
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py runscript my_user_data
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src
+Please install python-dateutil
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ pip install python-dateutil
+Collecting python-dateutil
+  Using cached python_dateutil-2.6.1-py2.py3-none-any.whl
+Requirement already satisfied: six>=1.5 in /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/myenv/lib/python2.7/site-packages (from python-dateutil)
+Installing collected packages: python-dateutil
+Successfully installed python-dateutil-2.6.1
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ 
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py runscript my_user_data
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src
+
+Lets verify loging into the admin , and you should be able to login with old admin and password.
+Also in the auth.User column you should be able to see the old users information.
+
+b) trying to migrate the my_blog_data 
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py runscript my_blog_data
+....
+  File "/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src/scripts/my_blog_data.py", line 137
+    blog_post_1.author =  importer.locate_object(User, "id", User, "id", 2, {'username': u'manindra', 'first_name': u'', 'last_name': u'', 'is_active': True, 'id': 2, 'is_superuser': True, 'is_staff': False, 'last_login': None, 'password': u'pbkdf2_sha256$20000$6tpslaxFDeaS$K6uhG/cLQBYHHsfNjzA02Z/KScSjNIK83cDMDdStciQ=', 'email': u'', 'date_joined': datetime.datetime(2017, 9, 15, 1, 50, 40, tzinfo=<UTC>)} ) 
+                                                                                                                                                                                                                                                                                                                                                                                                                ^
+SyntaxError: invalid syntax
+
+
+c) now tzinfo to a better value.
+
+please modify the tzinfo=<UTC> to tzinfo=timezone.get_default_timezone()
+in your script scripts/my_blog_data.py
+
+Now run the script again.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ python manage.py runscript my_blog_data
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-204/src$ 
+
+
+
+                                                                                                                                     
+
+
+
+
+
+
