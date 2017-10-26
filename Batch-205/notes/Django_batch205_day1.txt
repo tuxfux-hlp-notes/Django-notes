@@ -1,0 +1,73 @@
+1. program and framework ?
+
+A lanaguage is syntax,grammer and sematics. Developer/implementers are required to support.
+A framework is a cohesive set of library code that together simplifies programming in any given language.
+
+ex: if need to build a site do i need a framework django - NO
+i want a similar web site 100 times.
+
+- similarity of project.
+- integrations.
+- ease of usage.
+- Default behaviour. ex: client server model -> server pushing the changes to clients. 
+                     ex: client server model -> client pulls the changes from the server.
+- extensibility
+- non-modidifiable framework code.
+
+2. what are various frameworks by python?
+
+- flask,bottle,web2py are some other frameworks.
+- nose is another framework.
+
+3. what is django?
+- django is a web framework.
+
+References:
+https://www.djangoproject.com/
+https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller
+https://docs.djangoproject.com/en/1.11/faq/general/#django-appears-to-be-a-mvc-framework-but-you-call-the-controller-the-view-and-the-view-the-template-how-come-you-don-t-use-the-standard-names
+https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93adapter
+https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter
+
+
+# Installation of django
+
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ ls
+notes
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ virtualenv myenv
+New python executable in /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/myenv/bin/python
+Installing setuptools, pip, wheel...done.
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ ls
+myenv  notes
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ source myenv/bin/activate
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ 
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ pip freeze
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ 
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ pip install django==1.8
+Collecting django==1.8
+  Using cached Django-1.8-py2.py3-none-any.whl
+Installing collected packages: django
+Successfully installed django-1.8
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ 
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ pip freeze
+Django==1.8
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ 
+
+# install pycharm in ubuntu
+https://itsfoss.com/install-pycharm-ubuntu/
+* Djaneiro -> plugins
+
+# install sublime-text in ubuntu
+http://tipsonubuntu.com/2015/03/27/install-sublime-text-2-3-ubuntu-15-04/
+* Sublime-Jedi
+
+
+# komodo
+
+# changes to your sublime editor.
+* Project -> save project as -> batch205.sublime-project
+* Preferences -> Color Schema -> Mac Classic
+* Project -> add folder to project -> add  your folder.
+* view -> side -> show side bar.
+* view -> show mini map
+
