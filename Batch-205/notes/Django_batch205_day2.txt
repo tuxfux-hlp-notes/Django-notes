@@ -1,0 +1,177 @@
+
+
+###
+## we created a site called as mysite
+###
+
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ ls
+myenv  notes
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ source myenv/bin/activate
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ pip freeze
+Django==1.8
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ ls
+myenv  notes
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ django-admin.py startproject mysite
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ ls
+myenv  notes  src
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ 
+
+
+* Add the project in your sublime text - projects -> Add Folder to project -> mysite
+* rename the mysite to src. (note the first mysite folder)
+
+
+###
+##  run the server using the below command
+###
+
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py runserver
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have unapplied migrations; your app may not work properly until they are applied.
+Run 'python manage.py migrate' to apply them.
+
+October 27, 2017 - 01:43:10
+Django version 1.8, using settings 'mysite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+[27/Oct/2017 01:44:03]"GET / HTTP/1.1" 200 1767
+[27/Oct/2017 01:44:03]"GET /favicon.ico HTTP/1.1" 404 1936
+
+ex: http://127.0.0.1:8000/
+
+###
+## to sort the unapplied migrations, please run the migrate command.
+###
+
+
+^C(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py migrate
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages
+  Apply all migrations: admin, contenttypes, auth, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  Rendering model states... DONE
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying sessions.0001_initial... OK
+
+
+###
+##  Alternative way of running the server.
+###
+
+
+  (myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py runserver 0.0.0.0:8001
+Performing system checks...
+
+System check identified no issues (0 silenced).
+October 27, 2017 - 01:48:24
+Django version 1.8, using settings 'mysite.settings'
+Starting development server at http://0.0.0.0:8001/
+Quit the server with CONTROL-C.
+[27/Oct/2017 01:49:06]"GET / HTTP/1.1" 200 1767
+[27/Oct/2017 01:49:06]"GET /favicon.ico HTTP/1.1" 404 1938
+
+ex: http://192.168.1.4:8001/
+
+
+###
+## How to create an admin user.
+###
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py createsuperuser
+Username (leave blank to use 'khyaathi'): admin
+Email address: admin@gmail.com
+Password: 
+Password (again): 
+Superuser created successfully.
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ 
+
+
+version prior to < 1.8
+* They dont have the migrate command.
+* python manage.py syncdb 
+- create  your tables inside your database.
+- create your user.
+* south : https://south.readthedocs.io/en/latest/
+
+
+###
+## Create your blog.
+###
+
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ ls
+db.sqlite3  manage.py  mysite
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py startapp blog
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ 
+
+- migrations folder.
+- admin.py - admin portal
+- models.py -> database schemas
+- tests.py -> unittests
+- views.py -> views relative to the urls.
+
+###
+##  our first hello world to the world!!! 
+###
+
+- src/mysite/urls.py
+
+from django.conf.urls import include, url
+from django.contrib import admin
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^$','blog.views.hello_world',name='hello_world'),
+]
+
+
+- src/blog/views.py
+
+
+from django.shortcuts import render
+from django.http import HttpResponse
+
+# Create your views here.
+
+def hello_world(request):
+	return HttpResponse("Hello!! world \n")
+
+- run your server
+# python manage.py runserver 0.0.0.0:80001
+
+ex:
+http://192.168.1.4:8001/
+or
+http://127.0.0.1:8001
+or 
+http://localhost:8001
+
+
+
+
+
+
+
+
+
+
