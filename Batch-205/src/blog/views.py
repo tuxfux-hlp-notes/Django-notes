@@ -3,5 +3,20 @@ from django.http import HttpResponse
 
 # Create your views here.
 
+# day2
+# def hello_world(request):
+# 	return HttpResponse("Hello!! world \n")
+
+# day3
+# def hello_world(request):
+# 	f = open('/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src/blog/templates/test.html')
+# 	content = f.read()
+# 	return HttpResponse(content)
+
+# day3
+# https://docs.djangoproject.com/en/1.11/intro/tutorial03/#a-shortcut-render
+# templates folder in app locations.
 def hello_world(request):
-	return HttpResponse("Hello!! world \n")
+	context = {}
+	return render(request,'test.html',context)
+
