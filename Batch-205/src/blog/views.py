@@ -20,3 +20,8 @@ def hello_world(request):
 	context = {}
 	return render(request,'test.html',context)
 
+# day4
+def myblog(request):
+	context = {'namesdb':[{'name':'Ravi','course':'Django','loc':'India'},{'name':'rama','course':'django','loc':'Us'}]}
+	return render(request,'blog/myblog.html',context)
+

@@ -1,0 +1,207 @@
+
+
+References:
+https://docs.djangoproject.com/en/1.11/topics/templates/
+https://docs.djangoproject.com/en/1.11/topics/templates/#the-django-template-language
+
+###
+# static page
+###
+
+
+1) created the url for linking to the view.
+
+from django.conf.urls import include, url
+from django.contrib import admin
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^$','blog.views.hello_world',name='hello_world'),
+    url(r'^blog/','blog.views.myblog',name='myblog'),
+]
+
+
+2) created the view for displaying myblog data.
+
+def myblog(request):
+	context = {}
+	return render(request,'blog/myblog.html',context)
+
+3) created a myblog.html page under locations - src/blog/templates/blog/myblog.html
+
+<html>
+<head>
+	<title>  My blog data</title>
+</head>
+<body>
+<div class='address'>
+<table>
+<tr> 
+<td> Rama</td>
+<td> Django</td>
+<td> India</td>
+</tr>
+<tr> 
+<td> Ravi</td>
+<td> Django</td>
+<td> US</td>
+</tr>
+</table>
+</div>
+</body>
+</html>
+
+4) run the server and verify if the page is working or not.
+
+http://127.0.0.1:8000/blog/
+
+###
+# variables - jinja templates
+###
+References:
+https://docs.djangoproject.com/en/1.11/topics/templates/#variables
+
+1) src/mysite/urls.py dont change.
+
+from django.conf.urls import include, url
+from django.contrib import admin
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^$','blog.views.hello_world',name='hello_world'),
+    url(r'^blog/','blog.views.myblog',name='myblog'),
+]
+
+2) Make modification to  your src/blog/views.py.
+
+# day4
+def myblog(request):
+	context = {'name1':'Ravi','course1':'Django','loc1':'India','name2':'rama','course2':'django','loc2':'Us'}
+	return render(request,'blog/myblog.html',context)
+
+3) create the myblog.html locations - src/blog/templates/blog/myblog.html
+
+<html>
+<head>
+	<title>  My blog data</title>
+</head>
+<body>
+<div class='address'>
+<table>
+<tr> 
+<td> {{ name1 }}</td>
+<td> {{ course1 }}</td>
+<td> {{ loc1 }}</td>
+</tr>
+<tr> 
+<td> {{ name2 }}</td>
+<td> {{ course2 }}</td>
+<td> {{ loc2 }}</td>
+</tr>
+</table>
+</div>
+</body>
+</html>
+
+
+4) run the server and verify if the page is working or not.
+
+http://127.0.0.1:8000/blog/
+
+
+###
+# Filters
+###
+reference:
+https://docs.djangoproject.com/en/1.11/ref/templates/builtins/#ref-templates-builtins-filters
+https://docs.djangoproject.com/en/1.11/howto/custom-template-tags/#howto-writing-custom-template-filters
+
+1) modify your myblog.html - src/blog/templates/blog/myblog.html
+
+
+<html>
+<head>
+	<title>  My blog data</title>
+</head>
+<body>
+<div class='address'>
+<table>
+<tr> 
+<td> {{ name1|capfirst }}</td>
+<td> {{ course1|capfirst }}</td>
+<td> {{ loc1|upper }}</td>
+</tr>
+<tr> 
+<td> {{ name2|capfirst }}</td>
+<td> {{ course2|capfirst }}</td>
+<td> {{ loc2|upper }}</td>
+</tr>
+</table>
+</div>
+</body>
+</html>
+
+###
+# tags
+###
+reference:
+https://docs.djangoproject.com/en/1.11/topics/templates/#tags
+https://docs.djangoproject.com/en/1.11/ref/templates/builtins/#ref-templates-builtins-tags
+
+
+1) src/mysite/urls.py dont change.
+
+from django.conf.urls import include, url
+from django.contrib import admin
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^$','blog.views.hello_world',name='hello_world'),
+    url(r'^blog/','blog.views.myblog',name='myblog'),
+]
+
+2) Make modification to  your src/blog/views.py.
+
+def myblog(request):
+	context = {'namesdb':[{'name':'Ravi','course':'Django','loc':'India'},{'name':'rama','course':'django','loc':'Us'}]}
+	return render(request,'blog/myblog.html',context)
+
+3) create the myblog.html locations - src/blog/templates/blog/myblog.html
+
+<html>
+<head>
+	<title>  My blog data</title>
+</head>
+<body>
+<div class='address'>
+<table>
+
+{%  for value in namesdb %}
+<tr> 
+<td> {{ value.name }}</td>
+<td> {{ value.course }}</td>
+<td> {{ value.loc }}</td>
+</tr>
+{% endfor %}
+
+</table>
+</div>
+</body>
+</html>
+
+
+4) run the server and verify if the page is working or not.
+
+http://127.0.0.1:8000/blog/

@@ -1,0 +1,90 @@
+##
+# Models.py
+##
+
+
+
+##
+# create the model.
+##
+
+1) create the model in the /src/blog/models.py locations.
+
+from django.db import models
+from django.utils import timezone
+
+# Create your models here.
+
+class Post(models.Model):
+	author = models.ForeignKey('auth.User')
+	title = models.CharField(max_length=200)
+	text = models.TextField()
+	created_date = models.DateTimeField(default=timezone.now)
+	published_date = models.DateTimeField(blank=True,null=True) # null -> databases, blank -> forms
+
+	def publish(self):
+		self.published_date = timezone.now()
+		self.save()
+
+	def __str__(self):
+		return self.article
+
+
+##
+# Running makemigrations and migrate.
+##
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py makemigrations blog
+Migrations for 'blog':
+  0001_initial.py:
+    - Create model Post
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py migrate blog
+Operations to perform:
+  Apply all migrations: blog
+Running migrations:
+  Rendering model states... DONE
+  Applying blog.0001_initial... OK
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ 
+
+
+###
+# getting to know what is happenging at each migration.
+###
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py sqlmigrate blog 0001
+BEGIN;
+CREATE TABLE "blog_post" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "title" varchar(200) NOT NULL, "text" text NOT NULL, "created_date" datetime NOT NULL, "published_date" datetime NULL, "author_id" integer NOT NULL REFERENCES "auth_user" ("id"));
+CREATE INDEX "blog_post_4f331e2f" ON "blog_post" ("author_id");
+
+COMMIT;
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ 
+
+###
+# Install some tools relative to sqlite broswer.
+###
+
+1) sqlite broswer
+
+reference:
+https://linuxhint.com/install-sqlite-browser-ubuntu/
+
+# sudo add-apt-repository ppa:linuxgndu/sqlitebrowser-testing
+# sudo apt-get update && sudo apt-get install sqlitebrowser
+
+
+2) sqlite command line.
+
+# sudo apt-get install sqlite3 libsqlite3-dev
+
+
+3) admin
+
+4) django api shell.
+
+reference:
+
+https://docs.djangoproject.com/en/1.11/topics/db/models/
+https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+https://docs.djangoproject.com/en/1.11/intro/tutorial02/#creating-models
+https://docs.djangoproject.com/en/1.11/ref/models/fields/
+https://docs.djangoproject.com/en/1.11/ref/models/options/
