@@ -1,0 +1,192 @@
+##
+# Playing with the sqlite3
+##
+
+1) sqlite command line.
+
+# sudo apt-get install sqlite3 libsqlite3-dev
+
+2) How to access the db.sqlite3
+
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ ls
+blog  db.sqlite3  manage.py  mysite  templates
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ sqlite3 db.sqlite3 
+SQLite version 3.14.1 2016-08-11 18:53:32
+Enter ".help" for usage hints.
+sqlite> .help
+.auth ON|OFF           Show authorizer callbacks
+.backup ?DB? FILE      Backup DB (default "main") to FILE
+.bail on|off           Stop after hitting an error.  Default OFF
+.binary on|off         Turn binary output on or off.  Default OFF
+.changes on|off        Show number of rows changed by SQL
+.clone NEWDB           Clone data into NEWDB from the existing database
+.databases             List names and files of attached databases
+.dbinfo ?DB?           Show status information about the database
+.dump ?TABLE? ...      Dump the database in an SQL text format
+                         If TABLE specified, only dump tables matching
+                         LIKE pattern TABLE.
+.echo on|off           Turn command echo on or off
+.eqp on|off|full       Enable or disable automatic EXPLAIN QUERY PLAN
+.exit                  Exit this program
+.explain ?on|off|auto? Turn EXPLAIN output mode on or off or to automatic
+.fullschema ?--indent? Show schema and the content of sqlite_stat tables
+.headers on|off        Turn display of headers on or off
+.help                  Show this message
+.import FILE TABLE     Import data from FILE into TABLE
+.indexes ?TABLE?       Show names of all indexes
+                         If TABLE specified, only show indexes for tables
+                         matching LIKE pattern TABLE.
+.limit ?LIMIT? ?VAL?   Display or change the value of an SQLITE_LIMIT
+.load FILE ?ENTRY?     Load an extension library
+.log FILE|off          Turn logging on or off.  FILE can be stderr/stdout
+.mode MODE ?TABLE?     Set output mode where MODE is one of:
+                         ascii    Columns/rows delimited by 0x1F and 0x1E
+                         csv      Comma-separated values
+                         column   Left-aligned columns.  (See .width)
+                         html     HTML <table> code
+                         insert   SQL insert statements for TABLE
+                         line     One value per line
+                         list     Values delimited by .separator strings
+                         tabs     Tab-separated values
+                         tcl      TCL list elements
+.nullvalue STRING      Use STRING in place of NULL values
+.once FILENAME         Output for the next SQL command only to FILENAME
+.open ?FILENAME?       Close existing database and reopen FILENAME
+.output ?FILENAME?     Send output to FILENAME or stdout
+.print STRING...       Print literal STRING
+.prompt MAIN CONTINUE  Replace the standard prompts
+.quit                  Exit this program
+.read FILENAME         Execute SQL in FILENAME
+.restore ?DB? FILE     Restore content of DB (default "main") from FILE
+.save FILE             Write in-memory database into FILE
+.scanstats on|off      Turn sqlite3_stmt_scanstatus() metrics on or off
+.schema ?PATTERN?      Show the CREATE statements matching PATTERN
+                          Add --indent for pretty-printing
+.separator COL ?ROW?   Change the column separator and optionally the row
+                         separator for both the output mode and .import
+.session CMD ...       Create or control sessions
+.shell CMD ARGS...     Run CMD ARGS... in a system shell
+.show                  Show the current values for various settings
+.stats ?on|off?        Show stats or turn stats on or off
+.system CMD ARGS...    Run CMD ARGS... in a system shell
+.tables ?TABLE?        List names of tables
+                         If TABLE specified, only list tables matching
+                         LIKE pattern TABLE.
+.timeout MS            Try opening locked tables for MS milliseconds
+.timer on|off          Turn SQL timer on or off
+.trace FILE|off        Output each SQL statement as it is run
+.vfsinfo ?AUX?         Information about the top-level VFS
+.vfslist               List all available VFSes
+.vfsname ?AUX?         Print the name of the VFS stack
+.width NUM1 NUM2 ...   Set column widths for "column" mode
+                         Negative values right-justify
+sqlite> .tables
+auth_group                  blog_post                 
+auth_group_permissions      django_admin_log          
+auth_permission             django_content_type       
+auth_user                   django_migrations         
+auth_user_groups            django_session            
+auth_user_user_permissions
+sqlite> 
+sqlite> select * from auth_user;
+1|pbkdf2_sha256$20000$cANYMzMmFSxJ$6+IoG9oCPLvvsLNdD2U2rUuRKOQfCTgyEptT0/8H34Q=|1|admin|||admin@gmail.com|1|1|2017-10-27 01:51:33.041366|2017-10-27 01:52:27.573518
+sqlite> select * from auth_user;
+1|pbkdf2_sha256$20000$cANYMzMmFSxJ$6+IoG9oCPLvvsLNdD2U2rUuRKOQfCTgyEptT0/8H34Q=|1|admin|||admin@gmail.com|1|1|2017-10-27 01:51:33.041366|2017-11-17 02:06:03.719820
+2|pbkdf2_sha256$20000$mEaPBTGSpT18$9SpRun8ulgQEmiU18Cuw0kG3ZQMMVH1dwdhXR9Ozo/8=|0|rama|Rama|Krishna||1|1|2017-11-17 02:06:24|
+sqlite> 
+sqlite> select * from blog_post;
+sqlite> tables blog_post;
+Error: near "tables": syntax error
+sqlite> .tables blog_post;
+sqlite> .schema blog_post --indent 2
+Usage: .schema ?--indent? ?LIKE-PATTERN?
+sqlite> .schema blog_post
+CREATE TABLE "blog_post" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "title" varchar(200) NOT NULL, "text" text NOT NULL, "created_date" datetime NOT NULL, "published_date" datetime NULL, "author_id" integer NOT NULL REFERENCES "auth_user" ("id"));
+CREATE INDEX "blog_post_4f331e2f" ON "blog_post" ("author_id");
+sqlite> 
+sqlite> insert into blog_post value(1,"my first blog","hey my test is written from sqlite3","2017-11-17 02:06:24","","2");
+Error: near "value": syntax error
+sqlite> insert into blog_post values(1,"my first blog","hey my test is written from sqlite3","2017-11-17 02:06:24","","2");
+sqlite> 
+sqlite> select * from blog_post;
+1|my first blog|hey my test is written from sqlite3|2017-11-17 02:06:24||2
+sqlite> 
+sqlite> 
+
+####
+## admin
+####
+
+reference:
+https://docs.djangoproject.com/en/1.11/ref/contrib/admin/
+
+1) create the admin.py under src/blog/admin.py
+
+from django.contrib import admin
+
+# Register your models here.
+from .models import Post
+admin.site.register(Post)
+
+2) start your server
+
+# python manage.py runserver
+
+3) open the admin : http://127.0.0.:8000/admin
+4) browse the blog_post table and make necessary entries.
+5) click on file -> write the changes.
+
+###
+## django api shell. 
+###
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py shell
+Python 2.7.12+ (default, Sep 17 2016, 12:08:02) 
+[GCC 6.2.0 20160914] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> 
+>>> from django.db import models
+>>> from blog.models import Post
+>>> 
+>>> Post.
+Post.DoesNotExist(                          Post.__setstate__(                          Post._perform_date_checks(
+Post.MultipleObjectsReturned(               Post.__sizeof__(                            Post._perform_unique_checks(
+Post.__base__(                              Post.__str__(                               Post._prepare(
+Post.__bases__                              Post.__subclasscheck__(                     Post._save_parents(
+Post.__basicsize__                          Post.__subclasses__(                        Post._save_table(
+Post.__call__(                              Post.__subclasshook__(                      Post._set_pk_val(
+Post.__class__(                             Post.__weakref__                            Post.add_to_class(
+Post.__delattr__(                           Post.__weakrefoffset__                      Post.author
+Post.__dict__                               Post._base_manager                          Post.check(
+Post.__dictoffset__                         Post._check_column_name_clashes(            Post.clean(
+Post.__doc__                                Post._check_field_name_clashes(             Post.clean_fields(
+Post.__eq__(                                Post._check_fields(                         Post.copy_managers(
+Post.__flags__                              Post._check_id_field(                       Post.date_error_message(
+Post.__format__(                            Post._check_index_together(                 Post.delete(
+Post.__ge__(                                Post._check_local_fields(                   Post.from_db(
+Post.__getattribute__(                      Post._check_long_column_names(              Post.full_clean(
+Post.__gt__(                                Post._check_m2m_through_same_relationship(  Post.get_deferred_fields(
+Post.__hash__(                              Post._check_managers(                       Post.get_next_by_created_date(
+Post.__init__(                              Post._check_model(                          Post.get_previous_by_created_date(
+Post.__instancecheck__(                     Post._check_ordering(                       Post.mro(
+Post.__itemsize__                           Post._check_swappable(                      Post.objects
+Post.__le__(                                Post._check_unique_together(                Post.pk
+Post.__lt__(                                Post._default_manager                       Post.prepare_database_save(
+Post.__module__                             Post._deferred                              Post.publish(
+Post.__mro__                                Post._do_insert(                            Post.refresh_from_db(
+Post.__name__                               Post._do_update(                            Post.save(
+Post.__ne__(                                Post._get_FIELD_display(                    Post.save_base(
+Post.__new__(                               Post._get_next_or_previous_by_FIELD(        Post.serializable_value(
+Post.__reduce__(                            Post._get_next_or_previous_in_order(        Post.unique_error_message(
+Post.__reduce_ex__(                         Post._get_pk_val(                           Post.validate_unique(
+Post.__repr__(                              Post._get_unique_checks(                    
+Post.__setattr__(                           Post._meta                                  
+>>> Post.objects.all()
+[<Post: my first blog>, <Post: This is my second post>]
+>>> 
+
+
+### TODO ##
+Tomorrow

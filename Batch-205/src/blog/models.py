@@ -15,4 +15,4 @@ class Post(models.Model):
 		self.save()
 
 	def __str__(self):
-		return self.article
+		return self.title

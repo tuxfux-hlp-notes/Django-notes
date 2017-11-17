@@ -72,15 +72,6 @@ https://linuxhint.com/install-sqlite-browser-ubuntu/
 # sudo apt-get update && sudo apt-get install sqlitebrowser
 
 
-2) sqlite command line.
-
-# sudo apt-get install sqlite3 libsqlite3-dev
-
-
-3) admin
-
-4) django api shell.
-
 reference:
 
 https://docs.djangoproject.com/en/1.11/topics/db/models/
