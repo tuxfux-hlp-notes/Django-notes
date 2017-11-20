@@ -1,7 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Post
 
 # Create your views here.
+
+#day7
+# integrating models to the templates.
+def myblog(request):
+	blog_data = Post.objects.all()
+	context = {'namesdb': blog_data}
+	return render(request,'blog/myblog.html',context)
 
 # day2
 # def hello_world(request):
@@ -20,8 +28,8 @@ def hello_world(request):
 	context = {}
 	return render(request,'test.html',context)
 
-# day4
-def myblog(request):
-	context = {'namesdb':[{'name':'Ravi','course':'Django','loc':'India'},{'name':'rama','course':'django','loc':'Us'}]}
-	return render(request,'blog/myblog.html',context)
+# # day4
+# def myblog(request):
+# 	context = {'namesdb':[{'name':'Ravi','course':'Django','loc':'India'},{'name':'rama','course':'django','loc':'Us'}]}
+# 	return render(request,'blog/myblog.html',context)
 

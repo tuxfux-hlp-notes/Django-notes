@@ -1,0 +1,274 @@
+###
+# Integrating backend data to our tempaltes.
+##
+
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ sqlite3 db.sqlite3 
+SQLite version 3.14.1 2016-08-11 18:53:32
+Enter ".help" for usage hints.
+sqlite> .tables
+auth_group                  blog_post                 
+auth_group_permissions      django_admin_log          
+auth_permission             django_content_type       
+auth_user                   django_migrations         
+auth_user_groups            django_session            
+auth_user_user_permissions
+sqlite> select * from blog_post;
+1|my first blog|hey my test is written from sqlite3|2017-11-17 02:06:24||2
+2|This is my second post|Hey there this is my second post.|2017-11-17 02:27:11||2
+sqlite> 
+sqlite> select * from auth_user;
+1|pbkdf2_sha256$20000$cANYMzMmFSxJ$6+IoG9oCPLvvsLNdD2U2rUuRKOQfCTgyEptT0/8H34Q=|1|admin|||admin@gmail.com|1|1|2017-10-27 01:51:33.041366|2017-11-17 02:06:03.719820
+2|pbkdf2_sha256$20000$mEaPBTGSpT18$9SpRun8ulgQEmiU18Cuw0kG3ZQMMVH1dwdhXR9Ozo/8=|0|rama|Rama|Krishna||1|1|2017-11-17 02:06:24|
+sqlite> 
+sqlite> 
+
+
+khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ source ../myenv/bin/activate
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py shell
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/myenv/local/lib/python2.7/site-packages/django/db/backends/sqlite3/base.py:57: RuntimeWarning: SQLite received a naive datetime (2017-11-20 02:09:42.444881) while time zone support is active.
+  RuntimeWarning)
+
+Python 2.7.12+ (default, Sep 17 2016, 12:08:02) 
+Type "copyright", "credits" or "license" for more information.
+
+IPython 5.5.0 -- An enhanced Interactive Python.
+?         -> Introduction and overview of IPython's features.
+%quickref -> Quick reference.
+help      -> Python's own help system.
+object?   -> Details about 'object', use 'object??' for extra details.
+
+In [1]: from django.db import models
+
+In [2]: from blog.models import Post
+
+In [3]: Post.objects.all()
+Out[3]: [<Post: my first blog>, <Post: This is my second post>]
+
+In [4]: 
+
+
+1) No modification for now - urls.py ( src/mysite/urls.py)
+
+from django.conf.urls import include, url
+from django.contrib import admin
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^$','blog.views.hello_world',name='hello_world'),
+    url(r'^blog/','blog.views.myblog',name='myblog'),
+]
+
+2) the myblog hits the views.py (src/blog/views.py) 
+
+def myblog(request):
+	blog_data = Post.objects.all()
+	context = {'namesdb': blog_data}
+	return render(request,'blog/myblog.html',context)
+
+3) the myblog view takes us to the myblog.html tempaltes. (src/blog/blog/myblog.html)
+
+<html>
+<head>
+	<title>  My blog data</title>
+</head>
+<body>
+<div class='address'>
+<table>
+
+{%  for value in namesdb %}
+<tr> 
+<td> {{ value.author|upper }}</td>
+<td> {{ value.email|default:"khyaathi.trainings@gmail.com"}}
+<td> {{ value.title }}</td>
+<td> {{ value.text }}</td>
+<td> {{ value.created_date }}</td>
+<td> {{ value.published_date|default:"NA" }}</td>
+</tr>
+{% endfor %}
+
+</table>
+</div>
+</body>
+</html>
+
+4) start your server
+
+# python manage.py runserver
+
+
+###
+# how to add a new field.
+###
+
+References:
+
+https://docs.djangoproject.com/en/1.11/ref/models/fields/#emailfield
+https://docs.djangoproject.com/en/1.11/ref/models/fields/#null
+https://docs.djangoproject.com/en/1.11/ref/models/fields/#blank
+
+1) Let me try to add a new field to the models.py ( src/blog/models.py)
+
+class Post(models.Model):
+	author = models.ForeignKey('auth.User')
+	email  = models.EmailField(max_length=30,blank=True,null=True)
+	title = models.CharField(max_length=200)
+	text = models.TextField()
+	created_date = models.DateTimeField(default=timezone.now)
+	published_date = models.DateTimeField(blank=True,null=True) # null -> databases, blank -> forms
+
+	def publish(self):
+		self.published_date = timezone.now()
+		self.save()
+
+	def __str__(self):
+		return self.title
+
+2) no modification to the src/blog/views.py and src/mysite/urls.py
+3) Slight modification to the myblog.html ( src/blog/blog/myblog.html)
+
+<html>
+<head>
+	<title>  My blog data</title>
+</head>
+<body>
+<div class='address'>
+<table>
+
+{%  for value in namesdb %}
+<tr> 
+<td> {{ value.author|upper }}</td>
+<td> {{ value.email|default:"khyaathi.trainings@gmail.com"}}
+<td> {{ value.title }}</td>
+<td> {{ value.text }}</td>
+<td> {{ value.created_date }}</td>
+<td> {{ value.published_date|default:"NA" }}</td>
+</tr>
+{% endfor %}
+
+</table>
+</div>
+</body>
+</html>
+
+4) Do run the makemigrations and migrate
+
+# python manage.py makemigrations
+# python manage.py migrate
+
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py makemigrations
+Migrations for 'blog':
+  0002_post_email.py:
+    - Add field email to post
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ 
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py migrate
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages
+  Apply all migrations: admin, blog, contenttypes, auth, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  Rendering model states... DONE
+  Applying blog.0002_post_email... OK
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ 
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py sqlmigrate blog 0002
+BEGIN;
+CREATE TABLE "blog_post__new" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "email" varchar(30) NULL, "title" varchar(200) NOT NULL, "text" text NOT NULL, "created_date" datetime NOT NULL, "published_date" datetime NULL, "author_id" integer NOT NULL REFERENCES "auth_user" ("id"));
+INSERT INTO "blog_post__new" ("title", "text", "published_date", "email", "created_date", "author_id", "id") SELECT "title", "text", "published_date", NULL, "created_date", "author_id", "id" FROM "blog_post";
+DROP TABLE "blog_post";
+ALTER TABLE "blog_post__new" RENAME TO "blog_post";
+CREATE INDEX "blog_post_4f331e2f" ON "blog_post" ("author_id");
+
+COMMIT;
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py sqlmigrate blog 0001
+BEGIN;
+CREATE TABLE "blog_post" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "title" varchar(200) NOT NULL, "text" text NOT NULL, "created_date" datetime NOT NULL, "published_date" datetime NULL, "author_id" integer NOT NULL REFERENCES "auth_user" ("id"));
+CREATE INDEX "blog_post_4f331e2f" ON "blog_post" ("author_id");
+
+COMMIT;
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ 
+
+5) You can verify the data in sqlite or via admin or via hte webpage.
+
+
+a) you can verify the data in sqlite. 
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ sqlite3 db.sqlite3 
+SQLite version 3.14.1 2016-08-11 18:53:32
+Enter ".help" for usage hints.
+sqlite> .tables
+auth_group                  blog_post                 
+auth_group_permissions      django_admin_log          
+auth_permission             django_content_type       
+auth_user                   django_migrations         
+auth_user_groups            django_session            
+auth_user_user_permissions
+sqlite> .schema blog_post
+CREATE TABLE "blog_post" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "title" varchar(200) NOT NULL, "text" text NOT NULL, "created_date" datetime NOT NULL, "published_date" datetime NULL, "author_id" integer NOT NULL REFERENCES "auth_user" ("id"), "email" varchar(30) NULL);
+CREATE INDEX "blog_post_4f331e2f" ON "blog_post" ("author_id");
+sqlite> 
+sqlite> select * from blog_post;
+1|my first blog|hey my test is written from sqlite3|2017-11-17 02:06:24||2|
+2|This is my second post|Hey there this is my second post.|2017-11-17 02:27:11||2|
+sqlite> 
+sqlite> 
+
+
+b) http://localhost:8000/blog
+c) http://localhost:8000/admin
+
+
+###
+# static files.
+###
+
+Static files could be images,photos,css files.
+
+References:
+https://docs.djangoproject.com/en/1.8/howto/static-files/
+
+1) Go to the settings.py(src/mysite/settings.py) file and make sure you have the STATIC_URL settings enabled.
+STATIC_URL = '/static/'
+
+2) create a static folder in the blog app and create a styles.css file.
+
+- src/blog/static/styles.css
+
+border-style: {
+	background-color: red;
+}
+
+3) create the test.html under the src/templates/test.html locations.
+
+<html>
+<head>
+	{% load staticfiles %}
+	<link href="{% static "styles.css" %}" rel="stylesheet" text="text/css" >
+	<title> Hello everyone </title>
+</head>
+     <h1> src/templates/test.html</h1>
+
+</html>
+
+4) we are going to use the hello_world from both the views.py and urls.py
+
++ views.py
+
+	def hello_world(request):
+		context = {}
+		return render(request,'test.html',context)
+
++ urls.py
+    url(r'^$','blog.views.hello_world',name='hello_world'),
+
+5) when you hit on this link you don't get red colour.
+
+http://localhost:8000/static/styles.css
