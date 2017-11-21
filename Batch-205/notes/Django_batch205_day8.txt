@@ -1,0 +1,154 @@
+###
+# static files.
+###
+
+Static files could be images,photos,css files.
+
+6) what if i put the static within the page of app.
+
+- src/blog/templates/myblog.html
+
+<html>
+<head>
+	{% load staticfiles %}
+	<link href="{% static "styles.css" %}" rel="stylesheet" text="text/css">
+	<title>  My blog data</title>
+</head>
+<body>
+<div class='address'>
+<table>
+
+{%  for value in namesdb %}
+<tr> 
+<td> {{ value.author|upper }}</td>
+<td> {{ value.email|default:"khyaathi.trainings@gmail.com"}}
+<td> {{ value.title }}</td>
+<td> {{ value.text }}</td>
+<td> {{ value.created_date }}</td>
+<td> {{ value.published_date|default:"NA" }}</td>
+</tr>
+{% endfor %}
+
+</table>
+</div>
+</body>
+</html>
+
+5) when you hit on this link you  get olive colour.
+http://localhost:8000/blog
+
+###
+# static files and folder locations.
+###
+
+1) created an app called a test inside our src locations.
+
+# python manage.py startapp atest
+# python manage.py makemigrations
+# python manage.py migrate
+
+2) Add your app to the settings.py files.
+
+# Application definition
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'atest',
+    'blog',
+)
+
+3) create a static folder inside the atest app. Create a styles.css files.
+
+- src/atest/static/styles.css
+
+body {
+	background-color: yellow;
+}
+
+5) when you hit on this link you  get yellow colour.
+http://localhost:8000/blog 
+
+when ever you look/load for a static page(sytles.css) , the order is dependent on the order of the app location.
+to avoide the above scenerio we have to make sure we create folders under static folder locations.
+
+ex:
+
+- atest/static/atest/styles.css
+- blog/static/blog/styles.css
+
+
+####
+## STATICFILES_DIRS
+####
+
+1) we want some files which are common  to both the apps.
+2) create a local_static(you can create with any name) folder and dump the file base.css into it.
+3) make some modifictiaon in  your settings.py files.
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "local_static"),
+)
+
+4) make modification in you myblog.html templates locations.
+
+<html>
+<head>
+	{% load staticfiles %}
+	<link href="{% static "styles.css" %}" rel="stylesheet" text="text/css">
+	<link href="{% static "base.css" %}" rel="stylesheet" text="text/css">
+	<title>  My blog data</title>
+</head>
+<body>
+	<h1> This is my blog data.</h1>
+<div class='address'>
+<table>
+
+{%  for value in namesdb %}
+<tr> 
+<td> {{ value.author|upper }}</td>
+<td> {{ value.email|default:"khyaathi.trainings@gmail.com"}}
+<td> {{ value.title }}</td>
+<td> {{ value.text }}</td>
+<td> {{ value.created_date }}</td>
+<td> {{ value.published_date|default:"NA" }}</td>
+</tr>
+{% endfor %}
+
+</table>
+</div>
+</body>
+</html>
+
+5) when you hit on the page you should see your headed in italics.
+Note: you can put this in all the templates which has header and it should work good.
+
+####
+# STATIC_ROOT
+####
+
+1) when we deploy we need all the static pages in once locations for easy management.
+2) Lets create a folder called public_static and start using it for deployment purpose.
+3) Make some modification in the settings.py files.
+
+STATIC_ROOT = os.path.join(BASE_DIR,"public_static")
+
+4) we can run the python manage.py collectstatic to collect all the files in similar locations.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py collectstatic
+
+You have requested to collect static files at the destination
+location as specified in your settings:
+
+    /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src/public_static
+
+This will overwrite existing files!
+Are you sure you want to do this?
+
+Type 'yes' to continue, or 'no' to cancel: yes
+.... output trauncated ...
+64 static files copied to '/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src/public_static'.

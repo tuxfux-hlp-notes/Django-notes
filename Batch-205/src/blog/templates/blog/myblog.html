@@ -1,16 +1,23 @@
 <html>
 <head>
+	{% load staticfiles %}
+	<link href="{% static "styles.css" %}" rel="stylesheet" text="text/css">
+	<link href="{% static "base.css" %}" rel="stylesheet" text="text/css">
 	<title>  My blog data</title>
 </head>
 <body>
+	<h1> This is my blog data.</h1>
 <div class='address'>
 <table>
 
 {%  for value in namesdb %}
 <tr> 
-<td> {{ value.name }}</td>
-<td> {{ value.course }}</td>
-<td> {{ value.loc }}</td>
+<td> {{ value.author|upper }}</td>
+<td> {{ value.email|default:"khyaathi.trainings@gmail.com"}}
+<td> {{ value.title }}</td>
+<td> {{ value.text }}</td>
+<td> {{ value.created_date }}</td>
+<td> {{ value.published_date|default:"NA" }}</td>
 </tr>
 {% endfor %}
 

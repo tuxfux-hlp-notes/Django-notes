@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'atest',
     'blog',
 )
 
@@ -100,4 +101,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
+## default url for service the static pages
 STATIC_URL = '/static/'
+
+## location for common static files for all apps.
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "local_static"),
+)
+
+## location for deployment purpose.
+
+STATIC_ROOT = os.path.join(BASE_DIR,"public_static")
+

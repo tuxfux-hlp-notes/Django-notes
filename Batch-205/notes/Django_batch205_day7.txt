@@ -242,8 +242,8 @@ STATIC_URL = '/static/'
 
 - src/blog/static/styles.css
 
-border-style: {
-	background-color: red;
+body {
+	background-color: olive;
 }
 
 3) create the test.html under the src/templates/test.html locations.
@@ -269,6 +269,8 @@ border-style: {
 + urls.py
     url(r'^$','blog.views.hello_world',name='hello_world'),
 
-5) when you hit on this link you don't get red colour.
+5) when you hit on this link you  get olive colour.
 
 http://localhost:8000/static/styles.css
+
+--- continued in day 8.txt ---
