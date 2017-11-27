@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Post
+from .forms import ContactForm
 
 # Create your views here.
 
@@ -10,6 +11,15 @@ def myblog(request):
 	blog_data = Post.objects.all()
 	context = {'namesdb': blog_data}
 	return render(request,'blog/myblog.html',context)
+
+#day9
+# creating a contact form
+def ContactView(request):
+
+	# GET
+	contact_form = ContactForm  # class not a instance.
+	context = {'form':contact_form}
+	return render(request,'blog/ContactForm.html',context)
 
 # day2
 # def hello_world(request):
