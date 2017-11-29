@@ -1,0 +1,93 @@
+###
+# how to send a email from a form to my email address.
+###
+
+1) we need to add the gmail relative settings in our settings.py file - src/mysite/settings.py
+
+a) create a creds.py file and fill it with USER and PASS.
+-- creds.py --
+USER='yourgmailaddress'
+PASS='yourgmailpassword'
+
+
+###
+# email settings for sending the mail.
+###
+
+from creds import USER,PASS
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = USER
+EMAIL_HOST_PASSWORD = PASS
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+2) We can create a thankyou template or response for the people enquiring.
+
+- src/blog/views.py
+
+def Thanks(request):
+	return HttpResponse("Thank you for contacting us !!!")
+
+- src/blog/urls.py
+
+from django.conf.urls import include, url
+from .views import ContactView,Thanks
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^$','blog.views.myblog',name='myblog'),
+    url(r'^contact/',ContactView,name='contact'),
+    url(r'^thankyou/',Thanks,name='thanks')
+]
+
+
+3) Make some modification in our views to send email.
+
+reference:
+https://docs.djangoproject.com/en/1.11/topics/forms/#the-view
+https://docs.djangoproject.com/en/1.11/ref/forms/api/#django.forms.Form.cleaned_data
+https://docs.djangoproject.com/en/1.11/topics/email/
+
+- src/blog/views.py
+
+from .forms import ContactForm
+from django.core.mail import EmailMessage
+from django.http import HttpResponse,HttpResponseRedirect
+
+def ContactView(request):
+
+	# GET
+	contact_form = ContactForm  # class not a instance.
+	context = {'form':contact_form}
+	
+	# POST
+	if request.method == 'POST':
+		contact_form = ContactForm(request.POST)
+	# POST and VALID data.
+		if contact_form.is_valid():
+			contact_name = contact_form.cleaned_data['contact_name']
+			contact_email = contact_form.cleaned_data['contact_email']
+			content = contact_form.cleaned_data['content']
+			subject = "A new contact or lead - {}".format(contact_name)
+			email = EmailMessage(subject,contact_name + '\n' + contact_email + '\n' + content , to=['tuxfux.hlp@gmail.com'])
+			email.send()
+			return HttpResponseRedirect('/blog/thankyou/')
+	# GET or POST and NOT VALID DATA.
+	return render(request,'blog/ContactForm.html',context)
+
+4) Demonstration
+
+a)when i hit on the - http://localhost:8000/blog/contact/
+[29/Nov/2017 02:29:08]"GET /blog/contact/ HTTP/1.1" 200 627
+
+b) when i hit on the submit button and give no data.
+[29/Nov/2017 02:28:24]"POST /blog/contact/ HTTP/1.1" 200 627
+
+c) when i hit on submit button and give some valid data.
+[29/Nov/2017 02:23:52]"GET /blog/contact/ HTTP/1.1" 200 627
+[29/Nov/2017 02:24:23]"POST /blog/contact/ HTTP/1.1" 302 0
+[29/Nov/2017 02:24:23]"GET /blog/thankyou/ HTTP/1.1" 200 31

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from creds import USER,PASS
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -112,4 +113,14 @@ STATICFILES_DIRS = (
 ## location for deployment purpose.
 
 STATIC_ROOT = os.path.join(BASE_DIR,"public_static")
+
+###
+# email settings for sending the mail.
+###
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = USER
+EMAIL_HOST_PASSWORD = PASS
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
