@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from .models import Post
-from .forms import ContactForm
+from .forms import ContactForm,BlogForm
 from django.core.mail import EmailMessage
 
 # Create your views here.
@@ -36,8 +36,37 @@ def ContactView(request):
 			email = EmailMessage(subject,contact_name + '\n' + contact_email + '\n' + content , to=['tuxfux.hlp@gmail.com'])
 			email.send()
 			return HttpResponseRedirect('/blog/thankyou/')
-	# GET or POST and NOT VALID DATA.
+	# POST and NOT VALID DATA.
+		else:
+			context = {'form':contact_form}
+	# GET 
 	return render(request,'blog/ContactForm.html',context)
+
+
+# day 11
+def BlogView(request):
+	# POST
+	if request.method == 'POST':
+		form = BlogForm(request.POST)
+		if form.is_valid():
+			author = form.cleaned_data['author']
+			title = form.cleaned_data['title']
+			text = form.cleaned_data['text']
+			created_date = form.cleaned_data['created_date']
+			published_date = form.cleaned_data['published_date']
+			Post.objects.create(author=author,title=title,text=text,created_date=created_date,published_date=published_date)
+			return HttpResponseRedirect('/blog/thankyou')
+		else:
+			context = {'form':form}
+			return render(request,'blog/BlogForm.html',context)
+	#GET
+	else:
+		form = BlogForm
+		context = {'form':form}
+		return render(request,'blog/BlogForm.html',context)
+
+
+
 
 #day10
 def Thanks(request):

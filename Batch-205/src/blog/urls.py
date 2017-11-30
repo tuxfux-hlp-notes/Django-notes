@@ -1,5 +1,5 @@
 from django.conf.urls import include, url
-from .views import ContactView,Thanks
+from .views import ContactView,Thanks,BlogView
 
 urlpatterns = [
     # Examples:
@@ -7,6 +7,7 @@ urlpatterns = [
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^$','blog.views.myblog',name='myblog'),
-    url(r'^contact/',ContactView,name='contact'),
+    url(r'^ContactForm/',ContactView,name='contact'),
+    url(r'^PostForm/',BlogView,name='blog'),
     url(r'^thankyou/',Thanks,name='thanks')
 ]
