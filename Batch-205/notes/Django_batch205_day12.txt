@@ -1,0 +1,51 @@
+###
+# Form validation on email field.
+###
+
+References:
+https://docs.djangoproject.com/en/1.11/ref/forms/validation/#cleaning-and-validating-fields-that-depend-on-each-other
+https://docs.djangoproject.com/en/1.11/ref/forms/api/#django.forms.Form.clean
+
+a) we need to create a validation in our forms.py - src/blog/forms.py
+
+class BlogForm(forms.ModelForm):
+	class Meta:
+		model = Post
+		#fields = ['author','title','text','created_date']
+		fields = '__all__'
+
+
+	# form validation
+	def clean_email(self):
+		email = self.cleaned_data.get('email')  # the email field is in relation to model.py(Post class)
+		print email
+
+		if email:
+			(ename,edomain) = email.split('@')
+			if edomain != 'khyaathi.com':
+				raise forms.ValidationError("please try to enter a valid khyaathi email address.")
+		return email
+
+b) No modification done to the views.py
+
+def BlogView(request):
+	# POST
+	if request.method == 'POST':
+		form = BlogForm(request.POST)
+		if form.is_valid():
+			author = form.cleaned_data['author']
+			email = form.cleaned_data['email']
+			title = form.cleaned_data['title']
+			text = form.cleaned_data['text']
+			created_date = form.cleaned_data['created_date']
+			published_date = form.cleaned_data['published_date']
+			Post.objects.create(author=author,email=email,title=title,text=text,created_date=created_date,published_date=published_date)
+			return HttpResponseRedirect('/blog/thankyou')
+		else:
+			context = {'form':form}
+			return render(request,'blog/BlogForm.html',context)
+
+Demonstration
+--------------
+a) we can go for opening the PostForm and see that the data is getting pushed to the database.
+b) try to give a invalid email address and it should populate with form validation errors.

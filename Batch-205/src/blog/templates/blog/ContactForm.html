@@ -1,10 +1,13 @@
-<html>
-<head>
-<title>  Please Join us</title>
-</head>
+{% extends 'base.html' %}
+
+{% block title %}Please Join us{% endblock %}
+
+ {% block content %} 
+
 <form role='form' action='' method='post'>
 {% csrf_token %}
 {{ form.as_p }}
 <button type="submit">submit</button>
 </form>
-</html>
+
+{% endblock %}

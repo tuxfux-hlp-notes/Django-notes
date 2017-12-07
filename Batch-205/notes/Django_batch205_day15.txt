@@ -1,0 +1,94 @@
+reference: https://django-registration-redux.readthedocs.io/en/latest/
+
+1) Installation of the django registration redux .
+pip install django-registration-redux==1.9
+
+2) Add registration to the installed apps in the settings.py file.
+
+- src/mysite/settings.py
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # our apps
+    'atest',
+    'blog',
+    # custome apps
+    'registration',
+)
+
+###
+# Django registration redux
+###
+
+ACCOUNT_ACTIVATION_DAYS = 7
+
+
+3) please run the migrate and makemigration commands.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py migrate
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages
+  Apply all migrations: sessions, admin, auth, blog, contenttypes, registration
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  Rendering model states... DONE
+  Applying registration.0001_initial... OK
+  Applying registration.0002_registrationprofile_activated... OK
+  Applying registration.0003_migrate_activatedstatus... OK
+  Applying registration.0004_supervisedregistrationprofile... OK
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py makemigrations
+No changes detected
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ 
+
+
+4) take the templates for the django registration redux and integrate them with your project.
+
+reference: https://github.com/macdhuibh/django-registration-templates
+
+First clone the repo:
+
+	git clone https://github.com/macdhuibh/django-registration-templates.git
+Then move the registration directory to your templates directory:
+
+	cd django-registration-templates
+	mv registration path/to/your/templates/
+base.html and index.html are also included but most likely, you'll already have those present in your templates directory.
+
+5) please add the followoing line to the project urls.py link.
+
+src/mysite/urls.py
+
+from django.conf.urls import include, url
+from django.contrib import admin
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^accounts/', include('registration.backends.default.urls')),
+    url(r'^$','blog.views.home',name='home'),
+    url(r'^blog/', include('blog.urls')),
+
+]
+
+6) when i click on http://localhost:8000/login and give my already existing username and password.
+
+* its redirecting to this link http://127.0.0.1:8000/accounts/profile/
+* we are getting an errors as below.
+
+Page not found (404)
+Request Method:	GET
+Request URL:	http://127.0.0.1:8000/accounts/profile/
+
+to come over this error , please add the following line - LOGIN_REDIRECT_URL = '/'
+to settings.py file.

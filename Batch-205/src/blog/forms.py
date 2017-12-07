@@ -14,3 +14,15 @@ class BlogForm(forms.ModelForm):
 		model = Post
 		#fields = ['author','title','text','created_date']
 		fields = '__all__'
+
+
+	# form validation
+	def clean_email(self):
+		email = self.cleaned_data.get('email')  # the email field is in relation to model.py(Post class)
+		print email
+
+		if email:
+			(ename,edomain) = email.split('@')
+			if edomain != 'khyaathi.com':
+				raise forms.ValidationError("please try to enter a valid khyaathi email address.")
+		return email

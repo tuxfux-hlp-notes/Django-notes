@@ -1,11 +1,11 @@
-<html>
-<head>
-<title> Post Form for our sites</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Post Form for our sites{% endblock %}
+
+ {% block content %} 
 	<form action="" method="post">{% csrf_token %}
 	{{ form.as_p }}
 	<button type="submit">Submit</button>
     </form>
-</body>
-</html>
+ {% endblock %}
+

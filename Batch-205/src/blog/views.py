@@ -6,6 +6,13 @@ from django.core.mail import EmailMessage
 
 # Create your views here.
 
+#day 13
+# integrating the django application with bootstrap.
+def home(request):
+	blog_data = Post.objects.all()
+	context = {'namesdb': blog_data}
+	return render(request,'home.html',context)
+
 #day7
 # integrating models to the templates.
 def myblog(request):
@@ -13,7 +20,7 @@ def myblog(request):
 	context = {'namesdb': blog_data}
 	return render(request,'blog/myblog.html',context)
 
-#day9
+# day9
 # creating a contact form
 # https://docs.djangoproject.com/en/1.11/topics/forms/#the-view
 # https://docs.djangoproject.com/en/1.11/ref/forms/api/#django.forms.Form.cleaned_data
@@ -50,11 +57,12 @@ def BlogView(request):
 		form = BlogForm(request.POST)
 		if form.is_valid():
 			author = form.cleaned_data['author']
+			email = form.cleaned_data['email']
 			title = form.cleaned_data['title']
 			text = form.cleaned_data['text']
 			created_date = form.cleaned_data['created_date']
 			published_date = form.cleaned_data['published_date']
-			Post.objects.create(author=author,title=title,text=text,created_date=created_date,published_date=published_date)
+			Post.objects.create(author=author,email=email,title=title,text=text,created_date=created_date,published_date=published_date)
 			return HttpResponseRedirect('/blog/thankyou')
 		else:
 			context = {'form':form}

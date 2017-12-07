@@ -1,0 +1,67 @@
+f) Modification done to the form files.
+
+- src/blog/blog/BlogForm.html
+
+{% extends 'base.html' %}
+
+{% block title %}Post Form for our sites{% endblock %}
+
+ {% block content %} 
+	<form action="" method="post">{% csrf_token %}
+	{{ form.as_p }}
+	<button type="submit">Submit</button>
+    </form>
+ {% endblock %}
+
+
+ - src/blog/blog/ContactForm.html
+
+ {% extends 'base.html' %}
+
+{% block title %}Please Join us{% endblock %}
+
+ {% block content %} 
+
+<form role='form' action='' method='post'>
+{% csrf_token %}
+{{ form.as_p }}
+<button type="submit">submit</button>
+</form>
+
+{% endblock %}
+
+-- templates/home.html
+
+{% extends 'base.html' %}
+
+{% block content %} 
+<div class="blog-header">
+        <h1 class="blog-title">The Bootstrap Blog</h1>
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-8 blog-main">
+          <div class="blog-post">
+{%  for value in namesdb %}
+            <h2 class="blog-post-title">{{ value.title }}</h2>
+            <p class="blog-post-meta">{{ value.created_date }}  by <a href="#">{{ value.author }}</a></p>
+            <p>{{ value.text }}</p>
+{% endfor %}
+          </div><!-- /.blog-post -->
+          </div>
+{% include 'bootstrap/sidebar.html' %}
+      </div><!-- /.row -->
+
+
+
+{% endblock %}
+
+g) Modifications to the views.py ( src/blog/views.py)
+
+def home(request):
+	blog_data = Post.objects.all()
+	context = {'namesdb': blog_data}
+	return render(request,'home.html',context)
+
+

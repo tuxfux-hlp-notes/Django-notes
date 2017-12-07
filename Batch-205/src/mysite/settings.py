@@ -38,8 +38,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # custome apps
+    'registration',
+    # our apps
     'atest',
     'blog',
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -124,3 +128,9 @@ EMAIL_HOST_PASSWORD = PASS
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
+###
+# Django registration redux
+###
+
+ACCOUNT_ACTIVATION_DAYS = 7
+LOGIN_REDIRECT_URL = '/'
