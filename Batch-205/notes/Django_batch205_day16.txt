@@ -1,0 +1,155 @@
+References:
+https://getbootstrap.com/docs/3.3/css/#forms
+https://docs.djangoproject.com/en/1.11/topics/auth/default/#authentication-in-web-requests
+http://django-crispy-forms.readthedocs.io/en/latest/
+
+###
+# login form in navbar.html
+###
+
+a) make modification to the navbar.html
+
+- src/templates/bootstrap/navbar.html
+
+    <div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <a class="blog-nav-item" href="{% url 'home' %}">Home</a>
+          <a class="blog-nav-item" href="{% url 'blog' %}">Insert</a>
+          <a class="blog-nav-item" href="{% url 'contact' %}">Contact</a>
+
+{%  if request.user.is_authenticated %}
+          <a class="blog-nav-item navbar-right" href="{% url 'auth_logout' %}">{{request.user}} | Logout</a>
+{% endif %}
+
+{%  if not request.user.is_authenticated  and not '/accounts/login' in request.get_full_path %}
+
+
+          <a class="blog-nav-item navbar-right " href="{% url 'registration_complete' %}">Register</a>
+          <!-- <a class="blog-nav-item navbar-right" href="{% url 'auth_login' %}">Login</a> -->
+         
+
+          <form class="blog-nav-item navbar-right form-inline" action="{% url 'auth_login' %}" method="POST">{% csrf_token %}
+                  
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="username" placeholder="username">
+                  </div>
+                  <div class="form-group">
+                    <input type="password" class="form-control" name="password" placeholder="password">
+                  </div>
+                  <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+
+
+{% endif %}
+          
+        </nav>
+      </div>
+    </div>
+
+
+
+
+###
+# Django crispy forms
+###
+
+a) how to install ?
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ pip install django-crispy-forms
+Collecting django-crispy-forms
+  Downloading django_crispy_forms-1.7.0-py2.py3-none-any.whl (104kB)
+    100% |████████████████████████████████| 112kB 586kB/s 
+Installing collected packages: django-crispy-forms
+Successfully installed django-crispy-forms-1.7.0
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ pip freeze
+backports.shutil-get-terminal-size==1.0.s0
+decorator==4.1.2
+Django==1.8
+django-crispy-forms==1.7.0
+django-registration-redux==1.9
+enum34==1.1.6
+ipython==5.5.0
+ipython-genutils==0.2.0
+pathlib2==2.3.0
+pexpect==4.3.0
+pickleshare==0.7.4
+prompt-toolkit==1.0.15
+ptyprocess==0.5.2
+Pygments==2.2.0
+scandir==1.6
+simplegeneric==0.8.1
+six==1.11.0
+traitlets==4.3.2
+wcwidth==0.1.7
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ 
+
+b) Add the app to the settings.py file - (/src/mysite/settings.py)
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # custome apps
+    'registration',
+    'crispy_forms',
+    # our apps
+    'atest',
+    'blog',
+
+)
+
+c) Dont forget to run the migrate and makemigrations.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py migrate
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages, crispy_forms
+  Apply all migrations: sessions, admin, auth, blog, contenttypes, registration
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  No migrations to apply.
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py makemigrations
+No changes detected
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ 
+
+d) now apply the crispy form tags to our forms.
+
+- src/blog/BlogForm.html
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}Post Form for our sites{% endblock %}
+
+ {% block content %} 
+	<form action="" method="post">{% csrf_token %}
+	{{ form|crispy }}
+	<button type="submit">Submit</button>
+    </form>
+ {% endblock %}
+
+
+
+- src/blog/ContactForm.html
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Please Join us{% endblock %}
+
+ {% block content %} 
+
+<form role='form' action='' method='post'>
+{% csrf_token %}
+{{ form|crispy }}
+<button type="submit">submit</button>
+</form>
+
+{% endblock %}

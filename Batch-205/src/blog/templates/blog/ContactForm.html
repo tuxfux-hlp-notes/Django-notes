@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block title %}Please Join us{% endblock %}
 
@@ -6,7 +7,7 @@
 
 <form role='form' action='' method='post'>
 {% csrf_token %}
-{{ form.as_p }}
+{{ form|crispy }}
 <button type="submit">submit</button>
 </form>
 
