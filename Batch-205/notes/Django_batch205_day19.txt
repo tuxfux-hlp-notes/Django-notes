@@ -1,0 +1,61 @@
+## Modification to the python anywhere site ##
+
+a) go to the files location and upload the requirements.txt and src.tar file.
+b) open an console in the console section.
+i) create the virtual env.
+# virtualenv myenv
+# source myenv/bin/activate
+# pip install -r requirements.txt
+
+ii) untar src.tar file.
+
+a) # tar -xvf src.tar
+b) Make some minor modification to __init__.py under the settings folder in pythonanywhere site.
+
+iii) go to the web location to make some minor modifications.
+a) click on add a new webapp,click next
+b) select manual configuration,click next
+c) select python 2.7,click next
+d) in the new file created - set following variables.
+- Source Code - /home/tuxfux/src
+- virtual env - /home/tuxfux/myenv
+- static files- 
+	URL - /static/ , Directory - /home/tuxfux/src/project_public
+
+e) make some modification to the wsgi file under - /var/www/tuxfux_pythonanywhere_com_wsgi.py
+
+modification 1:
+ comment our lines from 19 to 49 line just to make sure that default page dont pop up.
+
+
+modificaiton 2:
+---------------
+
+# +++++++++++ DJANGO +++++++++++
+# To use your own django app use code like this:
+import os
+import sys
+#
+## assuming your django settings file is at '/home/tuxfux/mysite/mysite/settings.py'
+## and your manage.py is is at '/home/tuxfux/mysite/manage.py'
+path = '/home/tuxfux/src'
+if path not in sys.path:
+    sys.path.append(path)
+#
+os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings'
+#
+## then, for django >=1.5:
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()  
+
+
+f) reload your tuxfux-python-anywhere.com button at top of page.
+g) Populate the data.
+
+# python manage.py runscript auth_user_data
+# python manage.py runscript blog_data
+
+
+## Deployment in an apache site ##
+
+1) First install the apache2 packages and necessary files.

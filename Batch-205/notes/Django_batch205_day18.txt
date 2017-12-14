@@ -1,0 +1,158 @@
+Refences:
+https://docs.djangoproject.com/en/2.0/howto/deployment/
+apache: https://docs.djangoproject.com/en/2.0/howto/deployment/wsgi/modwsgi/
+# pythonanywhere - https://www.pythonanywhere.com/
+https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/#customize-the-default-error-views
+
+1) Lets do some cleanup .
+
+- I am removing the atest app as its not of any use now in deployment phases.
+
+2) We need to make some changes to our settings folder.
+
+- I will be creating a settings folder in our mysite project.
+- created a __init__.py file under the settings folder.
+- create a base.py file under the location mysite/settings/base.py
+- rename the settings.py to sv.settings.py
+- lets create a prod.py and base.py in our mysites/settings folder.
+- also populate the __init__.py with the following entries.
+
+from .base import *
+
+# you need to comment this block in production server.
+try:
+	from .dev import *
+except:
+	pass
+
+# you need to uncommment this block in production server.
+# try:
+# 	from .prod import *
+# except:
+# 	pass
+
+
+3) Lets make some minor modification in our base.py
+
+* To make the project work as expected.
+
+import os
+from mysite.creds import USER,PASS
+
+BASE_DIR =  os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+print BASE_DIR
+
+* comment out the atest app in INSTALLED_APPS locations.
+
+# Application definition INSTALLED_APPS locations.
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # custome apps
+    'registration',
+    'crispy_forms',
+    'django_extensions',
+    # our apps
+    #'atest',
+    'blog',
+
+)
+
+* please enter the ALLOWED_HOSTS for the following nodes.
+
+ALLOWED_HOSTS = ['localhost','127.0.0.1']
+
+4) copy the whole content of base.py to dev.py to make modification for developement - dev.py
+
+
+# development
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+5) copy the whole content of base.py to prod.py to make modification for production - prod.py
+
+* some variables set to right values.
+
+DEBUG = False
+
+ALLOWED_HOSTS = ['tuxfux.pythonanywhere.com']
+
+* pythonanywhere database entries.
+
+# Production
+# pythonanywhere database entires.
+
+DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.mysql',
+         'NAME': 'tuxfux$batch205',    # not
+         'USER' : 'tuxfux',
+         'PASSWORD': 'batch205',
+         'HOST':'tuxfux.mysql.pythonanywhere-services.com',
+         'PORT':'', # 3306
+     }
+ }
+
+6) Lets create the 404.html and 505.html - /src/templates/
+reference: https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/#customize-the-default-error-views
+
+--- 404.html page --
+
+{% extends 'base.html' %}
+
+{% block title %} Page not found {% endblock %}
+
+{% block content %}
+<h1> Page not Found </h1>
+<p> Sorry, but the requested page could not be found . </p>
+
+{% endblock %}
+
+-- 505.html ---
+
+{% extends "base.html" %}
+{% block title %} Page unavailable {% endblock %}
+
+{% block content %}
+
+<h1> Page unavailable </h1>
+<p> Sorry,but the requested page is unavailable due to the server hiccup. </p>
+<p> our engineers have been notified , so check back later .</p>
+
+{% endblock %}
+
+7) Run the collect static to get access to all files - images.
+
+# python manage.py collectstatic
+
+8) we have to create a requiremnts file to get a complete list of all our binary versions.
+
+myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ pip freeze > requirements.txt
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ 
+
+9) create a tar file so that it could be uploaded to the pythonanywhere site.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ tar -cvf src.tar src 
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ pwd
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-205
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ ls -lart
+total 4200
+drwxr-xr-x 7 khyaathi khyaathi    4096 Nov 17 08:09 myenv
+drwxr-xr-x 9 khyaathi khyaathi    4096 Dec  7 09:48 ..
+drwxr-xr-x 2 khyaathi khyaathi    4096 Dec 12 07:39 notes
+drwxr-xr-x 8 khyaathi khyaathi    4096 Dec 12 08:31 src
+drwxr-xr-x 5 khyaathi khyaathi    4096 Dec 12 08:32 .
+-rw-r--r-- 1 khyaathi khyaathi 4280320 Dec 12 08:32 src.tar
+
+
+

@@ -1,0 +1,250 @@
+1) Making out database mysql as our default database.
+
+a) Install the mysql server.
+# sudo apt-get install mysql-server
+
+b) Login to the mysql database and try to create a blog database.
+
+mysql> create database blog;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| blog               |
+| ecomstore          |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> 
+
+c) create a user batch205
+
+mysql> create user batch205;
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> grant all on blog.* to 'batch205'@'localhost' identified by 'batch205';
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+
+
+mysql> show warnings;
++---------+------+------------------------------------------------------------------------------------------------------------------------------------+
+| Level   | Code | Message                                                                                                                            |
++---------+------+------------------------------------------------------------------------------------------------------------------------------------+
+| Warning | 1287 | Using GRANT for creating new user is deprecated and will be removed in future release. Create new user with CREATE USER statement. |
++---------+------+------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.02 sec)
+
+mysql> 
+
+d) intergrating our django with the mysql.
+
+references:
+https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-DATABASES
+https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-DATABASE-ENGINE
+https://docs.djangoproject.com/en/2.0/topics/db/multi-db/
+
+- src/mysql/settings.py
+
+
+ DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.mysql',
+         'NAME': 'blog',
+         'USER' : 'batch205',
+         'PASSWORD': 'batch205',
+         'HOST':'localhost',
+         'PORT':'', # 3306
+     }
+ }
+
+ e) we need to install necessary packages to get the integration working great.
+
+ # sudo apt-get install python-dev libmysqlclient-dev
+
+ Inside your virtualenv
+
+ # pip install MYSQL-python
+ # pip install pymysql
+ # pip install mysqlclient
+
+ f) Dont forget to run the makemigrations and migrate command.
+
+# python manage.py makemigrations
+# python manage.py migrate
+
+ mysql> use blog;
+Database changed
+mysql> show tables;
+Empty set (0.00 sec)
+
+mysql> show tables;
++--------------------------------------------+
+| Tables_in_blog                             |
++--------------------------------------------+
+| auth_group                                 |
+| auth_group_permissions                     |
+| auth_permission                            |
+| auth_user                                  |
+| auth_user_groups                           |
+| auth_user_user_permissions                 |
+| blog_post                                  |
+| django_admin_log                           |
+| django_content_type                        |
+| django_migrations                          |
+| django_session                             |
+| registration_registrationprofile           |
+| registration_supervisedregistrationprofile |
++--------------------------------------------+
+13 rows in set (0.00 sec)
+
+g) pleae create an admin user.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py createsuperuser
+Username (leave blank to use 'khyaathi'): admin
+Email address: admin@gmail.com
+Password: 
+Password (again): 
+Superuser created successfully.
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ 
+
+
+
+2) pump the already existing data to the new database.
+
+Reference:
+https://django-extensions.readthedocs.io/en/latest/
+
+a) we need to install the django-extensions package.
+# pip install django-extensions
+
+b) add the new app in the settings.py file under the INSTALLED_APPS locations.
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # custome apps
+    'registration',
+    'crispy_forms',
+    'django_extensions',
+    # our apps
+    'atest',
+    'blog',
+
+)
+
+c) plese run the makemigration and migrate commands.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py makemigrations
+No changes detected
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py migrate
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, django_extensions, messages, crispy_forms
+  Apply all migrations: sessions, admin, auth, blog, contenttypes, registration
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  No migrations to apply.
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ 
+
+d) before we do datamigration we need to revert back to sqlite in the settings.py file - DATABASE SETTINGS.
+
+
+# Database
+# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+
+## development
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+# Production
+
+# DATABASES = {
+#      'default': {
+#          'ENGINE': 'django.db.backends.mysql',
+#          'NAME': 'blog',
+#          'USER' : 'batch205',
+#          'PASSWORD': 'batch205',
+#          'HOST':'localhost',
+#          'PORT':'', # 3306
+#      }
+#  }
+
+e) Lets concentrate on the data migration tools for django.
+
+https://django-extensions.readthedocs.io/en/latest/dumpscript.html
+https://django-extensions.readthedocs.io/en/latest/runscript.html
+
+- first create a scripts directory under src locations.
+- Later create a __init__.py file under the scripts folder, so that it works as a project.
+
+- later run the dumpscript on the blog to create the necessary scripts.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py dumpscript blog > scripts/blog_data.py
+Processing model: blog.models.Post
+
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py dumpscript auth.user > scripts/auth_user_data.py
+Processing model: django.contrib.auth.models.User
+Re-processing model: django.contrib.auth.models.User
+
+f) you can comment out the admin entries in the file auth_user_data.py as we have already created the superuser.
+
+g) switch to the new database locations.
+
+# Database
+# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+
+## development
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
+# Production
+
+DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.mysql',
+         'NAME': 'blog',
+         'USER' : 'batch205',
+         'PASSWORD': 'batch205',
+         'HOST':'localhost',
+         'PORT':'', # 3306
+     }
+ }
+
+
+ h) now we need to run the scripts using the runscripts to populate our data.
+
+ # python manage.py runscript auth_user_data
+ # python manage.py runscript blog_data
+
+ The above scripts may need some packages or modificaiton depending on errors.
+
+1) install the below pacakge to avoid errors as a missing package.
+ # pip install python-dateutil
+
+2) need to put the right value to tzinf - tzinfo=<UTC>
+tzinfo=<UTC> needs to be modified to tzinfo=timezone.get_default_timezone()
+
+# from django.utils import timezone.
+
+
