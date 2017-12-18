@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'registration',
     'crispy_forms',
     'django_extensions',
+    'tastypie',
     # our apps
     #'atest',
     'blog',

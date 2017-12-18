@@ -1,0 +1,133 @@
+###
+# REST Api
+###
+
+CRUD - Create,Read,Update,Delete
+reference:
+https://django-tastypie.readthedocs.io/en/latest/tutorial.html
+
+
+
+a) Installation of the tastypie in your enviornement.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ pip install django-tastypie
+Collecting django-tastypie
+  Downloading django_tastypie-0.14.0-py2.py3-none-any.whl (76kB)
+    100% |████████████████████████████████| 81kB 447kB/s 
+Collecting python-mimeparse!=1.5,>=0.1.4 (from django-tastypie)
+  Using cached python_mimeparse-1.6.0-py2.py3-none-any.whl
+Requirement already satisfied: python-dateutil!=2.0,>=1.5 in /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/myenv/lib/python2.7/site-packages (from django-tastypie)
+Requirement already satisfied: six>=1.5 in /home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/myenv/lib/python2.7/site-packages (from python-dateutil!=2.0,>=1.5->django-tastypie)
+Installing collected packages: python-mimeparse, django-tastypie
+Successfully installed django-tastypie-0.14.0 python-mimeparse-1.6.0
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ 
+
+
+b) Add the tastypie to the INSTALLED_APPS.
+
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # custome apps
+    'registration',
+    'crispy_forms',
+    'django_extensions',
+    'tastypie',
+    # our apps
+    #'atest',
+    'blog',
+
+)
+
+
+c) please run the makemigrations and migrate command line.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py makemigrations
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src
+Migrations for 'blog':
+  0006_auto_20171218_0220.py:
+    - Remove field place from restaurant
+    - Remove field restaurant from waiter
+    - Delete model Place
+    - Delete model Restaurant
+    - Delete model Waiter
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py migrate
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, django_extensions, messages, crispy_forms
+  Apply all migrations: sessions, admin, tastypie, auth, blog, contenttypes, registration
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  Rendering model states... DONE
+  Applying blog.0006_auto_20171218_0220... OK
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ 
+
+
+d) hook it to the urls.py  - add an entry to the src/mysite/urls.py
+
+from django.conf.urls import include, url
+from .views import ContactView,Thanks,BlogView
+
+### the below are for tastypie application
+from .api import PostResource
+post_resource = PostResource()
+
+urlpatterns = [
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^$','blog.views.myblog',name='myblog'),
+    url(r'^ContactForm/',ContactView,name='contact'),
+    url(r'^PostForm/',BlogView,name='blog'),
+    url(r'^thankyou/',Thanks,name='thanks')
+    url(r'^api/',incude(post_resource.urls)),
+]
+
+e) start your server.
+# python manage.py runserver
+
+f) we can now access the data.
+
+- try this in browser.
+1) http://127.0.0.1:8000/api/post/?format=json
+
+- try this in curl command.
+2) curl -H 'Accept: application/json' http://127.0.0.1:8000/api/post/?format=json
+
+- try this for schema command
+3) http://127.0.0.1:8000/api/post/schema/?format=json
+
+g) I want access to all the user .
+
+- src/blog/api.py
+
+from tastypie.resources import ModelResource
+
+# model information getting imported.
+from django.contrib.auth.models import User
+from .models import Post
+
+class PostResource(ModelResource):
+	class Meta:
+		queryset = Post.objects.all()
+		resource_name = 'post'
+
+class UserResource(ModelResource):
+	class Meta:
+		queryset = User.objects.all()
+		resource_name = 'user'
+
+
+
+

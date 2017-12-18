@@ -1,0 +1,15 @@
+reference:
+https://docs.djangoproject.com/en/2.0/topics/db/models/#relationships
+
+## Many to one relationship
+https://docs.djangoproject.com/en/2.0/topics/db/examples/many_to_one/
+https://docs.djangoproject.com/en/2.0/ref/models/options/
+https://docs.djangoproject.com/en/2.0/ref/models/fields/#foreign-key-arguments
+
+## Many to Many relationships
+https://docs.djangoproject.com/en/2.0/topics/db/models/#many-to-many-relationshipss
+https://docs.djangoproject.com/en/2.0/topics/db/examples/many_to_many/
+
+## one to one relationship.
+https://docs.djangoproject.com/en/2.0/topics/db/models/#one-to-one-relationships
+
