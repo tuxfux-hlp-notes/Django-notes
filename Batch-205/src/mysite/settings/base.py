@@ -29,6 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['localhost','127.0.0.1']
 
 
+
 # Application definition
 
 INSTALLED_APPS = (
@@ -49,6 +50,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',

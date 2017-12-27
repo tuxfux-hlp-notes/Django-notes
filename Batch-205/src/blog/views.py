@@ -4,6 +4,12 @@ from .models import Post
 from .forms import ContactForm,BlogForm
 from django.core.mail import EmailMessage
 
+# day23
+## logging
+import logging
+logger = logging.getLogger('django.request')
+
+
 # Create your views here.
 
 #day 13
@@ -49,12 +55,15 @@ def ContactView(request):
 	# GET 
 	return render(request,'blog/ContactForm.html',context)
 
+# day 22
+import pdb
 
 # day 11
 def BlogView(request):
 	# POST
 	if request.method == 'POST':
 		form = BlogForm(request.POST)
+		#pdb.set_trace()
 		if form.is_valid():
 			author = form.cleaned_data['author']
 			email = form.cleaned_data['email']
@@ -62,8 +71,14 @@ def BlogView(request):
 			text = form.cleaned_data['text']
 			created_date = form.cleaned_data['created_date']
 			published_date = form.cleaned_data['published_date']
-			Post.objects.create(author=author,email=email,title=title,text=text,created_date=created_date,published_date=published_date)
-			return HttpResponseRedirect('/blog/thankyou')
+			try:
+				Post.objects.create(author=author,email=emai,title=title,text=text,created_date=created_date,published_date=published_date)
+			except:
+				logger.error("Not able to write into database.")
+			else:
+				logger.info("Able to write into the database.")
+			finally:
+				return HttpResponseRedirect('/blog/thankyou')
 		else:
 			context = {'form':form}
 			return render(request,'blog/BlogForm.html',context)

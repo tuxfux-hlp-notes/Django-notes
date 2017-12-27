@@ -21,3 +21,13 @@ urlpatterns = [
     url(r'^api/',include(post_resource.urls)),
     url(r'^api/',include(user_resource.urls)),
 ]
+
+# for django debugtool bar
+from .settings.dev import DEBUG
+
+print DEBUG
+if DEBUG:  # DEBUG=True
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns

@@ -1,0 +1,133 @@
+###
+#  Django toolbar
+###
+
+reference:https://django-debug-toolbar.readthedocs.io/en/stable/
+
+1) Install your django-debug-toolbar
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205$ pip install django-debug-toolbar
+Collecting django-debug-toolbar
+  Downloading django_debug_toolbar-1.9.1-py2.py3-none-any.whl (206kB)
+    100% |████████████████████████████████| 215kB 777kB/s 
+Collecting sqlparse>=0.2.0 (from django-debug-toolbar)
+  Downloading sqlparse-0.2.4-py2.py3-none-any.whl
+Requirement already satisfied: Django>=1.8 in ./myenv/lib/python2.7/site-packages (from django-debug-toolbar)
+Installing collected packages: sqlparse, django-debug-toolbar
+Successfully installed django-debug-toolbar-1.9.1 sqlparse-0.2.4
+
+2) Add your app to the INSTALLED_APP location under src/mysite/settings/dev.py
+# Application definition
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # custome apps
+    'registration',
+    'crispy_forms',
+    'django_extensions',
+    'tastypie',
+    'debug_toolbar',
+    # our apps
+    #'atest',
+    'blog',
+
+)
+
+b) Also make sure the following setting are there.
+
+DEBUG = True
+
+ALLOWED_HOSTS = ['localhost','127.0.0.1']
+
+## Django debug toolbar settings
+DEBUG_TOOLBAR_PATH_SETTING = False
+INTERNAL_IPS = ('127.0.0.1') 
+
+
+4) Add the entry to the middleclass in the dev.py file.
+
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ python manage.py makemigrations
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src
+/home/khyaathi/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src
+SystemCheckError: System check identified some issues:
+
+ERRORS:
+?: debug_toolbar.middleware.DebugToolbarMiddleware is missing from MIDDLEWARE_CLASSES.
+	HINT: Add debug_toolbar.middleware.DebugToolbarMiddleware to MIDDLEWARE_CLASSES.
+(myenv) khyaathi@khyaathi-Technologies:~/Documents/tuxfux-hlp-notes/Django-notes/Batch-205/src$ 
+
+
+MIDDLEWARE_CLASSES = (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    
+)
+
+5) run the following commands - makemigrations and migrate
+# python manage.py makemigrations
+# python manage.py migrate
+
+6) run the collectstatic
+# python manage.py collectstatic
+
+7) Make changes to our mysites/urls.py
+
+# for django debugtool bar
+from .settings.dev import DEBUG
+
+if DEBUG:  # DEBUG=True
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
+
+
+###
+#  working with pdb
+###
+
+
+
+# day 22
+import pdb
+
+# day 11
+def BlogView(request):
+	# POST
+	if request.method == 'POST':
+		form = BlogForm(request.POST)
+		pdb.set_trace()
+		if form.is_valid():
+			author = form.cleaned_data['author']
+			email = form.cleaned_data['email']
+			title = form.cleaned_data['title']
+			text = form.cleaned_data['text']
+			created_date = form.cleaned_data['created_date']
+			published_date = form.cleaned_data['published_date']
+			Post.objects.create(author=author,email=email,title=title,text=text,created_date=created_date,published_date=published_date)
+			return HttpResponseRedirect('/blog/thankyou')
+		else:
+			context = {'form':form}
+			return render(request,'blog/BlogForm.html',context)
+	#GET
+	else:
+		form = BlogForm
+		context = {'form':form}
+		return render(request,'blog/BlogForm.html',context)
+
+
+
+
+
+

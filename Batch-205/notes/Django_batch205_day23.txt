@@ -1,0 +1,47 @@
+###
+# Logging
+###
+
+1) https://docs.python.org/2/howto/logging.html
+2) https://docs.python.org/2/howto/logging-cookbook.html
+
+serverity : debug,info,warning,error,critical
+
+debug: more granular information.
+
+ex:
+ssh localhost
+ssh -v localhost
+ssh -vv localhost
+ssh -vvv localhost
+
+info: generic information.
+
+# tail -f /var/log/syslog
+Dec 23 10:17:59 khyaathi-Technologies sublime_text[3428]: Source ID 879032 was not found when attempting to remove it
+Dec 23 10:18:15 khyaathi-Technologies sublime_text[3428]: Source ID 885172 was not found when attempting to remove it
+Dec 23 10:18:23 khyaathi-Technologies sublime_text[3428]: Source ID 888326 was not found when attempting to remove it
+Dec 23 10:19:10 khyaathi-Technologies sublime_text[3428]: Source ID 895334 was not found when attempting to remove it
+Dec 23 10:20:43 khyaathi-Technologies sublime_text[3428]: Source ID 902578 was not found when attempting to remove it
+Dec 23 10:22:48 khyaathi-Technologies sublime_text[3428]: Source ID 923983 was not found when attempting to remove it
+Dec 23 10:23:34 khyaathi-Technologies AptDaemon: INFO: Quitting due to inactivity
+Dec 23 10:23:34 khyaathi-Technologies org.debian.apt[602]: 10:23:34 AptDaemon [INFO]: Quitting due to inactivity
+Dec 23 10:23:34 khyaathi-Technologies org.debian.apt[602]: 10:23:34 AptDaemon [INFO]: Quitting was requested
+Dec 23 10:23:34 khyaathi-Technologies AptDaemon: INFO: Quitting was requested
+
+warning: an event telling something is about to occur.
+60% - 1hr - 70% - 1hr > - 80%
+
+error - some issue which is about to get critcal/fatal.
+critcal - some seriour issue has happened and we have to take care.
+
+# logging relative funtions.
+functions : debug(),info(),warning(),error(),critical()
+serverity : debug,info,warning,error,critical
+
+
+Integrating logging to our existing project
+---------------------------------------------
+1) update the dev.py in the setting folder - mysite/settings/dev.py
+
+

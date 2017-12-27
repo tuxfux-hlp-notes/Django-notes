@@ -27,7 +27,8 @@ SECRET_KEY = '_3lry0@%wxqfsartsx_e0a9+$dli)l^k&!ulapm@z*_tr3^+##'
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost','127.0.0.1']
-
+INTERNAL_IPS = ('127.0.0.1') 
+ADMINS = [('tuxfux.hlp@gmail.com','tuxfux')]
 
 # Application definition
 
@@ -43,6 +44,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'django_extensions',
     'tastypie',
+    'debug_toolbar',
     # our apps
     #'atest',
     'blog',
@@ -50,6 +52,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -58,6 +61,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    
 )
 
 ROOT_URLCONF = 'mysite.urls'
@@ -152,3 +156,49 @@ EMAIL_USE_TLS = True
 
 ACCOUNT_ACTIVATION_DAYS = 7
 LOGIN_REDIRECT_URL = '/'
+
+
+## Django debug toolbar settings
+DEBUG_TOOLBAR_PATH_SETTING = False
+
+## Logging
+
+LOGGING = {
+    'version' : 1,
+    'disable_existing_loggers' : True,
+    'formatters':{
+        'standard' : {
+            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt' : "%c",
+
+        },
+
+    },
+
+    'handlers': {
+        'file':{
+                'level':'DEBUG',
+                'class':'logging.FileHandler',
+                'filename': os.path.join(BASE_DIR,'logs/apps.log'),
+                'formatter': 'standard',
+        },
+        'mail_admins':{
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter':'standard'
+
+        },
+
+    },
+    'loggers': {
+        'django.request': {
+            'handlers' : ['mail_admins'],
+            'level' : 'DEBUG',
+            #'propogate':True,
+
+        },
+
+    },
+
+
+}
